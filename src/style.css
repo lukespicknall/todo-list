@@ -10,11 +10,11 @@
 #main {
     height: 50%;
     width: 100%;
-    background-color: red;
+    background-color: rgb(214, 194, 194);
 }
 
 #side-bar {
     height: 50%;
     width: 100%;
-    background-color: aqua;
+    background-color: rgb(191, 212, 207);
 }
