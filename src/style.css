@@ -5,16 +5,100 @@
 #content {
     height: 100vh;
     width: 100vw;
+    display: grid;
+    grid-template-rows: 2fr 15fr 1fr;
+    grid-template-columns: 200px 8fr;
+    grid-template-areas:
+        'side-bar head' 
+        'side-bar main '
+        'foot foot' 
+    ;
+}
+
+#head {
+    grid-area: head;
+    /* height: 100%;
+    width: 100%; */
 }
 
 #main {
-    height: 50%;
+    grid-area: main;
+    height: 100%;
     width: 100%;
     background-color: rgb(214, 194, 194);
 }
 
 #side-bar {
-    height: 50%;
+    grid-area: side-bar;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     width: 100%;
     background-color: rgb(191, 212, 207);
+    align-items: center;
+}
+
+#add-task {
+    width: 100px;
+    height: 100px;
+    margin: 50px 0 0 0;
+    border-style: none;
+    border-radius: 35%;
+    background-color: rgb(241, 176, 176);
+    font-size: 50px;
+    transition: all ease-in-out 0.2s;
+}
+
+#add-task:hover {
+    /* width: 110px;
+    height: 110px; */
+    box-shadow: 7px 7px rgb(223, 101, 101);
+}
+
+/* FORM STLYE */
+/* This form-overlay transition code documented below it*/
+#task-overlay {
+  position: absolute;
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.329);
+
+ /* Hide the element content, while height = 0 */
+    overflow: hidden;
+    height: 0vh; /* start hiegh @ 0 */
+    opacity: 0; /* start opacity @ 0 */
+    transition: height 0ms 400ms, opacity 400ms 0ms;
+  /* height delays to the time it takes opacity to fade */ 
+}
+
+#task-overlay-vis {
+  position: absolute;
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.329);
+  overflow: hidden;
+
+    height: 100vh; /* bring height to 100vh */
+    opacity: 1; /* set opacity to 0 (full) */
+    transition: height 0ms 0ms, opacity 275ms 0ms; 
+  /* height changes immediately, opacity fades in */
+}
+
+#task-card {
+  position: absolute;
+  border: 5px solid #ffff;
+  background-color: var(--my-green);
+  border-radius: 15px;
+  box-shadow: 25px 20px 70px -30px black;
+  transition: 1s;
+}
+
+#foot {
+    grid-area: foot;
+    height: 100%;
+    width: 100%;
 }
