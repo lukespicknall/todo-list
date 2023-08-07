@@ -6,6 +6,8 @@ import newTask from './to-do';
 // CREATE MAIN HTML DIVS
 const content = document.getElementById('content');
 const load = () => {
+  const pageBox = document.createElement('div');
+  pageBox.id = 'page-box';
   const main = document.createElement('div');
   main.id = 'main';
   const sideBar = document.createElement('div');
@@ -14,6 +16,7 @@ const load = () => {
   head.id = 'head';
   const foot = document.createElement('div');
   foot.id = 'foot';
+  pageBox.append(main, sideBar, head, foot);
 
   const addTask = document.createElement('button');
   addTask.id = 'add-task';
@@ -21,9 +24,13 @@ const load = () => {
   sideBar.appendChild(addTask);
 
   const handlers = (() => {
+    // ADD OVERLAY TO DOM BEFORE addBtn EVENT SO TRANSITION WORKS
+    const taskOverlay = document.createElement('div');
+    taskOverlay.id = 'task-overlay';
+    content.appendChild(taskOverlay);
     // CREATE NEW TASK FORM
     addTask.addEventListener('click', () => {
-      const taskOverlay = document.createElement('div');
+      // const taskOverlay = document.createElement('div');
       taskOverlay.id = 'task-overlay-vis';
       const taskCard = document.createElement('div');
       taskCard.id = 'task-card';
@@ -79,7 +86,6 @@ const load = () => {
       taskForm.append(submitLabel, taskSubmit);
       taskCard.appendChild(taskForm);
       taskOverlay.appendChild(taskCard);
-      content.appendChild(taskOverlay);
 
       taskForm.addEventListener('submit', (e) => {
         e.preventDefault(); // stops sumbit from sending data to server by default
@@ -90,7 +96,8 @@ const load = () => {
           taskPriority.value,
         );
         // sends data to new task
-        taskOverlay.classList.remove('task-overlay-vis'); // removes visible class
+        // taskOverlay.classList.remove('task-overlay-vis');
+        // removes visible class
         taskOverlay.setAttribute('id', 'task-overlay'); // adds hidden class
         // makes form dissapear on submit
         // addBtn.style.zIndex = '0';
@@ -102,9 +109,23 @@ const load = () => {
         main.appendChild(taskDisplay);
       });
     });
+    const clickout = (() => {
+      // if form is visible
+      // if (taskOverlay.id === 'task-overlay-vis') {
+      // click listener on taskOverlay
+      taskOverlay.addEventListener('click', (e) => {
+        // make clickSpot = the event target
+        const clickSpot = e.target;
+        // if click happened on taskOverlay, i.e. outisde of the task
+        if (clickSpot.id === 'task-overlay-vis') {
+          taskOverlay.id = 'task-overlay';
+        }
+      });
+      // }
+    })();
   })();
 
-  content.append(main, sideBar, head, foot);
+  content.append(pageBox);
 };
 
 export default load;

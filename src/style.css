@@ -5,14 +5,22 @@
 #content {
     height: 100vh;
     width: 100vw;
-    display: grid;
-    grid-template-rows: 2fr 15fr 1fr;
-    grid-template-columns: 200px 8fr;
-    grid-template-areas:
-        'side-bar head' 
-        'side-bar main '
-        'foot foot' 
-    ;
+}
+
+#page-box {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 2fr 15fr 1fr;
+  grid-template-columns: 200px 8fr;
+  grid-template-areas:
+  'side-bar head' 
+  'side-bar main '
+  'foot foot' 
+}
+
+.blurred {
+  filter: blur(8px);
 }
 
 #head {
@@ -63,13 +71,13 @@
   width: 100vw;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.329);
+  /* background-color: rgba(0, 0, 0, 0.329); */
 
  /* Hide the element content, while height = 0 */
     overflow: hidden;
     height: 0vh; /* start hiegh @ 0 */
     opacity: 0; /* start opacity @ 0 */
-    transition: height 0ms 400ms, opacity 400ms 0ms;
+    transition: height 0ms 400ms, opacity 275ms 0ms;
   /* height delays to the time it takes opacity to fade */ 
 }
 
@@ -79,12 +87,12 @@
   width: 100vw;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.329);
+  /* background-color: rgba(0, 0, 0, 0.329); */
   overflow: hidden;
 
-    height: 100vh; /* bring height to 100vh */
-    opacity: 1; /* set opacity to 0 (full) */
-    transition: height 0ms 0ms, opacity 275ms 0ms; 
+  height: 100vh; /* bring height to 100vh */
+  opacity: 1; /* set opacity to 1 (full) */
+  transition: height 0ms 0ms, opacity 275ms 0ms; 
   /* height changes immediately, opacity fades in */
 }
 
