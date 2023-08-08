@@ -28,8 +28,17 @@ const load = () => {
     const taskOverlay = document.createElement('div');
     taskOverlay.id = 'task-overlay';
     content.appendChild(taskOverlay);
-    // CREATE NEW TASK FORM
+
+    // REMOVE BACKGROUND BLUR
+    const removeBlur = (a) => {
+      a.classList.remove('blurred');
+    };
+
+    // CREATE NEW TASK FORM HANDLER
     addTask.addEventListener('click', () => {
+      // BLUR BACKGROUND
+      pageBox.classList.add('blurred');
+
       // const taskOverlay = document.createElement('div');
       taskOverlay.id = 'task-overlay-vis';
       const taskCard = document.createElement('div');
@@ -96,22 +105,18 @@ const load = () => {
           taskPriority.value,
         );
         // sends data to new task
-        // taskOverlay.classList.remove('task-overlay-vis');
-        // removes visible class
         taskOverlay.setAttribute('id', 'task-overlay'); // adds hidden class
         // makes form dissapear on submit
-        // addBtn.style.zIndex = '0';
-        // bring addBtn to nuetral z plane
         // sideForm.reset();
         // reset the form
+        removeBlur(pageBox);
         const taskDisplay = document.createElement('div');
         taskDisplay.textContent = JSON.stringify(taskObj);
         main.appendChild(taskDisplay);
       });
     });
+
     const clickout = (() => {
-      // if form is visible
-      // if (taskOverlay.id === 'task-overlay-vis') {
       // click listener on taskOverlay
       taskOverlay.addEventListener('click', (e) => {
         // make clickSpot = the event target
@@ -119,19 +124,14 @@ const load = () => {
         // if click happened on taskOverlay, i.e. outisde of the task
         if (clickSpot.id === 'task-overlay-vis') {
           taskOverlay.id = 'task-overlay';
+          removeBlur(pageBox);
         }
       });
       // }
     })();
   })();
 
-  content.append(pageBox);
+  content.appendChild(pageBox);
 };
 
 export default load;
-
-// content.appendChild(sideBar);
-// const clean = newTask('clean up', 'clean the whole house', '06/11', 'high');
-// const taskDisplay = document.createElement('div');
-// taskDisplay.textContent = JSON.stringify(clean);
-// main.appendChild(taskDisplay);
