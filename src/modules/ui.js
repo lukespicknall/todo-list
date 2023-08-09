@@ -44,11 +44,13 @@ const load = () => {
       const taskCard = document.createElement('div');
       taskCard.id = 'task-card';
       const taskForm = document.createElement('form');
+      taskForm.id = 'task-form';
       taskForm.setAttribute('action', '');
       taskForm.setAttribute('method', 'post');
 
       const titleLabel = document.createElement('label');
       titleLabel.setAttribute('for', 'task-title');
+      titleLabel.textContent = 'Title';
       const taskTitle = document.createElement('input');
       taskTitle.setAttribute('type', 'text');
       taskTitle.setAttribute('id', 'task-title');
@@ -57,6 +59,7 @@ const load = () => {
 
       const descriptionLabel = document.createElement('label');
       descriptionLabel.setAttribute('for', 'task-description');
+      descriptionLabel.textContent = 'Description';
       const taskDescription = document.createElement('input');
       taskDescription.setAttribute('id', 'task-description');
       taskDescription.setAttribute('type', 'text');
@@ -65,6 +68,7 @@ const load = () => {
 
       const dueLabel = document.createElement('label');
       dueLabel.setAttribute('for', 'task-due');
+      dueLabel.textContent = 'Due date';
       const taskDue = document.createElement('input');
       taskDue.setAttribute('id', 'task-due');
       taskDue.setAttribute('type', 'date');
@@ -73,9 +77,10 @@ const load = () => {
 
       const priorityLabel = document.createElement('label');
       priorityLabel.setAttribute('for', 'task-priority');
+      priorityLabel.textContent = 'Priority';
       const taskPriority = document.createElement('input');
       taskPriority.setAttribute('id', 'task-priority');
-      taskPriority.setAttribute('type', 'date');
+      taskPriority.setAttribute('type', 'radio');
       taskPriority.setAttribute('placeholder', 'Task priority . . .');
       taskPriority.setAttribute('name', 'task-priority');
 

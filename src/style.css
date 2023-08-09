@@ -100,11 +100,23 @@
 
 #task-card {
   position: absolute;
+  display: flex;
+  flex-direction: column;
   border: 5px solid #ffff;
   background-color: var(--my-green);
   border-radius: 15px;
   box-shadow: 25px 20px 70px -30px black;
   transition: 1s;
+  padding: 8px;
+}
+
+#task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+input {
+  padding: 2px;
 }
 
 #foot {
