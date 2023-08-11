@@ -4,6 +4,8 @@
 import newTask from './to-do';
 
 // CREATE MAIN HTML DIVS
+const taskList = [];
+const tBody = document.createElement("tbody");
 const content = document.getElementById('content');
 const load = () => {
   const pageBox = document.createElement('div');
@@ -101,6 +103,7 @@ const load = () => {
       taskCard.appendChild(taskForm);
       taskOverlay.appendChild(taskCard);
 
+      // SUMBIT FORM/CREATE OBJ/PUSH OBJ TO ARRAY/DISPLAY ARRAY VIALOOP
       taskForm.addEventListener('submit', (e) => {
         e.preventDefault(); // stops sumbit from sending data to server by default
         const taskObj = newTask(
@@ -109,17 +112,43 @@ const load = () => {
           taskDue.value,
           taskPriority.value,
         );
+        taskList.push(taskObj);
         // sends data to new task
         taskOverlay.setAttribute('id', 'task-overlay'); // adds hidden class
         // makes form dissapear on submit
-        // sideForm.reset();
-        // reset the form
         removeBlur(pageBox);
-        const taskDisplay = document.createElement('div');
-        taskDisplay.textContent = JSON.stringify(taskObj);
-        main.appendChild(taskDisplay);
+        displayTasks();
+
+        // const taskDisplay = document.createElement('div');
+        // taskDisplay.textContent = JSON.stringify(taskObj);
+        // main.appendChild(taskDisplay);
       });
     });
+
+    const displayTasks = () => {
+      tBody.innerHTML = ''; // clears current tbody to avoid repeats
+      for (let i = 0; i < taskList.length; i += 1) {
+        // loop throu taskList[]
+        const row = document.createElement('tr'); // create new tr for new Task
+        row.className = 'table-row';
+        tBody.appendChild(row); // add that tr to tbody in libTable
+        const taskCell = document.createElement('td'); //
+        const notesCell = document.createElement('td'); //
+        const dueCell = document.createElement('td'); // create new cells for Task data
+        const priorityCell = document.createElement('td'); //
+        const completeCell = document.createElement('td'); //
+        dueCell.className = 'due-cell'; //
+        priorityCell.className = 'priority-cell'; // give class names to table cells
+        completeCell.className = 'complete-cell'; //
+        taskCell.textContent = taskList[i].task; //
+        notesCell.textContent = taskList[i].notes; // assign object value to cell content
+        dueCell.textContent = taskList[i].due; //
+        row.appendChild(taskCell); //
+        row.appendChild(notesCell); // add those cells to the new row
+        row.appendChild(dueCell); //
+        main.appendChild(tBody);
+      }
+    };
 
     const clickout = (() => {
       // click listener on taskOverlay
@@ -140,3 +169,33 @@ const load = () => {
 };
 
 export default load;
+
+// // puts Task{} data from taskList[] into libTable// MAKE THIS PRIORITY SELECTOR
+//     // Read Checkbox - - -
+//     const readCheck = document.createElement('input'); // create an input element
+//     readCheck.setAttribute('type', 'checkbox'); // make it a checkbox
+//     readCheck.setAttribute('data-id', [i]); // assign data-id that = object's array index
+//     readCheck.className = 'read-check'; // give it a class name
+//     if (taskList[i].read === 'no') {
+//       // if not read
+//       readCell.appendChild(readCheck); // add the default unchecked box to the cell
+//     } else if (taskList[i].read === 'yes') {
+//       // if read
+//       readCheck.checked = 'true'; // make the checkbox checked
+//       readCell.appendChild(readCheck); // add the checked box to the readCell
+//     }
+//     row.appendChild(readCell); // add readCell to row
+
+// MAKE THIS COMPLETE CHECKBOX
+//     // Delete Button
+//     const deleteBtn = document.createElement('button'); // create a button
+//     const deleteImg = document.createElement('img'); // create and img element
+//     deleteBtn.className = 'delete-btn'; // give button a class
+//     deleteImg.src = 'images/trash-can-outline.png'; // set img source
+//     deleteImg.className = 'delete-img'; // give img element a class
+//     deleteImg.setAttribute('data-id', [i]); // assign data-id that = object's array index
+//     deleteBtn.appendChild(deleteImg); // add image to button
+//     deleteCell.appendChild(deleteBtn); // add button to cell
+//     row.appendChild(deleteCell); // add cell to row
+//   }
+// }
