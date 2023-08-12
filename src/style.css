@@ -115,6 +115,15 @@
   flex-direction: column;
   gap: 8px;
 }
+
+tbody {
+  background-color: aquamarine;
+}
+
+.task-row {
+border-bottom: solid black 1px;
+}
+
 input {
   padding: 2px;
 }

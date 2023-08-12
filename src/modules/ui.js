@@ -2,16 +2,19 @@
 // import newProject from './project';
 
 import newTask from './to-do';
+import displayTasks from './display';
 
 // CREATE MAIN HTML DIVS
 const taskList = [];
-const tBody = document.createElement("tbody");
 const content = document.getElementById('content');
 const load = () => {
   const pageBox = document.createElement('div');
   pageBox.id = 'page-box';
   const main = document.createElement('div');
   main.id = 'main';
+  const taskTable = document.createElement('table');
+  taskTable.id = 'task-table';
+  main.appendChild(taskTable);
   const sideBar = document.createElement('div');
   sideBar.id = 'side-bar';
   const head = document.createElement('div');
@@ -117,38 +120,10 @@ const load = () => {
         taskOverlay.setAttribute('id', 'task-overlay'); // adds hidden class
         // makes form dissapear on submit
         removeBlur(pageBox);
-        displayTasks();
-
-        // const taskDisplay = document.createElement('div');
-        // taskDisplay.textContent = JSON.stringify(taskObj);
-        // main.appendChild(taskDisplay);
+        // puts task object data into DOM table
+        displayTasks(taskList, taskTable);
       });
     });
-
-    const displayTasks = () => {
-      tBody.innerHTML = ''; // clears current tbody to avoid repeats
-      for (let i = 0; i < taskList.length; i += 1) {
-        // loop throu taskList[]
-        const row = document.createElement('tr'); // create new tr for new Task
-        row.className = 'table-row';
-        tBody.appendChild(row); // add that tr to tbody in libTable
-        const taskCell = document.createElement('td'); //
-        const notesCell = document.createElement('td'); //
-        const dueCell = document.createElement('td'); // create new cells for Task data
-        const priorityCell = document.createElement('td'); //
-        const completeCell = document.createElement('td'); //
-        dueCell.className = 'due-cell'; //
-        priorityCell.className = 'priority-cell'; // give class names to table cells
-        completeCell.className = 'complete-cell'; //
-        taskCell.textContent = taskList[i].task; //
-        notesCell.textContent = taskList[i].notes; // assign object value to cell content
-        dueCell.textContent = taskList[i].due; //
-        row.appendChild(taskCell); //
-        row.appendChild(notesCell); // add those cells to the new row
-        row.appendChild(dueCell); //
-        main.appendChild(tBody);
-      }
-    };
 
     const clickout = (() => {
       // click listener on taskOverlay
