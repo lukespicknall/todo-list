@@ -109,13 +109,13 @@ const load = () => {
           const editNotes = taskList[currentTask].notes;
           const editDue = taskList[currentTask].due;
           const editPriority = taskList[currentTask].priority;
-          displayForm(editing, editTitle, editNotes, editDue, editPriority);
+          displayForm(editing, editTitle, editNotes, editDue, editPriority, currentTask);
         });
         // })();
       }
     };
 
-    const displayForm = (a, b, c, d, f) => {
+    const displayForm = (a, b, c, d, f, g) => {
       pageBox.classList.add('blurred');
 
       // const taskOverlay = document.createElement('div');
@@ -194,13 +194,21 @@ const load = () => {
 
       taskForm.addEventListener('submit', (e) => {
         e.preventDefault(); // stops sumbit from sending data to server by default
-        const taskObj = newTask(
-          taskTitle.value,
-          taskDescription.value,
-          taskDue.value,
-          taskPriority.value,
-        );
-        taskList.push(taskObj);
+        if (a === true) {
+          const currentPosition = g;
+          taskList[currentPosition].task = taskTitle.value;
+          taskList[currentPosition].notes = taskDescription.value;
+          taskList[currentPosition].due = taskDue.value;
+          taskList[currentPosition].priority = taskPriority.value;
+        } else {
+          const taskObj = newTask(
+            taskTitle.value,
+            taskDescription.value,
+            taskDue.value,
+            taskPriority.value,
+          );
+          taskList.push(taskObj);
+        }
         // sends data to new task
         taskOverlay.setAttribute('id', 'task-overlay'); // adds hidden class
         taskOverlay.removeChild(taskCard);
