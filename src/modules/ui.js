@@ -2,7 +2,7 @@
 // import newProject from './project';
 
 import newTask from './to-do';
-import displayTasks from './display';
+// import displayTasks from './display';
 
 // CREATE MAIN HTML DIVS
 const taskList = [];
@@ -39,9 +39,83 @@ const load = () => {
       a.classList.remove('blurred');
     };
 
-    // CREATE NEW TASK FORM HANDLER
-    addTask.addEventListener('click', () => {
-      // BLUR BACKGROUND
+    const tBody = document.createElement('tbody');
+
+    const displayTasks = () => {
+      tBody.innerHTML = ''; // clears current tbody to avoid repeats
+      const taskHeader = document.createElement('thead');
+      taskHeader.id = 'task-header';
+      taskHeader.textContent = 'Tasks';
+      tBody.appendChild(taskHeader);
+      for (let i = 0; i < taskList.length; i += 1) {
+        // loop through taskList[]
+        const taskRow = document.createElement('tr'); // create new tr for new Task
+        taskRow.className = 'task-row';
+        taskRow.setAttribute('data', [i]);
+        tBody.appendChild(taskRow); // add that tr to tbody in libTable
+
+        const taskCell = document.createElement('td'); //
+        const notesCell = document.createElement('td'); //
+        const dueCell = document.createElement('td'); // create new cells for Task data
+        const priorityCell = document.createElement('td'); //
+
+        taskCell.className = 'task-cell';
+        notesCell.className = 'notes-cell';
+        dueCell.className = 'due-cell'; //
+        priorityCell.className = 'priority-cell'; // give class names to table cells
+
+        taskCell.textContent = taskList[i].task; //
+        notesCell.textContent = taskList[i].notes; // assign object value to cell content
+        dueCell.textContent = taskList[i].due; //
+        priorityCell.textContent = taskList[i].priority;
+
+        const editCell = document.createElement('td'); //
+        const deleteCell = document.createElement('td'); //
+        const completeCell = document.createElement('td'); //
+
+        editCell.className = 'edit-cell';
+        deleteCell.className = 'delete-cell';
+        completeCell.className = 'complete-cell'; //
+
+        const editBtn = document.createElement('button');
+        editBtn.className = 'edit-btn';
+        editBtn.innerHTML = '<p>edit</p>';
+        editCell.appendChild(editBtn);
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.innerHTML = '<p>delete</p>';
+        deleteCell.appendChild(deleteBtn);
+        const completeBtn = document.createElement('button');
+        completeBtn.className = 'complete-btn';
+        completeBtn.innerHTML = '<p>complete</p>';
+        completeCell.appendChild(completeBtn);
+
+        taskRow.appendChild(taskCell); //
+        taskRow.appendChild(notesCell); // add those cells to the new taskRow
+        taskRow.appendChild(dueCell); //
+        taskRow.appendChild(priorityCell);
+        taskRow.appendChild(editCell); //
+        taskRow.appendChild(deleteCell); //
+        taskRow.appendChild(completeCell); //
+
+        taskTable.appendChild(tBody);
+
+        // const edit = (() => {
+        // const rowEdit = document.querySelectorAll('edit-btn');
+        editBtn.addEventListener('click', () => {
+          const editing = true;
+          const currentTask = taskRow.getAttribute('data');
+          const editTitle = taskList[currentTask].task;
+          const editNotes = taskList[currentTask].notes;
+          const editDue = taskList[currentTask].due;
+          const editPriority = taskList[currentTask].priority;
+          displayForm(editing, editTitle, editNotes, editDue, editPriority);
+        });
+        // })();
+      }
+    };
+
+    const displayForm = (a, b, c, d, f) => {
       pageBox.classList.add('blurred');
 
       // const taskOverlay = document.createElement('div');
@@ -57,6 +131,9 @@ const load = () => {
       titleLabel.setAttribute('for', 'task-title');
       titleLabel.textContent = 'Title';
       const taskTitle = document.createElement('input');
+      if (a === true) {
+        taskTitle.value = b;
+      }
       taskTitle.setAttribute('type', 'text');
       taskTitle.setAttribute('id', 'task-title');
       taskTitle.setAttribute('placeholder', 'Task title . . .');
@@ -66,6 +143,9 @@ const load = () => {
       descriptionLabel.setAttribute('for', 'task-description');
       descriptionLabel.textContent = 'Description';
       const taskDescription = document.createElement('input');
+      if (a === true) {
+        taskDescription.value = c;
+      }
       taskDescription.setAttribute('id', 'task-description');
       taskDescription.setAttribute('type', 'text');
       taskDescription.setAttribute('placeholder', 'Task description . . .');
@@ -75,6 +155,9 @@ const load = () => {
       dueLabel.setAttribute('for', 'task-due');
       dueLabel.textContent = 'Due date';
       const taskDue = document.createElement('input');
+      if (a === true) {
+        taskDue.value = d;
+      }
       taskDue.setAttribute('id', 'task-due');
       taskDue.setAttribute('type', 'date');
       taskDue.setAttribute('placeholder', 'Task due . . .');
@@ -84,6 +167,9 @@ const load = () => {
       priorityLabel.setAttribute('for', 'task-priority');
       priorityLabel.textContent = 'Priority';
       const taskPriority = document.createElement('input');
+      if (a === true) {
+        taskPriority.value = f;
+      }
       taskPriority.setAttribute('id', 'task-priority');
       taskPriority.setAttribute('type', 'radio');
       taskPriority.setAttribute('placeholder', 'Task priority . . .');
@@ -106,7 +192,6 @@ const load = () => {
       taskCard.appendChild(taskForm);
       taskOverlay.appendChild(taskCard);
 
-      // SUMBIT FORM/CREATE OBJ/PUSH OBJ TO ARRAY/DISPLAY ARRAY VIALOOP
       taskForm.addEventListener('submit', (e) => {
         e.preventDefault(); // stops sumbit from sending data to server by default
         const taskObj = newTask(
@@ -118,22 +203,34 @@ const load = () => {
         taskList.push(taskObj);
         // sends data to new task
         taskOverlay.setAttribute('id', 'task-overlay'); // adds hidden class
+        taskOverlay.removeChild(taskCard);
         // makes form dissapear on submit
         removeBlur(pageBox);
         // puts task object data into DOM table
-        displayTasks(taskList, taskTable);
+        displayTasks();
       });
+      return taskCard;
+    };
+
+    // SUMBIT FORM/CREATE OBJ/PUSH OBJ TO ARRAY/DISPLAY ARRAY VIALOOP
+
+    // CREATE NEW TASK FORM HANDLER
+    addTask.addEventListener('click', () => {
+      // BLUR BACKGROUND
+      displayForm();
     });
 
     const clickout = (() => {
       // click listener on taskOverlay
       taskOverlay.addEventListener('click', (e) => {
+        const card = document.getElementById('task-card');
         // make clickSpot = the event target
         const clickSpot = e.target;
         // if click happened on taskOverlay, i.e. outisde of the task
         if (clickSpot.id === 'task-overlay-vis') {
           taskOverlay.id = 'task-overlay';
           removeBlur(pageBox);
+          taskOverlay.removeChild(card);
         }
       });
       // }
