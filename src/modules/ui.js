@@ -51,7 +51,7 @@ const load = () => {
         // loop through taskList[]
         const taskRow = document.createElement('tr'); // create new tr for new Task
         taskRow.className = 'task-row';
-        taskRow.setAttribute('data', [i]);
+        taskRow.setAttribute('data-id', [i]);
         tBody.appendChild(taskRow); // add that tr to tbody in libTable
 
         const taskCell = document.createElement('td'); //
@@ -104,16 +104,38 @@ const load = () => {
         // const rowEdit = document.querySelectorAll('edit-btn');
         editBtn.addEventListener('click', () => {
           const editing = true;
-          const currentTask = taskRow.getAttribute('data');
+          const currentTask = taskRow.getAttribute('data-id');
           const editTitle = taskList[currentTask].task;
           const editNotes = taskList[currentTask].notes;
           const editDue = taskList[currentTask].due;
           const editPriority = taskList[currentTask].priority;
           displayForm(editing, editTitle, editNotes, editDue, editPriority, currentTask);
         });
-        // })();
+        taskDelete(deleteBtn);
+        taskComplete(completeBtn);
       }
     };
+
+    const taskComplete = (a) => {
+      if (taskList.length >= 1) {
+        a.addEventListener('click', (e) => {
+          const currentTask = e.target.closest('.task-row').dataset.id;
+          taskList.splice(currentTask, 1);
+          displayTasks();
+          // do something nice like swipe a green check to say good job!
+        });
+      }
+    };
+    const taskDelete = (a) => {
+      if (taskList.length >= 1) {
+        a.addEventListener('click', (e) => {
+          const currentTask = e.target.closest('.task-row').dataset.id;
+          taskList.splice(currentTask, 1);
+          displayTasks();
+        });
+      }
+    };
+    // })();
 
     const displayForm = (a, b, c, d, f, g) => {
       pageBox.classList.add('blurred');
@@ -177,10 +199,14 @@ const load = () => {
 
       const submitLabel = document.createElement('label');
       submitLabel.setAttribute('for', 'task-submit');
-      const taskSubmit = document.createElement('input');
+      const taskSubmit = document.createElement('button');
+      if (a === true) {
+        taskSubmit.textContent = 'Update Task';
+      } else {
+        taskSubmit.textContent = 'Add Task';
+      }
       taskSubmit.setAttribute('id', 'task-submit');
       taskSubmit.setAttribute('type', 'submit');
-      taskSubmit.setAttribute('placeholder', 'Task submit . . .');
       taskSubmit.setAttribute('name', 'task-submit');
 
       // ADD TASK INPUTS TO FROM AND FORM TO PAGE
@@ -230,7 +256,7 @@ const load = () => {
 
     const clickout = (() => {
       // click listener on taskOverlay
-      taskOverlay.addEventListener('click', (e) => {
+      taskOverlay.addEventListener('mousedown', (e) => {
         const card = document.getElementById('task-card');
         // make clickSpot = the event target
         const clickSpot = e.target;
