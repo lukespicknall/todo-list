@@ -41,42 +41,51 @@ const load = () => {
 
     const tBody = document.createElement('tbody');
 
+    // CREATE TABLE ELEMENTS AND LOOP TASKLIST[] AND SEND EACH OBJS DATA TO TABLE FIELDS.
+    // ADD EDITBTN FUNCTIONALITY
     const displayTasks = () => {
       tBody.innerHTML = ''; // clears current tbody to avoid repeats
       const taskHeader = document.createElement('thead');
       taskHeader.id = 'task-header';
       taskHeader.textContent = 'Tasks';
       tBody.appendChild(taskHeader);
+      // loop through taskList[]
       for (let i = 0; i < taskList.length; i += 1) {
-        // loop through taskList[]
-        const taskRow = document.createElement('tr'); // create new tr for new Task
+        // CREATE NEW TASK ROW FOR OBJ IN taskList[i]
+        const taskRow = document.createElement('tr');
         taskRow.className = 'task-row';
-        taskRow.setAttribute('data-id', [i]);
+        taskRow.setAttribute('data-id', [i]); // row assigned data-id that is its posiition in taskLisy[]
         tBody.appendChild(taskRow); // add that tr to tbody in libTable
 
-        const taskCell = document.createElement('td'); //
-        const notesCell = document.createElement('td'); //
-        const dueCell = document.createElement('td'); // create new cells for Task data
-        const priorityCell = document.createElement('td'); //
+        // CREATE NEW TABLE CELLS FOR TASK DATA
+        const taskCell = document.createElement('td');
+        const notesCell = document.createElement('td');
+        const dueCell = document.createElement('td');
+        const priorityCell = document.createElement('td');
 
+        // ASSIGN CELL CLASS NAMES
         taskCell.className = 'task-cell';
         notesCell.className = 'notes-cell';
-        dueCell.className = 'due-cell'; //
-        priorityCell.className = 'priority-cell'; // give class names to table cells
+        dueCell.className = 'due-cell';
+        priorityCell.className = 'priority-cell';
 
-        taskCell.textContent = taskList[i].task; //
-        notesCell.textContent = taskList[i].notes; // assign object value to cell content
-        dueCell.textContent = taskList[i].due; //
+        // ASSIGN CALL DATA FROM TASK DATA
+        taskCell.textContent = taskList[i].task;
+        notesCell.textContent = taskList[i].notes;
+        dueCell.textContent = taskList[i].due;
         priorityCell.textContent = taskList[i].priority;
 
+        // CREATE CELLS FOR UI BUTTONS ON ROW FOR TASK OBJ UPDATING
         const editCell = document.createElement('td'); //
         const deleteCell = document.createElement('td'); //
         const completeCell = document.createElement('td'); //
 
+        // ASSIGN UI CELL CLASSNAMES
         editCell.className = 'edit-cell';
         deleteCell.className = 'delete-cell';
         completeCell.className = 'complete-cell'; //
 
+        // CREATE UI BUTTONS FOR TASK UPDATES, ASSIGN CLASS, APPEND TO UI CELL
         const editBtn = document.createElement('button');
         editBtn.className = 'edit-btn';
         editBtn.innerHTML = '<p>edit</p>';
@@ -90,18 +99,22 @@ const load = () => {
         completeBtn.innerHTML = '<p>complete</p>';
         completeCell.appendChild(completeBtn);
 
-        taskRow.appendChild(taskCell); //
-        taskRow.appendChild(notesCell); // add those cells to the new taskRow
-        taskRow.appendChild(dueCell); //
+        // APPEND CELLS TO THE TASK TROW
+        taskRow.appendChild(taskCell);
+        taskRow.appendChild(notesCell);
+        taskRow.appendChild(dueCell);
         taskRow.appendChild(priorityCell);
-        taskRow.appendChild(editCell); //
-        taskRow.appendChild(deleteCell); //
-        taskRow.appendChild(completeCell); //
+        taskRow.appendChild(editCell);
+        taskRow.appendChild(deleteCell);
+        taskRow.appendChild(completeCell);
 
         taskTable.appendChild(tBody);
 
         // const edit = (() => {
         // const rowEdit = document.querySelectorAll('edit-btn');
+        // ON CLICK, EDITBTN SETS EDITING STATE,
+        // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS TASK ROW,
+        // POPULATES A FORM CONTAINING THE OBJ'S DATA BY PASISNG THAT DATA TO DISPLAYFORM()
         editBtn.addEventListener('click', () => {
           const editing = true;
           const currentTask = taskRow.getAttribute('data-id');
@@ -109,7 +122,14 @@ const load = () => {
           const editNotes = taskList[currentTask].notes;
           const editDue = taskList[currentTask].due;
           const editPriority = taskList[currentTask].priority;
-          displayForm(editing, editTitle, editNotes, editDue, editPriority, currentTask);
+          displayForm(
+            editing,
+            editTitle,
+            editNotes,
+            editDue,
+            editPriority,
+            currentTask,
+          );
         });
         taskDelete(deleteBtn);
         taskComplete(completeBtn);
