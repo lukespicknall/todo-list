@@ -206,16 +206,57 @@ const load = () => {
       taskDue.setAttribute('name', 'task-due');
 
       const priorityLabel = document.createElement('label');
-      priorityLabel.setAttribute('for', 'task-priority');
+      // priorityLabel.setAttribute('for', 'task-priority');
       priorityLabel.textContent = 'Priority';
-      const taskPriority = document.createElement('input');
-      if (a === true) {
-        taskPriority.value = f;
+      const taskPriorityBox = document.createElement('div');
+      // if (a === true) {
+      //   taskPriority.value = f;
+      // }
+      // taskPriorityBox.setAttribute('id', 'task-priority');
+      // taskPriorityBox.setAttribute('type', 'radio');
+      // taskPriority.setAttribute('placeholder', 'Task priority . . .');
+      // taskPriorityBox.setAttribute('name', 'task-priority');
+
+      const lowLabel = document.createElement('label');
+      lowLabel.setAttribute('for', 'low-priority');
+      lowLabel.textContent = 'low';
+      const lowPriority = document.createElement('input');
+      lowPriority.id = 'low-priority';
+      lowPriority.setAttribute('type', 'radio');
+      lowPriority.setAttribute('name', 'task-priority');
+      lowPriority.setAttribute('value', 'low');
+      if (lowPriority.checked === true) {
+        taskPriorityBox.value = 'low';
       }
-      taskPriority.setAttribute('id', 'task-priority');
-      taskPriority.setAttribute('type', 'radio');
-      taskPriority.setAttribute('placeholder', 'Task priority . . .');
-      taskPriority.setAttribute('name', 'task-priority');
+      taskPriorityBox.appendChild(lowLabel);
+      taskPriorityBox.appendChild(lowPriority);
+
+      const mediumLabel = document.createElement('label');
+      mediumLabel.setAttribute('for', 'medium-priority');
+      mediumLabel.textContent = 'medium';
+      const mediumPriority = document.createElement('input');
+      mediumPriority.id = 'medium-priority';
+      mediumPriority.setAttribute('type', 'radio');
+      mediumPriority.setAttribute('name', 'task-priority');
+      mediumPriority.setAttribute('value', 'medium');
+      if (taskPriorityBox.value === 'medium') {
+        console.log('hi');
+      }
+      taskPriorityBox.appendChild(mediumLabel, mediumPriority);
+      taskPriorityBox.appendChild(mediumPriority);
+
+      const highLabel = document.createElement('label');
+      highLabel.setAttribute('for', 'high-priority');
+      highLabel.textContent = 'high';
+      const highPriority = document.createElement('input');
+      highPriority.id = 'high-priority';
+      highPriority.setAttribute('type', 'radio');
+      highPriority.setAttribute('name', 'task-priority');
+      highPriority.setAttribute('value', 'high'); // if (taskPriority.validationMessage.value === 'high') {
+      //   console.log('hi');
+      // }
+      taskPriorityBox.appendChild(highLabel, highPriority);
+      taskPriorityBox.appendChild(highPriority);
 
       const submitLabel = document.createElement('label');
       submitLabel.setAttribute('for', 'task-submit');
@@ -233,25 +274,36 @@ const load = () => {
       taskForm.append(titleLabel, taskTitle);
       taskForm.append(descriptionLabel, taskDescription);
       taskForm.append(dueLabel, taskDue);
-      taskForm.append(priorityLabel, taskPriority);
+      taskForm.append(priorityLabel, taskPriorityBox);
       taskForm.append(submitLabel, taskSubmit);
       taskCard.appendChild(taskForm);
       taskOverlay.appendChild(taskCard);
 
       taskForm.addEventListener('submit', (e) => {
         e.preventDefault(); // stops sumbit from sending data to server by default
+        const submitPriotiry = document.getElementsByName('task-priority');
+        // const priority = undefined;
+        for (let i = 0; i < submitPriotiry.length; i += 1) {
+          if (submitPriotiry[i].checked === true) {
+            const priority = submitPriotiry[i].value;
+            console.log(priority);
+            // const priority = submitPriotiry[i].value;
+            // return priority;
+          }
+        }
+
         if (a === true) {
           const currentPosition = g;
           taskList[currentPosition].task = taskTitle.value;
           taskList[currentPosition].notes = taskDescription.value;
           taskList[currentPosition].due = taskDue.value;
-          taskList[currentPosition].priority = taskPriority.value;
+          taskList[currentPosition].priority = taskPriorityBox.value;
         } else {
           const taskObj = newTask(
             taskTitle.value,
             taskDescription.value,
             taskDue.value,
-            taskPriority.value,
+            taskPriorityBox.value,
           );
           taskList.push(taskObj);
         }
