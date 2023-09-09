@@ -7,6 +7,7 @@ import newTask from './to-do';
 // CREATE MAIN HTML DIVS
 const taskList = [];
 const content = document.getElementById('content');
+// LOAD HANDLES UI
 const load = () => {
   const pageBox = document.createElement('div');
   pageBox.id = 'page-box';
@@ -23,6 +24,7 @@ const load = () => {
   foot.id = 'foot';
   pageBox.append(main, sideBar, head, foot);
 
+  // CREATE ADDTASK BUTTON
   const addTask = document.createElement('button');
   addTask.id = 'add-task';
   addTask.textContent = '+';
@@ -39,23 +41,24 @@ const load = () => {
       a.classList.remove('blurred');
     };
 
-    const tBody = document.createElement('tbody');
+    //
+    // const taskTable = document.createElement('tbody');
 
     // CREATE TABLE ELEMENTS AND LOOP TASKLIST[] AND SEND EACH OBJS DATA TO TABLE FIELDS.
     // ADD EDITBTN FUNCTIONALITY
     const displayTasks = () => {
-      tBody.innerHTML = ''; // clears current tbody to avoid repeats
+      taskTable.innerHTML = ''; // clears current taskTable to avoid repeats
       const taskHeader = document.createElement('thead');
       taskHeader.id = 'task-header';
       taskHeader.textContent = 'Tasks';
-      tBody.appendChild(taskHeader);
+      taskTable.appendChild(taskHeader);
       // loop through taskList[]
       for (let i = 0; i < taskList.length; i += 1) {
         // CREATE NEW TASK ROW FOR OBJ IN taskList[i]
         const taskRow = document.createElement('tr');
         taskRow.className = 'task-row';
         taskRow.setAttribute('data-id', [i]); // row assigned data-id that is its posiition in taskLisy[]
-        tBody.appendChild(taskRow); // add that tr to tbody in libTable
+        taskTable.appendChild(taskRow); // add that tr to taskTable in libTable
 
         // CREATE NEW TABLE CELLS FOR TASK DATA
         const taskCell = document.createElement('td');
@@ -108,7 +111,7 @@ const load = () => {
         taskRow.appendChild(deleteCell);
         taskRow.appendChild(completeCell);
 
-        taskTable.appendChild(tBody);
+        // taskTable.appendChild(taskTable);
 
         // const edit = (() => {
         // const rowEdit = document.querySelectorAll('edit-btn');
@@ -209,9 +212,9 @@ const load = () => {
       // priorityLabel.setAttribute('for', 'task-priority');
       priorityLabel.textContent = 'Priority';
       const taskPriorityBox = document.createElement('div');
-      // if (a === true) {
-      //   taskPriority.value = f;
-      // }
+      if (a === true) {
+        taskPriorityBox.value = f;
+      }
       // taskPriorityBox.setAttribute('id', 'task-priority');
       // taskPriorityBox.setAttribute('type', 'radio');
       // taskPriority.setAttribute('placeholder', 'Task priority . . .');
@@ -225,8 +228,8 @@ const load = () => {
       lowPriority.setAttribute('type', 'radio');
       lowPriority.setAttribute('name', 'task-priority');
       lowPriority.setAttribute('value', 'low');
-      if (lowPriority.checked === true) {
-        taskPriorityBox.value = 'low';
+      if (taskPriorityBox.value === 'low') {
+        lowPriority.checked = true;
       }
       taskPriorityBox.appendChild(lowLabel);
       taskPriorityBox.appendChild(lowPriority);
@@ -240,7 +243,7 @@ const load = () => {
       mediumPriority.setAttribute('name', 'task-priority');
       mediumPriority.setAttribute('value', 'medium');
       if (taskPriorityBox.value === 'medium') {
-        console.log('hi');
+        mediumPriority.checked = true;
       }
       taskPriorityBox.appendChild(mediumLabel, mediumPriority);
       taskPriorityBox.appendChild(mediumPriority);
@@ -253,8 +256,9 @@ const load = () => {
       highPriority.setAttribute('type', 'radio');
       highPriority.setAttribute('name', 'task-priority');
       highPriority.setAttribute('value', 'high'); // if (taskPriority.validationMessage.value === 'high') {
-      //   console.log('hi');
-      // }
+      if (taskPriorityBox.value === 'high') {
+        highPriority.checked = true;
+      }
       taskPriorityBox.appendChild(highLabel, highPriority);
       taskPriorityBox.appendChild(highPriority);
 
@@ -270,7 +274,7 @@ const load = () => {
       taskSubmit.setAttribute('type', 'submit');
       taskSubmit.setAttribute('name', 'task-submit');
 
-      // ADD TASK INPUTS TO FROM AND FORM TO PAGE
+      // ADD TASK INPUTS TO FORM AND FORM TO PAGE
       taskForm.append(titleLabel, taskTitle);
       taskForm.append(descriptionLabel, taskDescription);
       taskForm.append(dueLabel, taskDue);
@@ -286,18 +290,20 @@ const load = () => {
         for (let i = 0; i < submitPriotiry.length; i += 1) {
           if (submitPriotiry[i].checked === true) {
             const priority = submitPriotiry[i].value;
-            console.log(priority);
+            taskPriorityBox.value = priority;
             // const priority = submitPriotiry[i].value;
             // return priority;
           }
         }
 
+        // If editng a established task, update that object's (g's) values
         if (a === true) {
           const currentPosition = g;
           taskList[currentPosition].task = taskTitle.value;
           taskList[currentPosition].notes = taskDescription.value;
           taskList[currentPosition].due = taskDue.value;
           taskList[currentPosition].priority = taskPriorityBox.value;
+        // else, create a new object with these values and push it to taskList[]
         } else {
           const taskObj = newTask(
             taskTitle.value,
@@ -314,6 +320,7 @@ const load = () => {
         removeBlur(pageBox);
         // puts task object data into DOM table
         displayTasks();
+        console.log(taskList);
       });
       return taskCard;
     };
