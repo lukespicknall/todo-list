@@ -30,19 +30,17 @@ const load = () => {
   addTask.textContent = '+';
   sideBar.appendChild(addTask);
 
+  // EIF THAT ESTABLISHES AND AHNDLES MOST OF THE UI
   const handlers = (() => {
-    // ADD OVERLAY TO DOM BEFORE addBtn EVENT SO TRANSITION WORKS
+    // ADD OVERLAY TO DOM BEFORE addBtn EVENT SO TRANSITION WORKS ON BLUR/FORM
     const taskOverlay = document.createElement('div');
     taskOverlay.id = 'task-overlay';
     content.appendChild(taskOverlay);
 
-    // REMOVE BACKGROUND BLUR
+    // CREATE REMOVE BLUR FUNCTION
     const removeBlur = (a) => {
       a.classList.remove('blurred');
     };
-
-    //
-    // const taskTable = document.createElement('tbody');
 
     // CREATE TABLE ELEMENTS AND LOOP TASKLIST[] AND SEND EACH OBJS DATA TO TABLE FIELDS.
     // ADD EDITBTN FUNCTIONALITY
@@ -52,7 +50,7 @@ const load = () => {
       taskHeader.id = 'task-header';
       taskHeader.textContent = 'Tasks';
       taskTable.appendChild(taskHeader);
-      // loop through taskList[]
+      // LOOP THROUGH taskList[]
       for (let i = 0; i < taskList.length; i += 1) {
         // CREATE NEW TASK ROW FOR OBJ IN taskList[i]
         const taskRow = document.createElement('tr');
@@ -72,7 +70,7 @@ const load = () => {
         dueCell.className = 'due-cell';
         priorityCell.className = 'priority-cell';
 
-        // ASSIGN CALL DATA FROM TASK DATA
+        // ASSIGN CELL DATA FROM TASK DATA
         taskCell.textContent = taskList[i].task;
         notesCell.textContent = taskList[i].notes;
         dueCell.textContent = taskList[i].due;
@@ -111,10 +109,6 @@ const load = () => {
         taskRow.appendChild(deleteCell);
         taskRow.appendChild(completeCell);
 
-        // taskTable.appendChild(taskTable);
-
-        // const edit = (() => {
-        // const rowEdit = document.querySelectorAll('edit-btn');
         // ON CLICK, EDITBTN SETS EDITING STATE,
         // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS TASK ROW,
         // POPULATES A FORM CONTAINING THE OBJ'S DATA BY PASISNG THAT DATA TO DISPLAYFORM()
@@ -139,31 +133,41 @@ const load = () => {
       }
     };
 
-    const taskComplete = (a) => {
+    // FUCNCTIONALITY FOR COMPLETE BUTTON
+    const taskComplete = (completeBtn) => {
+      // IF ANY TASKS EXIST, ADD LISTENER
       if (taskList.length >= 1) {
-        a.addEventListener('click', (e) => {
+        completeBtn.addEventListener('click', (e) => {
+          // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
           const currentTask = e.target.closest('.task-row').dataset.id;
+          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
           taskList.splice(currentTask, 1);
           displayTasks();
           // do something nice like swipe a green check to say good job!
         });
       }
     };
-    const taskDelete = (a) => {
+
+    // FUNCTIONALITY FOR DELETE BUTTON
+    const taskDelete = (deleteBtn) => {
+      // IF ANY TASKS EXIST, ADD LISTENER
       if (taskList.length >= 1) {
-        a.addEventListener('click', (e) => {
+        deleteBtn.addEventListener('click', (e) => {
+          // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
           const currentTask = e.target.closest('.task-row').dataset.id;
+          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
           taskList.splice(currentTask, 1);
           displayTasks();
         });
       }
     };
-    // })();
 
+    // DISPLAY FORM, USING ARGS PASSED FROM OBJ IF FORM LAUNCHED FORM EDIT BUTTON
     const displayForm = (a, b, c, d, f, g) => {
+      // BLUR BACKGORUND
       pageBox.classList.add('blurred');
 
-      // const taskOverlay = document.createElement('div');
+      // SET taskOverlay ID AND CREATE taskCard AND taskFrom
       taskOverlay.id = 'task-overlay-vis';
       const taskCard = document.createElement('div');
       taskCard.id = 'task-card';
@@ -172,6 +176,8 @@ const load = () => {
       taskForm.setAttribute('action', '');
       taskForm.setAttribute('method', 'post');
 
+      // CREATE TITLE INPUT AND LABEL, SET ATTRIBUTES
+      // IF FORM LAUNCHED FORM editBtn, POPULATE W/ ARG VALUE FORM OBJ
       const titleLabel = document.createElement('label');
       titleLabel.setAttribute('for', 'task-title');
       titleLabel.textContent = 'Title';
@@ -184,6 +190,8 @@ const load = () => {
       taskTitle.setAttribute('placeholder', 'Task title . . .');
       taskTitle.setAttribute('name', 'task-title');
 
+      // CREATE DESCRIPTION INPUT AND LABEL, SET ATTRIBUTES
+      // IF FORM LAUNCHED FORM editBtn, POPULATE W/ ARG VALUE FORM OBJ
       const descriptionLabel = document.createElement('label');
       descriptionLabel.setAttribute('for', 'task-description');
       descriptionLabel.textContent = 'Description';
@@ -196,6 +204,8 @@ const load = () => {
       taskDescription.setAttribute('placeholder', 'Task description . . .');
       taskDescription.setAttribute('name', 'task-description');
 
+      // CREATE DUE INPUT AND LABEL, SET ATTRIBUTES
+      // IF FORM LAUNCHED FORM editBtn, POPULATE W/ ARG VALUE FORM OBJ
       const dueLabel = document.createElement('label');
       dueLabel.setAttribute('for', 'task-due');
       dueLabel.textContent = 'Due date';
@@ -208,18 +218,18 @@ const load = () => {
       taskDue.setAttribute('placeholder', 'Task due . . .');
       taskDue.setAttribute('name', 'task-due');
 
+      // CREATE PRIORITY INPUT AND LABEL, SET ATTRIBUTES
+      // IF FORM LAUNCHED FORM editBtn, POPULATE W/ ARG VALUE FORM OBJ
       const priorityLabel = document.createElement('label');
       // priorityLabel.setAttribute('for', 'task-priority');
       priorityLabel.textContent = 'Priority';
+      // CREATE BOX TO HOLD RADIO BUTTONS AND LABELS
       const taskPriorityBox = document.createElement('div');
       if (a === true) {
         taskPriorityBox.value = f;
       }
-      // taskPriorityBox.setAttribute('id', 'task-priority');
-      // taskPriorityBox.setAttribute('type', 'radio');
-      // taskPriority.setAttribute('placeholder', 'Task priority . . .');
-      // taskPriorityBox.setAttribute('name', 'task-priority');
 
+      // CREATE LOW PRIORITY RADIO BUTTON
       const lowLabel = document.createElement('label');
       lowLabel.setAttribute('for', 'low-priority');
       lowLabel.textContent = 'low';
@@ -228,12 +238,14 @@ const load = () => {
       lowPriority.setAttribute('type', 'radio');
       lowPriority.setAttribute('name', 'task-priority');
       lowPriority.setAttribute('value', 'low');
+      // CHECK LOW IF EDITING AND VALUE OF CURRENT OBJ IS LOW
       if (taskPriorityBox.value === 'low') {
         lowPriority.checked = true;
       }
       taskPriorityBox.appendChild(lowLabel);
       taskPriorityBox.appendChild(lowPriority);
 
+      // CREATE MEDIUM PRIORITY RADIO BUTTON
       const mediumLabel = document.createElement('label');
       mediumLabel.setAttribute('for', 'medium-priority');
       mediumLabel.textContent = 'medium';
@@ -242,12 +254,14 @@ const load = () => {
       mediumPriority.setAttribute('type', 'radio');
       mediumPriority.setAttribute('name', 'task-priority');
       mediumPriority.setAttribute('value', 'medium');
+      // CHECK MEDIUM IF EDITING AND VALUE OF CURRENT OBJ IS MEDIUM
       if (taskPriorityBox.value === 'medium') {
         mediumPriority.checked = true;
       }
       taskPriorityBox.appendChild(mediumLabel, mediumPriority);
       taskPriorityBox.appendChild(mediumPriority);
 
+      // CREATE HIGH PRIORITY RADIO BUTTON
       const highLabel = document.createElement('label');
       highLabel.setAttribute('for', 'high-priority');
       highLabel.textContent = 'high';
@@ -255,13 +269,15 @@ const load = () => {
       highPriority.id = 'high-priority';
       highPriority.setAttribute('type', 'radio');
       highPriority.setAttribute('name', 'task-priority');
-      highPriority.setAttribute('value', 'high'); // if (taskPriority.validationMessage.value === 'high') {
+      highPriority.setAttribute('value', 'high');
+      // CHECK HIGH IF EDITING AND VALUE OF CURRENT OBJ IS HIGH
       if (taskPriorityBox.value === 'high') {
         highPriority.checked = true;
       }
       taskPriorityBox.appendChild(highLabel, highPriority);
       taskPriorityBox.appendChild(highPriority);
 
+      // CREATE SUBMIT BUTTON, SELECT LABEL BASED ON EDITING STATE
       const submitLabel = document.createElement('label');
       submitLabel.setAttribute('for', 'task-submit');
       const taskSubmit = document.createElement('button');
@@ -283,70 +299,72 @@ const load = () => {
       taskCard.appendChild(taskForm);
       taskOverlay.appendChild(taskCard);
 
+      // SUBMIT FUNTIONALITY
       taskForm.addEventListener('submit', (e) => {
-        e.preventDefault(); // stops sumbit from sending data to server by default
-        const submitPriotiry = document.getElementsByName('task-priority');
-        // const priority = undefined;
+        // STOPS SUBMIT FROM SENDING DATA TO SEVER BY DEFAULT
+        e.preventDefault();
+        // PULL ALL RADIO INPUTS BY NAME INTO submitPriority[]
+        const submitPriotiry = document.getElementsByName("task-priority");
+        // LOOP THROUGH PRIORITY BUTTONS
         for (let i = 0; i < submitPriotiry.length; i += 1) {
+          // IF ONE IS CHECKED, taskPriorityBox IS ASSIGNED THAT VALUE
           if (submitPriotiry[i].checked === true) {
             const priority = submitPriotiry[i].value;
             taskPriorityBox.value = priority;
-            // const priority = submitPriotiry[i].value;
-            // return priority;
           }
         }
 
-        // If editng a established task, update that object's (g's) values
+        // IF EDITING AN ESTABLISHED TASK, UPDATE THAT OBJ'S (g's) VALUE
         if (a === true) {
           const currentPosition = g;
           taskList[currentPosition].task = taskTitle.value;
           taskList[currentPosition].notes = taskDescription.value;
           taskList[currentPosition].due = taskDue.value;
           taskList[currentPosition].priority = taskPriorityBox.value;
-        // else, create a new object with these values and push it to taskList[]
+        // ELSE, CREAT A NEW OBJECT WITH THESE VALUES AND PUSH IT TO taskList[]
         } else {
           const taskObj = newTask(
             taskTitle.value,
             taskDescription.value,
             taskDue.value,
-            taskPriorityBox.value,
+            taskPriorityBox.value
           );
           taskList.push(taskObj);
         }
-        // sends data to new task
-        taskOverlay.setAttribute('id', 'task-overlay'); // adds hidden class
+        // ASSIGNS THE HIDDEN ID TO HIDE THE OVERLAY
+        taskOverlay.setAttribute("id", "task-overlay");
+        // REMOVES THE FORM CARD FROM THE OVERLAY
         taskOverlay.removeChild(taskCard);
-        // makes form dissapear on submit
+        // REMOVES BLUE FROM BACKGROUND
         removeBlur(pageBox);
-        // puts task object data into DOM table
+        // PUTS TASK OBJECT DATA INTO DOM TABLE
         displayTasks();
         console.log(taskList);
       });
       return taskCard;
     };
 
-    // SUMBIT FORM/CREATE OBJ/PUSH OBJ TO ARRAY/DISPLAY ARRAY VIALOOP
-
     // CREATE NEW TASK FORM HANDLER
     addTask.addEventListener('click', () => {
-      // BLUR BACKGROUND
       displayForm();
     });
 
     const clickout = (() => {
-      // click listener on taskOverlay
+      // PUTS A CLICK LISTENER ON OVERLAY BACKGROUND FOR CLICKOUT
       taskOverlay.addEventListener('mousedown', (e) => {
         const card = document.getElementById('task-card');
-        // make clickSpot = the event target
+        // MAKE clickSpot = tTHE TARGET EVENT
         const clickSpot = e.target;
-        // if click happened on taskOverlay, i.e. outisde of the task
+        // IF CLICK HAPPENED ON taskOverlay, I.E OUTSIDE THE FORM
         if (clickSpot.id === 'task-overlay-vis') {
+          // SET OVERLAY TO HIDDEN ID
           taskOverlay.id = 'task-overlay';
+          // REMOVE BLUR
           removeBlur(pageBox);
+          // REMOVE CARD FROM OVERLAY
           taskOverlay.removeChild(card);
         }
       });
-      // }
     })();
   })();
 
