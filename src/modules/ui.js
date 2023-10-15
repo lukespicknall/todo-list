@@ -5,7 +5,14 @@ import newTask from './to-do';
 // import displayTasks from './display';
 
 // CREATE MAIN HTML DIVS
-const projectList = [];
+const projectList = [
+  {
+    title: 'My Projects',
+    due: undefined,
+    priotiy: 'low',
+    tasks: [],
+  },
+];
 const taskList = [];
 const content = document.getElementById('content');
 // LOAD HANDLES UI
@@ -415,7 +422,7 @@ const load = () => {
         // REMOVES BLUE FROM BACKGROUND
         removeBlur(pageBox);
         // PUTS project OBJECT DATA INTO DOM TABLE
-        displayprojects();
+        displayProjects();
         console.log(projectList);
       });
       return projectCard;
@@ -594,7 +601,7 @@ const load = () => {
             taskDue.value,
             taskPriorityBox.value,
           );
-          taskList.push(taskObj);
+          projectList[0].tasks.push(taskObj);
         }
         // ASSIGNS THE HIDDEN ID TO HIDE THE OVERLAY
         formOverlay.setAttribute('id', 'form-overlay');
