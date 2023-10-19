@@ -13,6 +13,12 @@ const projectList = [
     tasks: [],
   },
 ];
+let currentProject = projectList[0];
+
+const getCurrent = (a) => {
+  currentProject = projectList[a];
+};
+
 const taskList = [];
 const content = document.getElementById('content');
 // LOAD HANDLES UI
@@ -26,6 +32,9 @@ const load = () => {
   main.appendChild(taskTable);
   const sideBar = document.createElement('div');
   sideBar.id = 'side-bar';
+  const projectTable = document.createElement('table');
+  projectTable.id = 'project-table';
+  sideBar.appendChild(projectTable);
   const head = document.createElement('div');
   head.id = 'head';
   const foot = document.createElement('div');
@@ -53,48 +62,46 @@ const load = () => {
       a.classList.remove('blurred');
     };
     const displayProjects = () => {
-      taskTable.innerHTML = ''; // clears current taskTable to avoid repeats
-      const taskHeader = document.createElement('thead');
-      taskHeader.id = 'task-header';
-      taskHeader.textContent = 'Tasks';
-      taskTable.appendChild(taskHeader);
-      // LOOP THROUGH taskList[]
-      for (let i = 0; i < taskList.length; i += 1) {
-        // CREATE NEW TASK ROW FOR OBJ IN taskList[i]
-        const taskRow = document.createElement('tr');
-        taskRow.className = 'task-row';
-        taskRow.setAttribute('data-id', [i]); // row assigned data-id that is its posiition in taskLisy[]
-        taskTable.appendChild(taskRow); // add that tr to taskTable in libTable
+      projectTable.innerHTML = ''; // clears current projectTable to avoid repeats
+      const projectHeader = document.createElement('thead');
+      projectHeader.id = 'project-header';
+      projectHeader.textContent = 'projects';
+      projectTable.appendChild(projectHeader);
+      // LOOP THROUGH projectList[]
+      for (let i = 0; i < projectList.length; i += 1) {
+        // CREATE NEW project ROW FOR OBJ IN projectList[i]
+        const projectRow = document.createElement('tr');
+        projectRow.className = 'project-row';
+        projectRow.setAttribute('data-id', [i]); // row assigned data-id that is its posiition in projectLisy[]
+        projectTable.appendChild(projectRow); // add that tr to projectTable in libTable
 
-        // CREATE NEW TABLE CELLS FOR TASK DATA
-        const taskCell = document.createElement('td');
-        const notesCell = document.createElement('td');
-        const dueCell = document.createElement('td');
-        const priorityCell = document.createElement('td');
+        // CREATE NEW TABLE CELLS FOR project DATA
+        // const proectContainer = document.createElement('td');
+        const projectCell = document.createElement('div');
+        const dueCell = document.createElement('div');
+        const priorityCell = document.createElement('div');
 
         // ASSIGN CELL CLASS NAMES
-        taskCell.className = 'task-cell';
-        notesCell.className = 'notes-cell';
+        projectCell.className = 'project-cell';
         dueCell.className = 'due-cell';
         priorityCell.className = 'priority-cell';
 
-        // ASSIGN CELL DATA FROM TASK DATA
-        taskCell.textContent = taskList[i].task;
-        notesCell.textContent = taskList[i].notes;
-        dueCell.textContent = taskList[i].due;
-        priorityCell.textContent = taskList[i].priority;
+        // ASSIGN CELL DATA FROM project DATA
+        projectCell.textContent = projectList[i].title;
+        dueCell.textContent = projectList[i].due;
+        priorityCell.textContent = projectList[i].priority;
 
-        // CREATE CELLS FOR UI BUTTONS ON ROW FOR TASK OBJ UPDATING
-        const editCell = document.createElement('td'); //
-        const deleteCell = document.createElement('td'); //
-        const completeCell = document.createElement('td'); //
+        // CREATE CELLS FOR UI BUTTONS ON ROW FOR project OBJ UPDATING
+        const editCell = document.createElement('div'); //
+        const deleteCell = document.createElement('div'); //
+        const completeCell = document.createElement('div'); //
 
         // ASSIGN UI CELL CLASSNAMES
         editCell.className = 'edit-cell';
         deleteCell.className = 'delete-cell';
         completeCell.className = 'complete-cell'; //
 
-        // CREATE UI BUTTONS FOR TASK UPDATES, ASSIGN CLASS, APPEND TO UI CELL
+        // CREATE UI BUTTONS FOR project UPDATES, ASSIGN CLASS, APPEND TO UI CELL
         const editBtn = document.createElement('button');
         editBtn.className = 'edit-btn';
         editBtn.innerHTML = '<p>edit</p>';
@@ -108,49 +115,64 @@ const load = () => {
         completeBtn.innerHTML = '<p>complete</p>';
         completeCell.appendChild(completeBtn);
 
-        // APPEND CELLS TO THE TASK TROW
-        taskRow.appendChild(taskCell);
-        taskRow.appendChild(notesCell);
-        taskRow.appendChild(dueCell);
-        taskRow.appendChild(priorityCell);
-        taskRow.appendChild(editCell);
-        taskRow.appendChild(deleteCell);
-        taskRow.appendChild(completeCell);
+        // APPEND CELLS TO THE project TROW
+        projectRow.appendChild(projectCell);
+        projectRow.appendChild(dueCell);
+        projectRow.appendChild(priorityCell);
+        projectRow.appendChild(editCell);
+        projectRow.appendChild(deleteCell);
+        projectRow.appendChild(completeCell);
 
         // ON CLICK, EDITBTN SETS EDITING STATE,
-        // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS TASK ROW,
+        // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS project ROW,
         // POPULATES A FORM CONTAINING THE OBJ'S DATA BY PASISNG THAT DATA TO DISPLAYFORM()
         editBtn.addEventListener('click', () => {
           const editing = true;
-          const currentTask = taskRow.getAttribute('data-id');
-          const editTitle = taskList[currentTask].task;
-          const editNotes = taskList[currentTask].notes;
-          const editDue = taskList[currentTask].due;
-          const editPriority = taskList[currentTask].priority;
-          displayForm(
+          const currentProjectEdit = projectRow.getAttribute('data-id');
+          const editTitle = projectList[currentProjectEdit].title;
+          const editDue = projectList[currentProjectEdit].due;
+          const editPriority = projectList[currentProjectEdit].priority;
+          displayProjectForm(
             editing,
             editTitle,
-            editNotes,
             editDue,
             editPriority,
-            currentTask,
+            currentProjectEdit,
           );
         });
-        taskDelete(deleteBtn);
-        taskComplete(completeBtn);
-      }
+        // projectDelete(deleteBtn);
+        // projectComplete(completeBtn);
+        projectRow.addEventListener('click', (e) => {
+          const getProj = e.target;
+          const currentProjectDisplay = getProj.parentNode.getAttribute("data-id");
+          getCurrent(currentProjectDisplay);
+          displayTasks(currentProjectDisplay);
+        });
+      };
+      // const selectProject = document.getElementsByClassName('project-row');
+      // console.log(selectProject);
+      // selectProject.addEventListener("click", (e) => {
+      //   const getProj = e.target;
+      //   console.log(getProj)
+      // const currentProjectDisplay = getProj.parentNode.getAttribute("data-id");
+      // displayTasks(currentProjectDisplay);
+      // console.log(currentProjectDisplay);
+      // currentProject = projectList[currentProjectDisplay];
+      // return currentProject;
+      // });
     };
+    displayProjects();
     // CREATE TABLE ELEMENTS AND LOOP TASKLIST[] AND SEND EACH OBJS DATA TO TABLE FIELDS.
     // ADD EDITBTN FUNCTIONALITY
-    const displayTasks = (a, b) => {
+    const displayTasks = (a) => {
       taskTable.innerHTML = ''; // clears current taskTable to avoid repeats
       const taskHeader = document.createElement('thead');
       taskHeader.id = 'task-header';
       taskHeader.textContent = 'Tasks';
       taskTable.appendChild(taskHeader);
       // LOOP THROUGH taskList[]
-      for (let i = 0; i < taskList.length; i += 1) {
-        // CREATE NEW TASK ROW FOR OBJ IN taskList[i]
+      for (let i = 0; i < projectList[a].tasks.length; i += 1) {
+        // CREATE NEW TASK ROW FOR OBJ IN projectList[0].tasks[i]
         const taskRow = document.createElement('tr');
         taskRow.className = 'task-row';
         taskRow.setAttribute('data-id', [i]); // row assigned data-id that is its posiition in taskLisy[]
@@ -169,10 +191,10 @@ const load = () => {
         priorityCell.className = 'priority-cell';
 
         // ASSIGN CELL DATA FROM TASK DATA
-        taskCell.textContent = taskList[i].task;
-        notesCell.textContent = taskList[i].notes;
-        dueCell.textContent = taskList[i].due;
-        priorityCell.textContent = taskList[i].priority;
+        taskCell.textContent = projectList[a].tasks[i].task;
+        notesCell.textContent = projectList[a].tasks[i].notes;
+        dueCell.textContent = projectList[a].tasks[i].due;
+        priorityCell.textContent = projectList[a].tasks[i].priority;
 
         // CREATE CELLS FOR UI BUTTONS ON ROW FOR TASK OBJ UPDATING
         const editCell = document.createElement('td'); //
@@ -200,9 +222,9 @@ const load = () => {
 
         // APPEND CELLS TO THE TASK TROW
         taskRow.appendChild(taskCell);
-        if (b === 'task') {
-          taskRow.appendChild(notesCell);
-        }
+        // if (b === 'task') {
+        //   taskRow.appendChild(notesCell);
+        // }
         taskRow.appendChild(dueCell);
         taskRow.appendChild(priorityCell);
         taskRow.appendChild(editCell);
@@ -232,7 +254,6 @@ const load = () => {
         taskComplete(completeBtn);
       }
     };
-
     // FUCNCTIONALITY FOR COMPLETE BUTTON
     const taskComplete = (completeBtn) => {
       // IF ANY TASKS EXIST, ADD LISTENER
@@ -403,7 +424,7 @@ const load = () => {
         // IF EDITING AN ESTABLISHED project, UPDATE THAT OBJ'S (g's) VALUE
         if (a === true) {
           const currentPosition = f;
-          projectList[currentPosition].project = projectTitle.value;
+          projectList[currentPosition].title = projectTitle.value;
           projectList[currentPosition].due = projectDue.value;
           projectList[currentPosition].priority = projectPriorityBox.value;
         // ELSE, CREAT A NEW OBJECT WITH THESE VALUES AND PUSH IT TO projectList[]
@@ -576,7 +597,7 @@ const load = () => {
         // STOPS SUBMIT FROM SENDING DATA TO SEVER BY DEFAULT
         e.preventDefault();
         // PULL ALL RADIO INPUTS BY NAME INTO submitPriority[]
-        const submitPriotiry = document.getElementsByName('task-priority');
+        const submitPriotiry = document.getElementsByName("task-priority");
         // LOOP THROUGH PRIORITY BUTTONS
         for (let i = 0; i < submitPriotiry.length; i += 1) {
           // IF ONE IS CHECKED, taskPriorityBox IS ASSIGNED THAT VALUE
@@ -593,25 +614,25 @@ const load = () => {
           taskList[currentPosition].notes = taskDescription.value;
           taskList[currentPosition].due = taskDue.value;
           taskList[currentPosition].priority = taskPriorityBox.value;
-        // ELSE, CREAT A NEW OBJECT WITH THESE VALUES AND PUSH IT TO taskList[]
+          // ELSE, CREAT A NEW OBJECT WITH THESE VALUES AND PUSH IT TO taskList[]
         } else {
           const taskObj = newTask(
             taskTitle.value,
             taskDescription.value,
             taskDue.value,
-            taskPriorityBox.value,
+            taskPriorityBox.value
           );
-          projectList[0].tasks.push(taskObj);
+          currentProject.tasks.push(taskObj);
         }
         // ASSIGNS THE HIDDEN ID TO HIDE THE OVERLAY
-        formOverlay.setAttribute('id', 'form-overlay');
+        formOverlay.setAttribute("id", "form-overlay");
         // REMOVES THE FORM CARD FROM THE OVERLAY
         formOverlay.removeChild(taskCard);
         // REMOVES BLUE FROM BACKGROUND
         removeBlur(pageBox);
         // PUTS TASK OBJECT DATA INTO DOM TABLE
-        displayTasks('task');
-        console.log(taskList);
+        displayTasks(projectList.indexOf(currentProject));
+        // console.log(projectList.indexOf(currentProject));
       });
       return taskCard;
     };
@@ -647,7 +668,7 @@ const load = () => {
     const clickout = (() => {
       // PUTS A CLICK LISTENER ON OVERLAY BACKGROUND FOR CLICKOUT
       formOverlay.addEventListener('mousedown', (e) => {
-        const card = document.getElementById('task-card');
+        const card = document.getElementById('form-card');
         // MAKE clickSpot = tTHE TARGET EVENT
         const clickSpot = e.target;
         // IF CLICK HAPPENED ON formOverlay, I.E OUTSIDE THE FORM
