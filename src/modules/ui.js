@@ -16,7 +16,9 @@ const projectList = [
 let currentProject = projectList[0];
 
 const getCurrent = (a) => {
+  // if (projectList.length > 1) {
   currentProject = projectList[a];
+  // }
 };
 
 const taskList = [];
@@ -102,10 +104,10 @@ const load = () => {
         completeCell.className = 'complete-cell'; //
 
         // CREATE UI BUTTONS FOR project UPDATES, ASSIGN CLASS, APPEND TO UI CELL
-        const editBtn = document.createElement('button');
-        editBtn.className = 'edit-btn';
-        editBtn.innerHTML = '<p>edit</p>';
-        editCell.appendChild(editBtn);
+        const projEditBtn = document.createElement('button');
+        projEditBtn.className = 'edit-btn';
+        projEditBtn.innerHTML = '<p>edit</p>';
+        editCell.appendChild(projEditBtn);
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
         deleteBtn.innerHTML = '<p>delete</p>';
@@ -123,10 +125,10 @@ const load = () => {
         projectRow.appendChild(deleteCell);
         projectRow.appendChild(completeCell);
 
-        // ON CLICK, EDITBTN SETS EDITING STATE,
+        // ON CLICK, projEDITBTN SETS EDITING STATE,
         // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS project ROW,
         // POPULATES A FORM CONTAINING THE OBJ'S DATA BY PASISNG THAT DATA TO DISPLAYFORM()
-        editBtn.addEventListener('click', () => {
+        projEditBtn.addEventListener('click', () => {
           const editing = true;
           const currentProjectEdit = projectRow.getAttribute('data-id');
           const editTitle = projectList[currentProjectEdit].title;
@@ -144,11 +146,14 @@ const load = () => {
         // projectComplete(completeBtn);
         projectRow.addEventListener('click', (e) => {
           const getProj = e.target;
-          const currentProjectDisplay = getProj.parentNode.getAttribute("data-id");
-          getCurrent(currentProjectDisplay);
-          displayTasks(currentProjectDisplay);
+          if (getProj.tagName === 'DIV') {
+            const currentProjectDisplay = getProj.parentNode.getAttribute('data-id');
+            getCurrent(currentProjectDisplay);
+            console.log(getProj.tagName);
+            displayTasks(currentProjectDisplay);
+          }
         });
-      };
+      }
       // const selectProject = document.getElementsByClassName('project-row');
       // console.log(selectProject);
       // selectProject.addEventListener("click", (e) => {
@@ -235,12 +240,13 @@ const load = () => {
         // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS TASK ROW,
         // POPULATES A FORM CONTAINING THE OBJ'S DATA BY PASISNG THAT DATA TO DISPLAYFORM()
         editBtn.addEventListener('click', () => {
+          console.log(projectList[a]);
           const editing = true;
           const currentTask = taskRow.getAttribute('data-id');
-          const editTitle = taskList[currentTask].task;
-          const editNotes = taskList[currentTask].notes;
-          const editDue = taskList[currentTask].due;
-          const editPriority = taskList[currentTask].priority;
+          const editTitle = projectList[a].tasks[currentTask].task;
+          const editNotes = projectList[a].tasks[currentTask].notes;
+          const editDue = projectList[a].tasks[currentTask].due;
+          const editPriority = projectList[a].tasks[currentTask].priority;
           displayForm(
             editing,
             editTitle,
@@ -250,35 +256,35 @@ const load = () => {
             currentTask,
           );
         });
-        taskDelete(deleteBtn);
-        taskComplete(completeBtn);
+        taskDelete(deleteBtn, a);
+        taskComplete(completeBtn, a);
       }
     };
     // FUCNCTIONALITY FOR COMPLETE BUTTON
-    const taskComplete = (completeBtn) => {
+    const taskComplete = (completeBtn, a) => {
       // IF ANY TASKS EXIST, ADD LISTENER
-      if (taskList.length >= 1) {
+      if (projectList[a].tasks.length >= 1) {
         completeBtn.addEventListener('click', (e) => {
           // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
           const currentTask = e.target.closest('.task-row').dataset.id;
-          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
-          taskList.splice(currentTask, 1);
-          displayTasks();
+          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
+          projectList[a].tasks.splice(currentTask, 1);
+          displayTasks(a);
           // do something nice like swipe a green check to say good job!
         });
       }
     };
 
     // FUNCTIONALITY FOR DELETE BUTTON
-    const taskDelete = (deleteBtn) => {
+    const taskDelete = (deleteBtn, a) => {
       // IF ANY TASKS EXIST, ADD LISTENER
-      if (taskList.length >= 1) {
+      if (projectList[a].tasks.length >= 1) {
         deleteBtn.addEventListener('click', (e) => {
           // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
           const currentTask = e.target.closest('.task-row').dataset.id;
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
-          taskList.splice(currentTask, 1);
-          displayTasks();
+          projectList[a].tasks.splice(currentTask, 1);
+          displayTasks(a);
         });
       }
     };
@@ -597,7 +603,7 @@ const load = () => {
         // STOPS SUBMIT FROM SENDING DATA TO SEVER BY DEFAULT
         e.preventDefault();
         // PULL ALL RADIO INPUTS BY NAME INTO submitPriority[]
-        const submitPriotiry = document.getElementsByName("task-priority");
+        const submitPriotiry = document.getElementsByName('task-priority');
         // LOOP THROUGH PRIORITY BUTTONS
         for (let i = 0; i < submitPriotiry.length; i += 1) {
           // IF ONE IS CHECKED, taskPriorityBox IS ASSIGNED THAT VALUE
@@ -610,22 +616,22 @@ const load = () => {
         // IF EDITING AN ESTABLISHED TASK, UPDATE THAT OBJ'S (g's) VALUE
         if (a === true) {
           const currentPosition = g;
-          taskList[currentPosition].task = taskTitle.value;
-          taskList[currentPosition].notes = taskDescription.value;
-          taskList[currentPosition].due = taskDue.value;
-          taskList[currentPosition].priority = taskPriorityBox.value;
-          // ELSE, CREAT A NEW OBJECT WITH THESE VALUES AND PUSH IT TO taskList[]
+          projectList[g].tasks[currentPosition].task = taskTitle.value;
+          projectList[g].tasks[currentPosition].notes = taskDescription.value;
+          projectList[g].tasks[currentPosition].due = taskDue.value;
+          projectList[g].tasks[currentPosition].priority = taskPriorityBox.value;
+          // ELSE, CREAT A NEW OBJECT WITH THESE VALUES AND PUSH IT TO projectList[g].tasks[]
         } else {
           const taskObj = newTask(
             taskTitle.value,
             taskDescription.value,
             taskDue.value,
-            taskPriorityBox.value
+            taskPriorityBox.value,
           );
           currentProject.tasks.push(taskObj);
         }
         // ASSIGNS THE HIDDEN ID TO HIDE THE OVERLAY
-        formOverlay.setAttribute("id", "form-overlay");
+        formOverlay.setAttribute('id', 'form-overlay');
         // REMOVES THE FORM CARD FROM THE OVERLAY
         formOverlay.removeChild(taskCard);
         // REMOVES BLUE FROM BACKGROUND
