@@ -149,12 +149,12 @@ const load = () => {
           if (getProj.tagName === 'DIV') {
             const currentProjectDisplay = getProj.parentNode.getAttribute('data-id');
             getCurrent(currentProjectDisplay);
-            console.log(getProj.tagName);
+            // console.log(getProj.tagName);
             displayTasks(currentProjectDisplay);
           }
         });
-        // displayTasks(i);
       }
+      
       // const selectProject = document.getElementsByClassName('project-row');
       // console.log(selectProject);
       // selectProject.addEventListener("click", (e) => {
@@ -171,7 +171,7 @@ const load = () => {
     // CREATE TABLE ELEMENTS AND LOOP TASKLIST[] AND SEND EACH OBJS DATA TO TABLE FIELDS.
     // ADD EDITBTN FUNCTIONALITY
     const displayTasks = (a) => {
-      console.log(a);
+      // console.log(a);
       taskTable.innerHTML = ''; // clears current taskTable to avoid repeats
       const taskHeader = document.createElement('thead');
       taskHeader.id = 'task-header';
@@ -242,7 +242,7 @@ const load = () => {
         // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS TASK ROW,
         // POPULATES A FORM CONTAINING THE OBJ'S DATA BY PASISNG THAT DATA TO DISPLAYFORM()
         editBtn.addEventListener('click', () => {
-          console.log(projectList[a]);
+          // console.log(projectList[a]);
           const editing = true;
           const currentTask = taskRow.getAttribute('data-id');
           const editTitle = projectList[a].tasks[currentTask].task;
@@ -262,6 +262,7 @@ const load = () => {
         taskComplete(completeBtn, a);
       }
     };
+    displayTasks(0);
     // FUCNCTIONALITY FOR COMPLETE BUTTON
     const taskComplete = (completeBtn, a) => {
       // IF ANY TASKS EXIST, ADD LISTENER
@@ -444,6 +445,9 @@ const load = () => {
             projectPriorityBox.value,
           );
           projectList.push(projectObj);
+          const position = projectList.length - 1;
+          displayTasks(position);
+          getCurrent(position);
         }
         // ASSIGNS THE HIDDEN ID TO HIDE THE OVERLAY
         formOverlay.setAttribute('id', 'form-overlay');
@@ -453,8 +457,8 @@ const load = () => {
         removeBlur(pageBox);
         // PUTS project OBJECT DATA INTO DOM TABLE
         displayProjects();
-        displayTasks(currentPosition);
-        console.log(currentPosition);
+        // const tableTitle = document.getElementById('task-header');
+        // tableTitle.textContent = projectTitle.value;
       });
       return projectCard;
     };
