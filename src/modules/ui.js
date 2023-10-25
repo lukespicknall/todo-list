@@ -153,6 +153,7 @@ const load = () => {
             displayTasks(currentProjectDisplay);
           }
         });
+        // displayTasks(i);
       }
       // const selectProject = document.getElementsByClassName('project-row');
       // console.log(selectProject);
@@ -170,10 +171,11 @@ const load = () => {
     // CREATE TABLE ELEMENTS AND LOOP TASKLIST[] AND SEND EACH OBJS DATA TO TABLE FIELDS.
     // ADD EDITBTN FUNCTIONALITY
     const displayTasks = (a) => {
+      console.log(a);
       taskTable.innerHTML = ''; // clears current taskTable to avoid repeats
       const taskHeader = document.createElement('thead');
       taskHeader.id = 'task-header';
-      taskHeader.textContent = 'Tasks';
+      taskHeader.textContent = projectList[a].title;
       taskTable.appendChild(taskHeader);
       // LOOP THROUGH taskList[]
       for (let i = 0; i < projectList[a].tasks.length; i += 1) {
@@ -416,6 +418,7 @@ const load = () => {
       projectForm.addEventListener('submit', (e) => {
         // STOPS SUBMIT FROM SENDING DATA TO SEVER BY DEFAULT
         e.preventDefault();
+        const currentPosition = f;
         // PULL ALL RADIO INPUTS BY NAME INTO submitPriority[]
         const submitPriotiry = document.getElementsByName('project-priority');
         // LOOP THROUGH PRIORITY BUTTONS
@@ -429,10 +432,10 @@ const load = () => {
 
         // IF EDITING AN ESTABLISHED project, UPDATE THAT OBJ'S (g's) VALUE
         if (a === true) {
-          const currentPosition = f;
           projectList[currentPosition].title = projectTitle.value;
           projectList[currentPosition].due = projectDue.value;
           projectList[currentPosition].priority = projectPriorityBox.value;
+          displayTasks(currentPosition);
         // ELSE, CREAT A NEW OBJECT WITH THESE VALUES AND PUSH IT TO projectList[]
         } else {
           const projectObj = newProject(
@@ -450,7 +453,8 @@ const load = () => {
         removeBlur(pageBox);
         // PUTS project OBJECT DATA INTO DOM TABLE
         displayProjects();
-        console.log(projectList);
+        displayTasks(currentPosition);
+        console.log(currentPosition);
       });
       return projectCard;
     };

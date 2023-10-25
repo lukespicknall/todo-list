@@ -47,6 +47,8 @@
     background-color: rgb(191, 212, 207);
     align-items: center;
 }
+#side-bar :nth-child(1) { order: 2; }
+#side-bar :nth-child(2) { order: 1; }
 
 #add-box {
   display: flex;
@@ -73,6 +75,18 @@
 position: absolute;
 }
 
+
+#project-table {
+  padding: 50px 20px 0 20px;
+  width: 100%;
+}
+
+.project-row {
+padding: none;
+}
+.project-cell {
+      padding: 10px 0 0 0;
+}
 /* FORM STLYE */
 /* This form-overlay transition code documented below it*/
 #form-overlay {
