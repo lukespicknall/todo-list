@@ -2,6 +2,11 @@
     margin: 0;
     padding: 0;
 }
+
+:root {
+  --my-green: rgb(191, 212, 207);
+  --my-red: 
+}
 #content {
     height: 100vh;
     width: 100vw;
@@ -44,7 +49,7 @@
     flex-direction: column;
     height: 100%;
     width: 100%;
-    background-color: rgb(191, 212, 207);
+  background-color: var(--my-green);
     align-items: center;
 }
 #side-bar :nth-child(1) { order: 2; }
@@ -83,6 +88,9 @@ position: absolute;
 
 .project-row {
 padding: none;
+}
+.project-row:hover {
+background-color: rgb(182, 228, 190);
 }
 .project-cell {
       padding: 10px 0 0 0;
@@ -124,6 +132,7 @@ padding: none;
   position: absolute;
   display: flex;
   flex-direction: column;
+  opacity: 2;
   border: 5px solid #ffff;
   background-color: var(--my-green);
   border-radius: 15px;

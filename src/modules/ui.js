@@ -229,9 +229,7 @@ const load = () => {
 
         // APPEND CELLS TO THE TASK TROW
         taskRow.appendChild(taskCell);
-        // if (b === 'task') {
-        //   taskRow.appendChild(notesCell);
-        // }
+        taskRow.appendChild(notesCell);
         taskRow.appendChild(dueCell);
         taskRow.appendChild(priorityCell);
         taskRow.appendChild(editCell);
