@@ -317,7 +317,7 @@ const load = () => {
         projectTitle.value = b;
       }
       projectTitle.setAttribute('type', 'text');
-      projectTitle.setAttribute('id', 'from-title');
+      projectTitle.setAttribute('id', 'project-title');
       projectTitle.setAttribute('placeholder', 'project title . . .');
       projectTitle.setAttribute('name', 'project-title');
 
@@ -330,18 +330,20 @@ const load = () => {
       if (a === true) {
         projectDue.value = c;
       }
-      projectDue.setAttribute('id', 'form-due');
+      projectDue.setAttribute('id', 'project-due');
       projectDue.setAttribute('type', 'date');
       projectDue.setAttribute('placeholder', 'project due . . .');
       projectDue.setAttribute('name', 'project-due');
 
       // CREATE PRIORITY INPUT AND LABEL, SET ATTRIBUTES
       // IF FORM LAUNCHED FORM editBtn, POPULATE W/ ARG VALUE FORM OBJ
-      const priorityLabel = document.createElement('label');
+      const priorityLabel = document.createElement('p');
+      // priorityLabel.setAttribute('for', 'project-prioritybox');
       // priorityLabel.setAttribute('for', 'project-priority');
       priorityLabel.textContent = 'Priority';
       // CREATE BOX TO HOLD RADIO BUTTONS AND LABELS
       const projectPriorityBox = document.createElement('div');
+      // projectPriorityBox.setAttribute('id', 'project-prioritybox');
       if (a === true) {
         projectPriorityBox.value = d;
       }
@@ -403,7 +405,7 @@ const load = () => {
       } else {
         projectSubmit.textContent = 'Add project';
       }
-      projectSubmit.setAttribute('id', 'form-submit');
+      projectSubmit.setAttribute('id', 'project-submit');
       projectSubmit.setAttribute('type', 'submit');
       projectSubmit.setAttribute('name', 'project-submit');
 
@@ -493,7 +495,7 @@ const load = () => {
         taskTitle.value = b;
       }
       taskTitle.setAttribute('type', 'text');
-      taskTitle.setAttribute('id', 'form-title');
+      taskTitle.setAttribute('id', 'task-title');
       taskTitle.setAttribute('placeholder', 'Task title . . .');
       taskTitle.setAttribute('name', 'task-title');
 
@@ -506,7 +508,7 @@ const load = () => {
       if (a === true) {
         taskDescription.value = c;
       }
-      taskDescription.setAttribute('id', 'form-description');
+      taskDescription.setAttribute('id', 'task-description');
       taskDescription.setAttribute('type', 'text');
       taskDescription.setAttribute('placeholder', 'Task description . . .');
       taskDescription.setAttribute('name', 'task-description');
@@ -520,14 +522,14 @@ const load = () => {
       if (a === true) {
         taskDue.value = d;
       }
-      taskDue.setAttribute('id', 'form-due');
+      taskDue.setAttribute('id', 'task-due');
       taskDue.setAttribute('type', 'date');
       taskDue.setAttribute('placeholder', 'Task due . . .');
       taskDue.setAttribute('name', 'task-due');
 
       // CREATE PRIORITY INPUT AND LABEL, SET ATTRIBUTES
       // IF FORM LAUNCHED FORM editBtn, POPULATE W/ ARG VALUE FORM OBJ
-      const priorityLabel = document.createElement('label');
+      const priorityLabel = document.createElement('p');
       // priorityLabel.setAttribute('for', 'task-priority');
       priorityLabel.textContent = 'Priority';
       // CREATE BOX TO HOLD RADIO BUTTONS AND LABELS
