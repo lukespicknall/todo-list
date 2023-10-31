@@ -1,15 +1,17 @@
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 :root {
-  --my-green: rgb(191, 212, 207);
-  --my-red: 
+  --my-white: #fff;
+  --my-side: #f2f4f7;
+  --my-module: #e9eaec;
+
 }
 #content {
-    height: 100vh;
-    width: 100vw;
+  height: 100vh;
+  width: 100vw;
 }
 
 #page-box {
@@ -17,7 +19,7 @@
   height: 100%;
   display: grid;
   grid-template-rows: 2fr 15fr 1fr;
-  grid-template-columns: 200px 8fr;
+  grid-template-columns: 260px 8fr;
   grid-template-areas:
   'side-bar head' 
   'side-bar main '
@@ -27,30 +29,31 @@
 
 .blurred {
   filter: blur(2px);
-    transition: 275ms;
+  transition: 275ms;
 }
 
 #head {
-    grid-area: head;
-    /* height: 100%;
-    width: 100%; */
+  grid-area: head;
+  background-color: var(--my-side);
+  height: 100%;
+  width: 100%;
 }
 
 #main {
-    grid-area: main;
-    height: 100%;
-    width: 100%;
-    background-color: rgb(214, 194, 194);
+  grid-area: main;
+  height: 100%;
+  width: 100%;
+  background-color: var(--my-side);
 }
 
 #side-bar {
-    grid-area: side-bar;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-  background-color: var(--my-green);
-    align-items: center;
+  grid-area: side-bar;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: var(--my-side);
+  align-items: center;
 }
 #side-bar :nth-child(1) { order: 2; }
 #side-bar :nth-child(2) { order: 1; }
@@ -60,40 +63,93 @@
 }
 
 #add-new {
-    width: 100px;
-    height: 100px;
-    margin: 50px 0 0 0;
-    border-style: none;
-    border-radius: 35%;
-    background-color: rgb(241, 176, 176);
-    font-size: 50px;
-    transition: all ease-in-out 0.2s;
+  width: 100px;
+  height: 100px;
+  margin: 50px 0 0 0;
+  border-style: none;
+  border-radius: 35%;
+  background-color: rgb(241, 176, 176);
+  font-size: 50px;
+  transition: all ease-in-out 0.2s;
 }
 
 #add-new:hover {
-    /* width: 110px;
-    height: 110px; */
-    box-shadow: 7px 7px rgb(223, 101, 101);
+  /* width: 110px;
+  height: 110px; */
+  background-color: rgb(241, 191, 191);
+  box-shadow: 7px 7px rgb(223, 101, 101);
 }
 
 #select-box {
-position: absolute;
+  background-color: var(--my-white);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  height: 75px;
+  margin-top: 10px;
+  padding: 5px;
+  gap: 5px;
+  box-shadow: 5px 5px 10px 1px rgb(0, 0, 0);
+  border-radius: 3px;
 }
 
+#project-select,
+#task-select {
+  height: 100%;
+  width: 100%;
+}
 
+/* SIDE-BAR PROJECT TABLE STYLE */
 #project-table {
   padding: 50px 20px 0 20px;
   width: 100%;
 }
 
+#project-header {
+  font-size: 23px;
+  margin: 0 0 10px 0;
+}
+
 .project-row {
-padding: none;
+  /* padding: none; */
+  background-color: var(--my-module);
+  border-radius: 25px;
 }
+
 .project-row:hover {
-background-color: rgb(182, 228, 190);
+  background-color: rgb(219, 219, 219);
 }
+
 .project-cell {
-      padding: 10px 0 0 0;
+  padding: 10px 0 0 0;
+}
+
+/* MAIN TASK TABLE STYLE */
+#task-table-holder{
+  background-color: var(--my-white);
+  height: 100%;
+  width: 100%;
+  padding: 25px 0 0 0;
+  border-radius: 25px 0 0 0;
+}
+#task-table {
+  background-color: var(--my-white);
+  padding: 0 0 0 25px;
+}
+
+#task-header {
+  font-size: 23px;
+}
+
+.task-row {
+  border-bottom: solid black 1px;
+  border-bottom: black 1px solid;
+  background-color: var(--my-module);
+}
+
+td {
+  background-color: var(--my-module);
 }
 /* FORM STLYE */
 /* This form-overlay transition code documented below it*/
@@ -106,10 +162,10 @@ background-color: rgb(182, 228, 190);
   /* background-color: rgba(0, 0, 0, 0.329); */
 
  /* Hide the element content, while height = 0 */
-    overflow: hidden;
-    height: 0vh; /* start hiegh @ 0 */
-    opacity: 0; /* start opacity @ 0 */
-    transition: height 0ms 400ms, opacity 275ms 0ms;
+  overflow: hidden;
+  height: 0vh; /* start hiegh @ 0 */
+  opacity: 0; /* start opacity @ 0 */
+  transition: height 0ms 400ms, opacity 275ms 0ms;
   /* height delays to the time it takes opacity to fade */ 
 }
 
@@ -119,7 +175,7 @@ background-color: rgb(182, 228, 190);
   width: 100vw;
   justify-content: center;
   align-items: center;
-  /* background-color: rgba(0, 0, 0, 0.329); */
+  background-color: rgba(85, 85, 85, 0.329);
   overflow: hidden;
   z-index: 2;
   height: 100vh; /* bring height to 100vh */
@@ -134,7 +190,7 @@ background-color: rgb(182, 228, 190);
   flex-direction: column;
   opacity: 2;
   border: 5px solid #ffff;
-  background-color: var(--my-green);
+  background-color: var(--my-white);
   border-radius: 15px;
   box-shadow: 25px 20px 70px -30px black;
   transition: 1s;
@@ -147,25 +203,12 @@ background-color: rgb(182, 228, 190);
   gap: 8px;
 }
 
-#task-table {
-  background-color: rgba(255, 200, 127, 0.705);
-}
-
-.task-row {
-border-bottom: solid black 1px;
-border-bottom: black 1px solid;
-}
-
-td {
-  background-color: aquamarine;
-}
-
 input {
   padding: 2px;
 }
 
 #foot {
-    grid-area: foot;
-    height: 100%;
-    width: 100%;
+   grid-area: foot;
+   height: 100%;
+   width: 100%;
 }

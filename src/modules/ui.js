@@ -7,7 +7,7 @@ import newTask from './to-do';
 // CREATE MAIN HTML DIVS
 const projectList = [
   {
-    title: 'My Projects',
+    title: 'My Project',
     due: undefined,
     priotiy: 'low',
     tasks: [],
@@ -27,16 +27,24 @@ const content = document.getElementById('content');
 const load = () => {
   const pageBox = document.createElement('div');
   pageBox.id = 'page-box';
+
   const main = document.createElement('div');
   main.id = 'main';
+
+  const taskTableHolder = document.createElement('div');
+  taskTableHolder.id = 'task-table-holder';
   const taskTable = document.createElement('table');
   taskTable.id = 'task-table';
-  main.appendChild(taskTable);
+  taskTableHolder.appendChild(taskTable);
+  main.appendChild(taskTableHolder);
+
   const sideBar = document.createElement('div');
   sideBar.id = 'side-bar';
+
   const projectTable = document.createElement('table');
   projectTable.id = 'project-table';
   sideBar.appendChild(projectTable);
+
   const head = document.createElement('div');
   head.id = 'head';
   const foot = document.createElement('div');
@@ -67,7 +75,7 @@ const load = () => {
       projectTable.innerHTML = ''; // clears current projectTable to avoid repeats
       const projectHeader = document.createElement('thead');
       projectHeader.id = 'project-header';
-      projectHeader.textContent = 'projects';
+      projectHeader.textContent = 'Projects';
       projectTable.appendChild(projectHeader);
       // LOOP THROUGH projectList[]
       for (let i = 0; i < projectList.length; i += 1) {
@@ -663,7 +671,7 @@ const load = () => {
       projectSelect.id = 'project-select';
       const taskSelect = document.createElement('button');
       taskSelect.textContent = 'New Task';
-      projectSelect.id = 'task-select';
+      taskSelect.id = 'task-select';
       selectBox.appendChild(projectSelect);
       selectBox.appendChild(taskSelect);
       addBox.appendChild(selectBox);
