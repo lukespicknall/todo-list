@@ -40,9 +40,11 @@
 }
 
 #main {
+  box-sizing: border-box;
   grid-area: main;
   height: 100%;
   width: 100%;
+  padding: 0 25px 25px 0;
   background-color: var(--my-side);
 }
 
@@ -102,7 +104,7 @@
 
 /* SIDE-BAR PROJECT TABLE STYLE */
 #project-table {
-  padding: 50px 20px 0 20px;
+  padding: 50px 0px 0 20px;
   width: 100%;
 }
 
@@ -112,9 +114,11 @@
 }
 
 .project-row {
-  /* padding: none; */
-  background-color: var(--my-module);
-  border-radius: 25px;
+  box-sizing: border-box;
+  padding: 15px;
+  /* background-color: var(--my-module); */
+  border-bottom: 2px solid rgb(219, 219, 219);
+  /* border-radius: 25px; */
 }
 
 .project-row:hover {
@@ -122,20 +126,20 @@
 }
 
 .project-cell {
-  padding: 10px 0 0 0;
+  padding: 0;
 }
 
 /* MAIN TASK TABLE STYLE */
 #task-table-holder{
+  box-sizing: border-box;
   background-color: var(--my-white);
   height: 100%;
   width: 100%;
-  padding: 25px 0 0 0;
-  border-radius: 25px 0 0 0;
+  padding: 25px;
+  border-radius: 25px;
 }
 #task-table {
   background-color: var(--my-white);
-  padding: 0 0 0 25px;
 }
 
 #task-header {

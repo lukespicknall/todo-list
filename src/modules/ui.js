@@ -80,7 +80,7 @@ const load = () => {
       // LOOP THROUGH projectList[]
       for (let i = 0; i < projectList.length; i += 1) {
         // CREATE NEW project ROW FOR OBJ IN projectList[i]
-        const projectRow = document.createElement('tr');
+        const projectRow = document.createElement('div');
         projectRow.className = 'project-row';
         projectRow.setAttribute('data-id', [i]); // row assigned data-id that is its posiition in projectLisy[]
         projectTable.appendChild(projectRow); // add that tr to projectTable in libTable
@@ -162,7 +162,6 @@ const load = () => {
           }
         });
       }
-      
       // const selectProject = document.getElementsByClassName('project-row');
       // console.log(selectProject);
       // selectProject.addEventListener("click", (e) => {
@@ -445,6 +444,7 @@ const load = () => {
           projectList[currentPosition].due = projectDue.value;
           projectList[currentPosition].priority = projectPriorityBox.value;
           displayTasks(currentPosition);
+          getCurrent(currentPosition);
         // ELSE, CREAT A NEW OBJECT WITH THESE VALUES AND PUSH IT TO projectList[]
         } else {
           const projectObj = newProject(
