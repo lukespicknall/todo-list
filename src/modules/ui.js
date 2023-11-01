@@ -179,11 +179,23 @@ const load = () => {
     // ADD EDITBTN FUNCTIONALITY
     const displayTasks = (a) => {
       // console.log(a);
-      taskTable.innerHTML = ''; // clears current taskTable to avoid repeats
+      taskTable.innerHTML = '';
+      // clears current taskTable to avoid repeats
       const taskHeader = document.createElement('thead');
       taskHeader.id = 'task-header';
       taskHeader.textContent = projectList[a].title;
       taskTable.appendChild(taskHeader);
+      const addIntructions = document.createElement('div');
+      taskTableHolder.appendChild(addIntructions);
+
+      if (currentProject.tasks.length === 0) {
+        addIntructions.setAttribute("id", "add-instructions");
+        addIntructions.textContent = `click the + button to add a task to ${currentProject.title}.`;
+      }
+      // if (currentProject.tasks.length > 0 && addIntructions !== null) {
+      //   const instructionsRemove = document.getElementById('add-instructions');
+      //   taskTableHolder.removeChild(instructionsRemove);
+      // }
       // LOOP THROUGH taskList[]
       for (let i = 0; i < projectList[a].tasks.length; i += 1) {
         // CREATE NEW TASK ROW FOR OBJ IN projectList[0].tasks[i]
@@ -260,7 +272,7 @@ const load = () => {
             editNotes,
             editDue,
             editPriority,
-            currentTask,
+            currentTask
           );
         });
         taskDelete(deleteBtn, a);
