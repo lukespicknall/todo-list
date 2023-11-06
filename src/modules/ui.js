@@ -116,14 +116,14 @@ const load = () => {
         projEditBtn.className = 'edit-btn';
         projEditBtn.innerHTML = '<p>edit</p>';
         editCell.appendChild(projEditBtn);
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.innerHTML = '<p>delete</p>';
-        deleteCell.appendChild(deleteBtn);
-        const completeBtn = document.createElement('button');
-        completeBtn.className = 'complete-btn';
-        completeBtn.innerHTML = '<p>complete</p>';
-        completeCell.appendChild(completeBtn);
+        const projDeleteBtn = document.createElement('button');
+        projDeleteBtn.className = 'delete-btn';
+        projDeleteBtn.innerHTML = '<p>delete</p>';
+        deleteCell.appendChild(projDeleteBtn);
+        const projCompleteBtn = document.createElement('button');
+        projCompleteBtn.className = 'complete-btn';
+        projCompleteBtn.innerHTML = '<p>complete</p>';
+        completeCell.appendChild(projCompleteBtn);
 
         // APPEND CELLS TO THE project TROW
         projectRow.appendChild(projectCell);
@@ -150,8 +150,8 @@ const load = () => {
             currentProjectEdit,
           );
         });
-        // projectDelete(deleteBtn);
-        // projectComplete(completeBtn);
+        projectDelete(projDeleteBtn);
+        projectComplete(projCompleteBtn);
         projectRow.addEventListener('click', (e) => {
           const getProj = e.target;
           if (getProj.tagName === 'DIV') {
@@ -174,111 +174,170 @@ const load = () => {
       // return currentProject;
       // });
     };
+
+    // THIS WORKS BUT LEAVES COMPLETED PROJECTS TASK SITTING IN .MAIN
+    const projectComplete = (projCompleteBtn) => {
+      // IF ANY TASKS EXIST, ADD LISTENER
+      if (projectList.length >= 2) {
+        projCompleteBtn.addEventListener('click', (e) => {
+          // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
+          const currentComplete = e.target.closest('.project-row').dataset.id;
+          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
+          projectList.splice(currentComplete, 1);
+          getCurrent(0);
+          displayProjects();
+          displayTasks(0);
+          // do something nice like swipe a green check to say good job!
+        });
+      } else if (projectList.length >= 1) {
+        projCompleteBtn.addEventListener('click', (e) => {
+          // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
+          const currentComplete = e.target.closest('.project-row').dataset.id;
+          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
+          projectList.splice(currentComplete, 1);
+          displayProjects();
+          displayTasks();
+        });
+      }
+    };
+    const projectDelete = (projDeleteBtn) => {
+      // IF ANY TASKS EXIST, ADD LISTENER
+      if (projectList.length >= 2) {
+        projDeleteBtn.addEventListener('click', (e) => {
+          // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
+          const currentDelete = e.target.closest('.project-row').dataset.id;
+          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
+          projectList.splice(currentDelete, 1);
+          getCurrent(0);
+          displayProjects();
+          displayTasks(0);
+        });
+      } else if (projectList.length >= 1) {
+        projDeleteBtn.addEventListener('click', (e) => {
+          // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
+          const currentDelete = e.target.closest('.project-row').dataset.id;
+          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
+          projectList.splice(currentDelete, 1);
+          displayProjects();
+          displayTasks();
+        });
+      }
+    };
     displayProjects();
+
     // CREATE TABLE ELEMENTS AND LOOP TASKLIST[] AND SEND EACH OBJS DATA TO TABLE FIELDS.
     // ADD EDITBTN FUNCTIONALITY
     const displayTasks = (a) => {
-      // console.log(a);
-      taskTable.innerHTML = '';
-      // clears current taskTable to avoid repeats
-      const taskHeader = document.createElement('thead');
-      taskHeader.id = 'task-header';
-      taskHeader.textContent = projectList[a].title;
-      taskTable.appendChild(taskHeader);
-      const addIntructions = document.createElement('div');
-      taskTableHolder.appendChild(addIntructions);
+      // IF - SO IT DOESNT TRY TO PULL PROJ DATA IS NONE EXISTS BECUZ LAST ONE WAS DELETE/COMPLETED
+      if (projectList.length <= 0) {
+        taskTable.innerHTML = '';
+      } else {
+        // THE ACTUAL DISPLAY TAKS CODE
+        taskTable.innerHTML = '';
+        // clears current taskTable to avoid repeats
+        const taskHeader = document.createElement('thead');
+        taskHeader.id = 'task-header';
+        taskHeader.textContent = projectList[a].title;
+        taskTable.appendChild(taskHeader);
+        const addIntructions = document.createElement('div');
+        taskTableHolder.appendChild(addIntructions);
 
-      if (currentProject.tasks.length === 0) {
-        addIntructions.setAttribute("id", "add-instructions");
-        addIntructions.textContent = `click the + button to add a task to ${currentProject.title}.`;
-      }
-      // if (currentProject.tasks.length > 0 && addIntructions !== null) {
-      //   const instructionsRemove = document.getElementById('add-instructions');
-      //   taskTableHolder.removeChild(instructionsRemove);
-      // }
-      // LOOP THROUGH taskList[]
-      for (let i = 0; i < projectList[a].tasks.length; i += 1) {
-        // CREATE NEW TASK ROW FOR OBJ IN projectList[0].tasks[i]
-        const taskRow = document.createElement('tr');
-        taskRow.className = 'task-row';
-        taskRow.setAttribute('data-id', [i]); // row assigned data-id that is its posiition in taskLisy[]
-        taskTable.appendChild(taskRow); // add that tr to taskTable in libTable
+        if (currentProject.tasks.length === 0) {
+          addIntructions.setAttribute('id', 'add-instructions');
+          addIntructions.textContent = `click the + button to add a task to ${currentProject.title}.`;
+        }
+        // NEED TO GET BELOW CODE WORKING SO ADDINSTUX COMES AND GOES PROPERLY
+        // if (currentProject.tasks.length > 0 && taskTable.children.length > '1') {
+        //   console.log();
+        //   const instructionsRemove = document.getElementById("add-instructions");
+        //   taskTableHolder.removeChild(instructionsRemove);
+        // }
+        // LOOP THROUGH taskList[]
+        for (let i = 0; i < projectList[a].tasks.length; i += 1) {
+          // CREATE NEW TASK ROW FOR OBJ IN projectList[0].tasks[i]
+          const taskRow = document.createElement('tr');
+          taskRow.className = 'task-row';
+          taskRow.setAttribute('data-id', [i]); // row assigned data-id that is its posiition in taskLisy[]
+          taskTable.appendChild(taskRow); // add that tr to taskTable in libTable
 
-        // CREATE NEW TABLE CELLS FOR TASK DATA
-        const taskCell = document.createElement('td');
-        const notesCell = document.createElement('td');
-        const dueCell = document.createElement('td');
-        const priorityCell = document.createElement('td');
+          // CREATE NEW TABLE CELLS FOR TASK DATA
+          const taskCell = document.createElement('td');
+          const notesCell = document.createElement('td');
+          const dueCell = document.createElement('td');
+          const priorityCell = document.createElement('td');
 
-        // ASSIGN CELL CLASS NAMES
-        taskCell.className = 'task-cell';
-        notesCell.className = 'notes-cell';
-        dueCell.className = 'due-cell';
-        priorityCell.className = 'priority-cell';
+          // ASSIGN CELL CLASS NAMES
+          taskCell.className = 'task-cell';
+          notesCell.className = 'notes-cell';
+          dueCell.className = 'due-cell';
+          priorityCell.className = 'priority-cell';
 
-        // ASSIGN CELL DATA FROM TASK DATA
-        taskCell.textContent = projectList[a].tasks[i].task;
-        notesCell.textContent = projectList[a].tasks[i].notes;
-        dueCell.textContent = projectList[a].tasks[i].due;
-        priorityCell.textContent = projectList[a].tasks[i].priority;
+          // ASSIGN CELL DATA FROM TASK DATA
+          taskCell.textContent = projectList[a].tasks[i].task;
+          notesCell.textContent = projectList[a].tasks[i].notes;
+          dueCell.textContent = projectList[a].tasks[i].due;
+          priorityCell.textContent = projectList[a].tasks[i].priority;
 
-        // CREATE CELLS FOR UI BUTTONS ON ROW FOR TASK OBJ UPDATING
-        const editCell = document.createElement('td'); //
-        const deleteCell = document.createElement('td'); //
-        const completeCell = document.createElement('td'); //
+          // CREATE CELLS FOR UI BUTTONS ON ROW FOR TASK OBJ UPDATING
+          const editCell = document.createElement('td'); //
+          const deleteCell = document.createElement('td'); //
+          const completeCell = document.createElement('td'); //
 
-        // ASSIGN UI CELL CLASSNAMES
-        editCell.className = 'edit-cell';
-        deleteCell.className = 'delete-cell';
-        completeCell.className = 'complete-cell'; //
+          // ASSIGN UI CELL CLASSNAMES
+          editCell.className = 'edit-cell';
+          deleteCell.className = 'delete-cell';
+          completeCell.className = 'complete-cell'; //
 
-        // CREATE UI BUTTONS FOR TASK UPDATES, ASSIGN CLASS, APPEND TO UI CELL
-        const editBtn = document.createElement('button');
-        editBtn.className = 'edit-btn';
-        editBtn.innerHTML = '<p>edit</p>';
-        editCell.appendChild(editBtn);
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.innerHTML = '<p>delete</p>';
-        deleteCell.appendChild(deleteBtn);
-        const completeBtn = document.createElement('button');
-        completeBtn.className = 'complete-btn';
-        completeBtn.innerHTML = '<p>complete</p>';
-        completeCell.appendChild(completeBtn);
+          // CREATE UI BUTTONS FOR TASK UPDATES, ASSIGN CLASS, APPEND TO UI CELL
+          const editBtn = document.createElement('button');
+          editBtn.className = 'edit-btn';
+          editBtn.innerHTML = '<p>edit</p>';
+          editCell.appendChild(editBtn);
+          const deleteBtn = document.createElement('button');
+          deleteBtn.className = 'delete-btn';
+          deleteBtn.innerHTML = '<p>delete</p>';
+          deleteCell.appendChild(deleteBtn);
+          const completeBtn = document.createElement('button');
+          completeBtn.className = 'complete-btn';
+          completeBtn.innerHTML = '<p>complete</p>';
+          completeCell.appendChild(completeBtn);
 
-        // APPEND CELLS TO THE TASK TROW
-        taskRow.appendChild(taskCell);
-        taskRow.appendChild(notesCell);
-        taskRow.appendChild(dueCell);
-        taskRow.appendChild(priorityCell);
-        taskRow.appendChild(editCell);
-        taskRow.appendChild(deleteCell);
-        taskRow.appendChild(completeCell);
+          // APPEND CELLS TO THE TASK TROW
+          taskRow.appendChild(taskCell);
+          taskRow.appendChild(notesCell);
+          taskRow.appendChild(dueCell);
+          taskRow.appendChild(priorityCell);
+          taskRow.appendChild(editCell);
+          taskRow.appendChild(deleteCell);
+          taskRow.appendChild(completeCell);
 
-        // ON CLICK, EDITBTN SETS EDITING STATE,
-        // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS TASK ROW,
-        // POPULATES A FORM CONTAINING THE OBJ'S DATA BY PASISNG THAT DATA TO DISPLAYFORM()
-        editBtn.addEventListener('click', () => {
-          // console.log(projectList[a]);
-          const editing = true;
-          const currentTask = taskRow.getAttribute('data-id');
-          const editTitle = projectList[a].tasks[currentTask].task;
-          const editNotes = projectList[a].tasks[currentTask].notes;
-          const editDue = projectList[a].tasks[currentTask].due;
-          const editPriority = projectList[a].tasks[currentTask].priority;
-          displayForm(
-            editing,
-            editTitle,
-            editNotes,
-            editDue,
-            editPriority,
-            currentTask
-          );
-        });
-        taskDelete(deleteBtn, a);
-        taskComplete(completeBtn, a);
+          // ON CLICK, EDITBTN SETS EDITING STATE,
+          // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS TASK ROW,
+          // POPULATES A FORM CONTAINING THE OBJ'S DATA BY PASISNG THAT DATA TO DISPLAYFORM()
+          editBtn.addEventListener('click', () => {
+            // console.log(projectList[a]);
+            const editing = true;
+            const currentTask = taskRow.getAttribute('data-id');
+            const editTitle = projectList[a].tasks[currentTask].task;
+            const editNotes = projectList[a].tasks[currentTask].notes;
+            const editDue = projectList[a].tasks[currentTask].due;
+            const editPriority =
+                    projectList[a].tasks[currentTask].priority;
+            displayForm(
+              editing,
+              editTitle,
+              editNotes,
+              editDue,
+              editPriority,
+              currentTask
+            );
+          });
+          taskDelete(deleteBtn, a);
+          taskComplete(completeBtn, a);
+        }
       }
     };
+
     displayTasks(0);
     // FUCNCTIONALITY FOR COMPLETE BUTTON
     const taskComplete = (completeBtn, a) => {
@@ -688,9 +747,11 @@ const load = () => {
       selectBox.appendChild(taskSelect);
       addBox.appendChild(selectBox);
       taskSelect.addEventListener('click', () => {
-        selectBox.remove();
-        selecting = false;
-        displayForm();
+        if (projectList.length >= 1) {
+          selectBox.remove();
+          selecting = false;
+          displayForm();
+        }
       });
       projectSelect.addEventListener('click', () => {
         selecting = false;
