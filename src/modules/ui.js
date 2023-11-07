@@ -240,17 +240,19 @@ const load = () => {
         taskHeader.textContent = projectList[a].title;
         taskTable.appendChild(taskHeader);
         const addIntructions = document.createElement('div');
+        addIntructions.setAttribute("id", "add-instructions");
         taskTableHolder.appendChild(addIntructions);
 
+        console.log(currentProject);
         if (currentProject.tasks.length === 0) {
-          addIntructions.setAttribute('id', 'add-instructions');
           addIntructions.textContent = `click the + button to add a task to ${currentProject.title}.`;
         }
-        // NEED TO GET BELOW CODE WORKING SO ADDINSTUX COMES AND GOES PROPERLY
-        // if (currentProject.tasks.length > 0 && taskTable.children.length > '1') {
-        //   console.log();
+        // else if (currentProject.tasks.length >= 1) {
+        //   // console.log();
         //   const instructionsRemove = document.getElementById("add-instructions");
-        //   taskTableHolder.removeChild(instructionsRemove);
+        //   // // taskTableHolder.removeChild(instructionsRemove);
+        //   instructionsRemove.textContent = "";
+        //   taskTableHolder.appendChild(instructionsRemove);
         // }
         // LOOP THROUGH taskList[]
         for (let i = 0; i < projectList[a].tasks.length; i += 1) {
@@ -527,6 +529,7 @@ const load = () => {
           const position = projectList.length - 1;
           displayTasks(position);
           getCurrent(position);
+          // getCurrent(position);
         }
         // ASSIGNS THE HIDDEN ID TO HIDE THE OVERLAY
         formOverlay.setAttribute('id', 'form-overlay');
