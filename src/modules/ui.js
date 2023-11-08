@@ -242,18 +242,24 @@ const load = () => {
         const addIntructions = document.createElement('div');
         addIntructions.setAttribute("id", "add-instructions");
         taskTableHolder.appendChild(addIntructions);
+        addIntructions.textContent = `click the + button to add a task to ${currentProject.title}.`;
 
-        console.log(currentProject);
-        if (currentProject.tasks.length === 0) {
-          addIntructions.textContent = `click the + button to add a task to ${currentProject.title}.`;
-        }
-        // else if (currentProject.tasks.length >= 1) {
-        //   // console.log();
-        //   const instructionsRemove = document.getElementById("add-instructions");
-        //   // // taskTableHolder.removeChild(instructionsRemove);
-        //   instructionsRemove.textContent = "";
-        //   taskTableHolder.appendChild(instructionsRemove);
+
+        // if (currentProject.tasks.length === 0) {
+        //   const instructionsAdd = document.getElementById("add-instructions");
+        //   instructionsAdd.textContent = `click the + button to add a task to ${currentProject.title}.`;
+        //   taskTableHolder.appendChild(instructionsAdd);
+        //           console.log(instructionsAdd);
         // }
+        // else
+        if (currentProject.tasks.length >= 1) {
+          taskTableHolder.removeChild(addIntructions);
+          console.log('hi');
+          // const instructionsRemove = document.getElementById("add-instructions");
+          // // // taskTableHolder.removeChild(instructionsRemove);
+          // instructionsRemove.textContent = "";
+          // taskTableHolder.appendChild(instructionsRemove);
+        }
         // LOOP THROUGH taskList[]
         for (let i = 0; i < projectList[a].tasks.length; i += 1) {
           // CREATE NEW TASK ROW FOR OBJ IN projectList[0].tasks[i]
@@ -366,6 +372,7 @@ const load = () => {
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
           projectList[a].tasks.splice(currentTask, 1);
           displayTasks(a);
+          // console.log(currentProject.tasks.length);
         });
       }
     };
