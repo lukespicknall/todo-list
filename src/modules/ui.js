@@ -21,7 +21,6 @@ const getCurrent = (a) => {
   // }
 };
 
-const taskList = [];
 const content = document.getElementById('content');
 // LOAD HANDLES UI
 const load = () => {
@@ -152,6 +151,7 @@ const load = () => {
         });
         projectDelete(projDeleteBtn);
         projectComplete(projCompleteBtn);
+
         projectRow.addEventListener('click', (e) => {
           const getProj = e.target;
           if (getProj.tagName === 'DIV') {
@@ -208,9 +208,10 @@ const load = () => {
           const currentDelete = e.target.closest('.project-row').dataset.id;
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
           projectList.splice(currentDelete, 1);
-          getCurrent(0);
+          const positionAfterDelete = currentDelete - 1;
+          getCurrent(positionAfterDelete);
           displayProjects();
-          displayTasks(0);
+          displayTasks(positionAfterDelete);
         });
       } else if (projectList.length >= 1) {
         projDeleteBtn.addEventListener('click', (e) => {
@@ -228,6 +229,7 @@ const load = () => {
     // CREATE TABLE ELEMENTS AND LOOP TASKLIST[] AND SEND EACH OBJS DATA TO TABLE FIELDS.
     // ADD EDITBTN FUNCTIONALITY
     const displayTasks = (a) => {
+      console.log(currentProject);
       // IF - SO IT DOESNT TRY TO PULL PROJ DATA IS NONE EXISTS BECUZ LAST ONE WAS DELETE/COMPLETED
       if (projectList.length <= 0) {
         taskTable.innerHTML = '';
@@ -240,26 +242,35 @@ const load = () => {
         taskHeader.textContent = projectList[a].title;
         taskTable.appendChild(taskHeader);
         const addIntructions = document.createElement('div');
-        addIntructions.setAttribute("id", "add-instructions");
-        taskTableHolder.appendChild(addIntructions);
-        addIntructions.textContent = `click the + button to add a task to ${currentProject.title}.`;
+        addIntructions.setAttribute('id', 'add-instructions');
 
-
-        // if (currentProject.tasks.length === 0) {
-        //   const instructionsAdd = document.getElementById("add-instructions");
-        //   instructionsAdd.textContent = `click the + button to add a task to ${currentProject.title}.`;
-        //   taskTableHolder.appendChild(instructionsAdd);
-        //           console.log(instructionsAdd);
-        // }
-        // else
-        if (currentProject.tasks.length >= 1) {
-          taskTableHolder.removeChild(addIntructions);
-          console.log('hi');
-          // const instructionsRemove = document.getElementById("add-instructions");
-          // // // taskTableHolder.removeChild(instructionsRemove);
-          // instructionsRemove.textContent = "";
-          // taskTableHolder.appendChild(instructionsRemove);
+        //  **  ADD/REMOVE INSTRUCTIONS LOGIC  **  //
+        // THIS NEEDS FIXING YOU CAN ON LOAD CLICK THE PROJ AND MAKE ANOTHER INSTRUX APPEAR
+        if (taskTableHolder.children.length > 2) {
+          return;
         }
+        // IF > 1 PROJECT, THAT PROJECT HAS NO TASKS, AND THE INSTRUX ARE CURRENTLY SHOWING
+        // GRAB ELEMENTS FROM DOM, REMOVE CURRENT INSTRUX, CHANGE TEXT, ADD NEW INSTRUX
+        if (projectList.length > 1 && currentProject.tasks.length === 0 && taskTableHolder.children.length > 1) {
+          const instructionsRemove = document.getElementById('add-instructions');
+          const tabletest = document.getElementById('task-table-holder');
+          tabletest.removeChild(instructionsRemove);
+          addIntructions.textContent = `click the + button to add a task to ${currentProject.title}.`;
+          taskTableHolder.appendChild(addIntructions);
+        }
+        // FOR LOAD AND DELETES, IF PROJECT HAS NO TASKS, PUT TITLE IN TEXT AND SHOW INSTRUX
+        // THIS ADD INSTRUX ON LOAD AND WHEN ALL TASKS ARE DELETED FROM PROJ
+        if (currentProject.tasks.length === 0) {
+          addIntructions.textContent = `click the + button to add a task to ${currentProject.title}.`;
+          taskTableHolder.appendChild(addIntructions);
+        // IF PROJ HAS TASKS, AND INTRUX ARE SHOWING, REMOVE INSTRUX
+        // THIS BASICALLY GETS RID OF INSTRUX DIV WHEN FIRST TASK IS ADDED, AND ONLY THEN
+        } else if (currentProject.tasks.length >= 1 && taskTableHolder.children.length > 1) {
+          const instructionsRemove = document.getElementById('add-instructions');
+          const tabletest = document.getElementById('task-table-holder');
+          tabletest.removeChild(instructionsRemove);
+        }
+
         // LOOP THROUGH taskList[]
         for (let i = 0; i < projectList[a].tasks.length; i += 1) {
           // CREATE NEW TASK ROW FOR OBJ IN projectList[0].tasks[i]
@@ -518,13 +529,14 @@ const load = () => {
           }
         }
 
-        // IF EDITING AN ESTABLISHED project, UPDATE THAT OBJ'S (g's) VALUE
+        // IF EDITING AN ESTABLISHED project, UPDATE THAT OBJ'S (f's) VALUE
         if (a === true) {
+          console.log(currentPosition);
           projectList[currentPosition].title = projectTitle.value;
           projectList[currentPosition].due = projectDue.value;
           projectList[currentPosition].priority = projectPriorityBox.value;
-          displayTasks(currentPosition);
           getCurrent(currentPosition);
+          displayTasks(currentPosition);
         // ELSE, CREAT A NEW OBJECT WITH THESE VALUES AND PUSH IT TO projectList[]
         } else {
           const projectObj = newProject(
@@ -534,9 +546,8 @@ const load = () => {
           );
           projectList.push(projectObj);
           const position = projectList.length - 1;
-          displayTasks(position);
           getCurrent(position);
-          // getCurrent(position);
+          displayTasks(position);
         }
         // ASSIGNS THE HIDDEN ID TO HIDE THE OVERLAY
         formOverlay.setAttribute('id', 'form-overlay');
@@ -733,8 +744,11 @@ const load = () => {
         formOverlay.removeChild(taskCard);
         // REMOVES BLUE FROM BACKGROUND
         removeBlur(pageBox);
+        
         // PUTS TASK OBJECT DATA INTO DOM TABLE
+        
         displayTasks(projectList.indexOf(currentProject));
+
         // console.log(projectList.indexOf(currentProject));
       });
       return taskCard;
