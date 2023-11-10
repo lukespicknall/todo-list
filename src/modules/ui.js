@@ -201,28 +201,29 @@ const load = () => {
       }
     };
     const projectDelete = (projDeleteBtn) => {
-      // IF ANY TASKS EXIST, ADD LISTENER
-      if (projectList.length >= 2) {
-        projDeleteBtn.addEventListener('click', (e) => {
+      // IF MORE THAN ONE TASK EXIST, ADD LISTENER
+
+      projDeleteBtn.addEventListener('click', (e) => {
+        const currentDelete = e.target.closest(".project-row").dataset.id;
+        if (projectList.length > 1) {
           // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
-          const currentDelete = e.target.closest('.project-row').dataset.id;
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
           projectList.splice(currentDelete, 1);
           const positionAfterDelete = currentDelete - 1;
           getCurrent(positionAfterDelete);
           displayProjects();
           displayTasks(positionAfterDelete);
-        });
-      } else if (projectList.length >= 1) {
-        projDeleteBtn.addEventListener('click', (e) => {
+        } else if (projectList.length === 1) {
           // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
-          const currentDelete = e.target.closest('.project-row').dataset.id;
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
           projectList.splice(currentDelete, 1);
+          // REMOVES taskTable AND addIntructions AND ADDS TEXT TO ADD NEW PROJECT
+          const addProjInstrux = document.getElementById('add-instructions');
+          addProjInstrux.textContent = 'click the + button to add a project';
           displayProjects();
           displayTasks();
-        });
-      }
+        }
+      });
     };
     displayProjects();
 
@@ -251,7 +252,7 @@ const load = () => {
         }
         // IF > 1 PROJECT, THAT PROJECT HAS NO TASKS, AND THE INSTRUX ARE CURRENTLY SHOWING
         // GRAB ELEMENTS FROM DOM, REMOVE CURRENT INSTRUX, CHANGE TEXT, ADD NEW INSTRUX
-        if (projectList.length > 1 && currentProject.tasks.length === 0 && taskTableHolder.children.length > 1) {
+        if (projectList.length >= 1 && currentProject.tasks.length === 0 && taskTableHolder.children.length > 1) {
           const instructionsRemove = document.getElementById('add-instructions');
           const tabletest = document.getElementById('task-table-holder');
           tabletest.removeChild(instructionsRemove);
@@ -340,15 +341,14 @@ const load = () => {
             const editTitle = projectList[a].tasks[currentTask].task;
             const editNotes = projectList[a].tasks[currentTask].notes;
             const editDue = projectList[a].tasks[currentTask].due;
-            const editPriority =
-                    projectList[a].tasks[currentTask].priority;
+            const editPriority = projectList[a].tasks[currentTask].priority;
             displayForm(
               editing,
               editTitle,
               editNotes,
               editDue,
               editPriority,
-              currentTask
+              currentTask,
             );
           });
           taskDelete(deleteBtn, a);
@@ -744,9 +744,9 @@ const load = () => {
         formOverlay.removeChild(taskCard);
         // REMOVES BLUE FROM BACKGROUND
         removeBlur(pageBox);
-        
+
         // PUTS TASK OBJECT DATA INTO DOM TABLE
-        
+
         displayTasks(projectList.indexOf(currentProject));
 
         // console.log(projectList.indexOf(currentProject));
@@ -768,6 +768,9 @@ const load = () => {
       taskSelect.textContent = 'New Task';
       taskSelect.id = 'task-select';
       selectBox.appendChild(projectSelect);
+      if (projectList.length === 0) {
+        taskSelect.setAttribute('disabled', 'disabled')
+      }
       selectBox.appendChild(taskSelect);
       addBox.appendChild(selectBox);
       taskSelect.addEventListener('click', () => {
@@ -778,8 +781,13 @@ const load = () => {
         }
       });
       projectSelect.addEventListener('click', () => {
-        selecting = false;
+        // IF NO PROJECTS, CLEAR taskTableHolder TO REMOVE addProjINstrux, ADD taskTable BACK
+        if (projectList.length === 0) {
+          taskTableHolder.innerHTML = '';
+          taskTableHolder.appendChild(taskTable);
+        }
         selectBox.remove();
+        selecting = false;
         displayProjectForm();
       });
     });
