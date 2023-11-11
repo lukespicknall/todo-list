@@ -5,6 +5,8 @@ import newTask from './to-do';
 // import displayTasks from './display';
 
 // CREATE MAIN HTML DIVS
+
+// SET AN INTIAL DEFAULT PROJECT TO DISPLAY
 const projectList = [
   {
     title: 'My Project',
@@ -13,12 +15,13 @@ const projectList = [
     tasks: [],
   },
 ];
+
+// SET DEAULT PROJECT AS CURRENT
 let currentProject = projectList[0];
 
-const getCurrent = (a) => {
-  // if (projectList.length > 1) {
+// UPDATE CURRENT
+const setCurrent = (a) => {
   currentProject = projectList[a];
-  // }
 };
 
 const content = document.getElementById('content');
@@ -85,7 +88,6 @@ const load = () => {
         projectTable.appendChild(projectRow); // add that tr to projectTable in libTable
 
         // CREATE NEW TABLE CELLS FOR project DATA
-        // const proectContainer = document.createElement('td');
         const projectCell = document.createElement('div');
         const dueCell = document.createElement('div');
         const priorityCell = document.createElement('div');
@@ -132,9 +134,9 @@ const load = () => {
         projectRow.appendChild(deleteCell);
         projectRow.appendChild(completeCell);
 
-        // ON CLICK, projEDITBTN SETS EDITING STATE,
+        // ON CLICK, projEditBtn SETS EDITING STATE,
         // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS project ROW,
-        // POPULATES A FORM CONTAINING THE OBJ'S DATA BY PASISNG THAT DATA TO DISPLAYFORM()
+        // POPULATES A FORM CONTAINING THE OBJ'S DATA BY PASISNG THAT DATA TO displayForm()
         projEditBtn.addEventListener('click', () => {
           const editing = true;
           const currentProjectEdit = projectRow.getAttribute('data-id');
@@ -149,45 +151,35 @@ const load = () => {
             currentProjectEdit,
           );
         });
+
+        // CALL THE DELETE AND COMPLETE FUNCTIONS PASSING THIER BUTTONS AS ARGS
         projectDelete(projDeleteBtn);
         projectComplete(projCompleteBtn);
 
+        // ROW LISTENER THAT SETS THE CLICKED PROJECT AS CURRENT AND DISPLAYS ITS TASKS
         projectRow.addEventListener('click', (e) => {
           const getProj = e.target;
           if (getProj.tagName === 'DIV') {
             const currentProjectDisplay = getProj.parentNode.getAttribute('data-id');
-            getCurrent(currentProjectDisplay);
-            // console.log(getProj.tagName);
+            setCurrent(currentProjectDisplay);
             displayTasks(currentProjectDisplay);
           }
         });
       }
-      // const selectProject = document.getElementsByClassName('project-row');
-      // console.log(selectProject);
-      // selectProject.addEventListener("click", (e) => {
-      //   const getProj = e.target;
-      //   console.log(getProj)
-      // const currentProjectDisplay = getProj.parentNode.getAttribute("data-id");
-      // displayTasks(currentProjectDisplay);
-      // console.log(currentProjectDisplay);
-      // currentProject = projectList[currentProjectDisplay];
-      // return currentProject;
-      // });
     };
-    
+
     //  **  LOGIC TO COMPLETE AND DELETE PROJECTS AND ALTER DISPLAYS **  //
     const projectComplete = (projCompleteBtn) => {
       projCompleteBtn.addEventListener('click', (e) => {
-        const currentComplete = e.target.closest('.project-row').dataset.id;
         // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
+        const currentComplete = e.target.closest('.project-row').dataset.id;
         // IF MORE THAN 1 PROJ AND DELETING 1st PROJ, SHOW NEXT PROJ IN []
         // THIS WAS WEIRD - I COULDNT US currentDelete === 0 IT HAD TO BE < 1 ???
         if (projectList.length > 1 && currentComplete < 1) {
-          console.log(currentComplete);
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKIST[]
           projectList.splice(currentComplete, 1);
           // RUNS FUNCTIONS WITH THAT ARRAT POSITION AARGUMENT
-          getCurrent(currentComplete);
+          setCurrent(currentComplete);
           displayProjects();
           displayTasks(currentComplete);
           // IF MORE THAN 1 PROJ, SHOW PROJ IN CURRENT POSITION -1
@@ -197,14 +189,14 @@ const load = () => {
           // SET A POSITION OF 1 BEHIND CURRENT ARRAY POSITION
           const positionAfterCcurrentComplete = currentComplete - 1;
           // RUNS FUNCTIONS WITH THAT ARRAT POSITION AARGUMENT
-          getCurrent(positionAfterCcurrentComplete);
+          setCurrent(positionAfterCcurrentComplete);
           displayProjects();
           displayTasks(positionAfterCcurrentComplete);
-        }
-        // IF THERE IS 1 PROJ AND IT HAS TASKS, ADD A addInstrux DIV BACK TO HOLD TEXT
-        // BEACAUSE WHEN A TASK IS PRESENT, addInstrux DIV IS REMOVED UP IN displayTasks
-        else if (
-          projectList.length === 1 && projectList[currentComplete].tasks.length > 0) {
+          // IF THERE IS 1 PROJ AND IT HAS TASKS, ADD A addInstrux DIV BACK TO HOLD TEXT
+          // BEACAUSE WHEN A TASK IS PRESENT, addInstrux DIV IS REMOVED UP IN displayTasks
+        } else if (
+          projectList.length === 1 && projectList[currentComplete].tasks.length > 0
+        ) {
           // CREAT NEW addINstructions DIV
           const setAddInstrux = document.createElement('div');
           // ASSSIGN IT SAME ID AS USED IN displayTasks() FOR SIMILAR STYLING
@@ -235,17 +227,15 @@ const load = () => {
 
     const projectDelete = (projDeleteBtn) => {
       projDeleteBtn.addEventListener('click', (e) => {
-        const currentDelete = e.target.closest('.project-row').dataset.id;
         // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
-        console.log(currentDelete);
+        const currentDelete = e.target.closest('.project-row').dataset.id;
         // IF MORE THAN 1 PROJ AND DELETING 1st PROJ, SHOW NEXT PROJ IN []
         // THIS WAS WEIRD - I COULDNT US currentDelete === 0 IT HAD TO BE < 1 ???
         if (projectList.length > 1 && currentDelete < 1) {
-          console.log(currentDelete);
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKIST[]
           projectList.splice(currentDelete, 1);
           // RUNS FUNCTIONS WITH THAT ARRAT POSITION AARGUMENT
-          getCurrent(currentDelete);
+          setCurrent(currentDelete);
           displayProjects();
           displayTasks(currentDelete);
           // IF MORE THAN 1 PROJ, SHOW PROJ IN CURRENT POSITION -1
@@ -255,12 +245,14 @@ const load = () => {
           // SET A POSITION OF 1 BEHIND CURRENT ARRAY POSITION - I DONT FULLY UNDERSTAND WHY
           const positionAfterDelete = currentDelete - 1;
           // RUNS FUNCTIONS WITH THAT ARRAT POSITION AARGUMENT
-          getCurrent(positionAfterDelete);
+          setCurrent(positionAfterDelete);
           displayProjects();
           displayTasks(positionAfterDelete);
           // IF THERE IS 1 PROJ AND IT HAS TASKS, ADD A addInstrux DIV BACK TO HOLD TEXT
           // BEACAUSE WHEN A TASK IS PRESENT, addInstrux DIV IS REMOVED UP IN displayTasks
-        } else if (projectList.length === 1 && projectList[currentDelete].tasks.length > 0) {
+        } else if (
+          projectList.length === 1 && projectList[currentDelete].tasks.length > 0
+        ) {
           // CREAT NEW addINstructions DIV
           const setAddInstrux = document.createElement('div');
           // ASSSIGN IT SAME ID AS USED IN displayTasks() FOR SIMILAR STYLING
@@ -288,19 +280,20 @@ const load = () => {
         }
       });
     };
+    // RUN displayProjects()
     displayProjects();
 
-    // CREATE TABLE ELEMENTS AND LOOP TASKLIST[] AND SEND EACH OBJS DATA TO TABLE FIELDS.
-    // ADD EDITBTN FUNCTIONALITY
+    // CREATE TABLE ELEMENTS AND LOOP projectList[] AND SEND EACH OBJS DATA TO TABLE FIELDS.
+    // LOGIC TO DETERMINE WHEN addInstrux GET ADDED OR REMOVED BASED ON TASK PRESENCE
+    // ADD EDITBTN LOGIC
     const displayTasks = (a) => {
-      // console.log(currentProject);
       // IF - SO IT DOESNT TRY TO PULL PROJ DATA IS NONE EXISTS BECUZ LAST ONE WAS DELETE/COMPLETED
       if (projectList.length <= 0) {
         taskTable.innerHTML = '';
       } else {
-        // THE ACTUAL DISPLAY TAKS CODE
-        taskTable.innerHTML = '';
+        // THE ACTUAL DISPLAY TASKS CODE
         // clears current taskTable to avoid repeats
+        taskTable.innerHTML = '';
         const taskHeader = document.createElement('thead');
         taskHeader.id = 'task-header';
         taskHeader.textContent = projectList[a].title;
@@ -309,7 +302,6 @@ const load = () => {
         addIntructions.setAttribute('id', 'add-instructions');
 
         //  **  ADD/REMOVE INSTRUCTIONS LOGIC  **  //
-        // THIS NEEDS FIXING YOU CAN ON LOAD CLICK THE PROJ AND MAKE ANOTHER INSTRUX APPEAR
         if (taskTableHolder.children.length > 2) {
           return;
         }
@@ -335,9 +327,9 @@ const load = () => {
           tabletest.removeChild(instructionsRemove);
         }
 
-        // LOOP THROUGH taskList[]
+        // LOOP THROUGH projectList[]
         for (let i = 0; i < projectList[a].tasks.length; i += 1) {
-          // CREATE NEW TASK ROW FOR OBJ IN projectList[0].tasks[i]
+          // CREATE NEW TASK ROW FOR OBJ IN projectList[a].tasks[i]
           const taskRow = document.createElement('tr');
           taskRow.className = 'task-row';
           taskRow.setAttribute('data-id', [i]); // row assigned data-id that is its posiition in taskLisy[]
@@ -396,9 +388,8 @@ const load = () => {
 
           // ON CLICK, EDITBTN SETS EDITING STATE,
           // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS TASK ROW,
-          // POPULATES A FORM CONTAINING THE OBJ'S DATA BY PASISNG THAT DATA TO DISPLAYFORM()
+          // POPULATES A FORM CONTAINING THE OBJ'S DATA BY PASISNG THAT DATA TO displayForm()
           editBtn.addEventListener('click', () => {
-            // console.log(projectList[a]);
             const editing = true;
             const currentTask = taskRow.getAttribute('data-id');
             const editTitle = projectList[a].tasks[currentTask].task;
@@ -421,7 +412,7 @@ const load = () => {
     };
 
     displayTasks(0);
-    // FUCNCTIONALITY FOR COMPLETE BUTTON
+    // LOGIC FOR TASK COMPLETE BUTTON
     const taskComplete = (completeBtn, a) => {
       // IF ANY TASKS EXIST, ADD LISTENER
       if (projectList[a].tasks.length >= 1) {
@@ -436,7 +427,7 @@ const load = () => {
       }
     };
 
-    // FUNCTIONALITY FOR DELETE BUTTON
+    // LOGIC FOR DELETE BUTTON
     const taskDelete = (deleteBtn, a) => {
       // IF ANY TASKS EXIST, ADD LISTENER
       if (projectList[a].tasks.length >= 1) {
@@ -446,7 +437,6 @@ const load = () => {
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
           projectList[a].tasks.splice(currentTask, 1);
           displayTasks(a);
-          // console.log(currentProject.tasks.length);
         });
       }
     };
@@ -576,7 +566,7 @@ const load = () => {
       projectCard.appendChild(projectForm);
       formOverlay.appendChild(projectCard);
 
-      // SUBMIT FUNCTIONALITY
+      // SUBMIT LOGIC
       projectForm.addEventListener('submit', (e) => {
         // STOPS SUBMIT FROM SENDING DATA TO SEVER BY DEFAULT
         e.preventDefault();
@@ -597,7 +587,7 @@ const load = () => {
           projectList[currentPosition].title = projectTitle.value;
           projectList[currentPosition].due = projectDue.value;
           projectList[currentPosition].priority = projectPriorityBox.value;
-          getCurrent(currentPosition);
+          setCurrent(currentPosition);
           displayTasks(currentPosition);
         // ELSE, CREAT A NEW OBJECT WITH THESE VALUES AND PUSH IT TO projectList[]
         } else {
@@ -608,7 +598,7 @@ const load = () => {
           );
           projectList.push(projectObj);
           const position = projectList.length - 1;
-          getCurrent(position);
+          setCurrent(position);
           displayTasks(position);
         }
         // ASSIGNS THE HIDDEN ID TO HIDE THE OVERLAY
@@ -768,7 +758,7 @@ const load = () => {
       taskCard.appendChild(taskForm);
       formOverlay.appendChild(taskCard);
 
-      // SUBMIT FUNCTIONALITY
+      // SUBMIT LOGIC
       taskForm.addEventListener('submit', (e) => {
         // STOPS SUBMIT FROM SENDING DATA TO SEVER BY DEFAULT
         e.preventDefault();
@@ -808,19 +798,21 @@ const load = () => {
         removeBlur(pageBox);
 
         // PUTS TASK OBJECT DATA INTO DOM TABLE
-
         displayTasks(projectList.indexOf(currentProject));
-
-        // console.log(projectList.indexOf(currentProject));
       });
       return taskCard;
     };
+
+    //  CAN I DELETE THIS NULL ASSIGNMENT? WHY IS IT THERE?
     let selecting = null;
     // CREATE NEW TASK FORM HANDLER
     addNew.addEventListener('click', () => {
+      // IF selectBox IS PRESENT, DONT MAKE MORE OF THEM ON CLICK
       if (selecting === true) { return; }
+      // SELECTING STATE IS TRUE UPON CLICK
       selecting = true;
 
+      // CREATE SELECT BUTTONS AND THEIR CONTAINER BOX
       const selectBox = document.createElement('div');
       selectBox.id = 'select-box';
       const projectSelect = document.createElement('button');
@@ -829,25 +821,31 @@ const load = () => {
       const taskSelect = document.createElement('button');
       taskSelect.textContent = 'New Task';
       taskSelect.id = 'task-select';
-      selectBox.appendChild(projectSelect);
+      // IF NO PROJECTS EXIST, TASK BUTTON IS DISABLED
       if (projectList.length === 0) {
-        taskSelect.setAttribute('disabled', 'disabled')
+        taskSelect.setAttribute('disabled', 'disabled');
       }
+      selectBox.appendChild(projectSelect);
       selectBox.appendChild(taskSelect);
       addBox.appendChild(selectBox);
+      // LOGIC FOR CLICKING NEW TASK
       taskSelect.addEventListener('click', () => {
+        // ONLY DO THIS IF THERE IS A PROJECT **MAYBE BE THIS IF SINCE ALREADY DISABLED ABOVE**
         if (projectList.length >= 1) {
+          // REMOVE selectBox, SET SELECTING STATE TO FALSE, DISPLAY TASK FROM
           selectBox.remove();
           selecting = false;
           displayForm();
         }
       });
+      // LOGIC FOR CLICKING NEW PROJECT
       projectSelect.addEventListener('click', () => {
         // IF NO PROJECTS, CLEAR taskTableHolder TO REMOVE addProjINstrux, ADD taskTable BACK
         if (projectList.length === 0) {
           taskTableHolder.innerHTML = '';
           taskTableHolder.appendChild(taskTable);
         }
+        // REMOVE selectBox, SET SELECTING STATE TO FALSE, DISPLAY PROJECT FROM
         selectBox.remove();
         selecting = false;
         displayProjectForm();
@@ -877,33 +875,3 @@ const load = () => {
 };
 
 export default load;
-
-// // puts Task{} data from taskList[] into libTable// MAKE THIS PRIORITY SELECTOR
-//     // Read Checkbox - - -
-//     const readCheck = document.createElement('input'); // create an input element
-//     readCheck.setAttribute('type', 'checkbox'); // make it a checkbox
-//     readCheck.setAttribute('data-id', [i]); // assign data-id that = object's array index
-//     readCheck.className = 'read-check'; // give it a class name
-//     if (taskList[i].read === 'no') {
-//       // if not read
-//       readCell.appendChild(readCheck); // add the default unchecked box to the cell
-//     } else if (taskList[i].read === 'yes') {
-//       // if read
-//       readCheck.checked = 'true'; // make the checkbox checked
-//       readCell.appendChild(readCheck); // add the checked box to the readCell
-//     }
-//     row.appendChild(readCell); // add readCell to row
-
-// MAKE THIS COMPLETE CHECKBOX
-//     // Delete Button
-//     const deleteBtn = document.createElement('button'); // create a button
-//     const deleteImg = document.createElement('img'); // create and img element
-//     deleteBtn.className = 'delete-btn'; // give button a class
-//     deleteImg.src = 'images/trash-can-outline.png'; // set img source
-//     deleteImg.className = 'delete-img'; // give img element a class
-//     deleteImg.setAttribute('data-id', [i]); // assign data-id that = object's array index
-//     deleteBtn.appendChild(deleteImg); // add image to button
-//     deleteCell.appendChild(deleteBtn); // add button to cell
-//     row.appendChild(deleteCell); // add cell to row
-//   }
-// }
