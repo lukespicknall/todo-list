@@ -177,49 +177,115 @@ const load = () => {
 
     // THIS WORKS BUT LEAVES COMPLETED PROJECTS TASK SITTING IN .MAIN
     const projectComplete = (projCompleteBtn) => {
-      // IF ANY TASKS EXIST, ADD LISTENER
-      if (projectList.length >= 2) {
-        projCompleteBtn.addEventListener('click', (e) => {
-          // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
-          const currentComplete = e.target.closest('.project-row').dataset.id;
-          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
+      projCompleteBtn.addEventListener('click', (e) => {
+        const currentComplete = e.target.closest('.project-row').dataset.id;
+        // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
+        if (projectList.length > 1) {
+          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
           projectList.splice(currentComplete, 1);
-          getCurrent(0);
+          // SET A POSITION OF 1 BEHIND CURRENT ARRAY POSITION
+          const positionAfterCcurrentComplete = currentComplete - 1;
+          // RUNS FUNCTIONS WITH THAT ARRAT POSITION AARGUMENT
+          getCurrent(positionAfterCcurrentComplete);
           displayProjects();
-          displayTasks(0);
-          // do something nice like swipe a green check to say good job!
-        });
-      } else if (projectList.length >= 1) {
-        projCompleteBtn.addEventListener('click', (e) => {
-          // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
-          const currentComplete = e.target.closest('.project-row').dataset.id;
-          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
+          displayTasks(positionAfterCcurrentComplete);
+        }
+        // IF THERE IS 1 PROJ AND IT HAS TASKS, ADD A addInstrux DIV BACK TO HOLD TEXT
+        // BEACAUSE WHEN A TASK IS PRESENT, addInstrux DIV IS REMOVED UP IN displayTasks
+        else if (
+          projectList.length === 1 && projectList[currentComplete].tasks.length > 0) {
+          // CREAT NEW addINstructions DIV
+          const setAddInstrux = document.createElement("div");
+          // ASSSIGN IT SAME ID AS USED IN displayTasks() FOR SIMILAR STYLING
+          setAddInstrux.setAttribute("id", "add-instructions");
+          // ADD IT TO THE SAME SPOT IN taskTableHolder
+          taskTableHolder.appendChild(setAddInstrux);
+          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
           projectList.splice(currentComplete, 1);
+          // SET NEW addInstructions DIV TEXT
+          setAddInstrux.textContent = "click the + button to add a project";
+          // NO NEED FOR ARGUMENTS AS USER HAS JUST CcurrentCompleteD THE ONLY REMAINING PROJECT
           displayProjects();
           displayTasks();
-        });
-      }
-    };
-    const projectDelete = (projDeleteBtn) => {
-      // IF MORE THAN ONE TASK EXIST, ADD LISTENER
+          // IF USER IS DELETING THE ONLY REMAINING PROJECT, AND IT HAS NO TASKS
+        } else if (projectList.length === 1) {
+          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
+          projectList.splice(currentComplete, 1);
+          // GRABS THE EXISTING addInstructions AS NO TASKS HAVE REMOVED IT
+          const addProjInstrux = document.getElementById("add-instructions");
+          // APPLIES APPRORIATE TEXT
+          addProjInstrux.textContent = "click the + button to add a project";
+          // NO NEED FOR ARGUMENTS AS USER HAS JUST CcurrentCompleteD THE ONLY REMAINING PROJECT
+          displayProjects();
+          displayTasks();
+        }
+      })
+    }
 
+    //   // IF ANY TASKS EXIST, ADD LISTENER
+    //   if (projectList.length >= 2) {
+    //     projCompleteBtn.addEventListener('click', (e) => {
+    //       // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
+    //       const currentComplete = e.target.closest('.project-row').dataset.id;
+    //       // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
+    //       projectList.splice(currentComplete, 1);
+    //       getCurrent(0);
+    //       displayProjects();
+    //       displayTasks(0);
+    //       // do something nice like swipe a green check to say good job!
+    //     });
+    //   } else if (projectList.length === 1) {
+    //     projCompleteBtn.addEventListener('click', (e) => {
+    //       // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
+    //       const currentComplete = e.target.closest('.project-row').dataset.id;
+    //       // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
+    //       projectList.splice(currentComplete, 1);
+    //       displayProjects();
+    //       displayTasks();
+    //     });
+    //   }
+    // };
+
+    const projectDelete = (projDeleteBtn) => {
       projDeleteBtn.addEventListener('click', (e) => {
-        const currentDelete = e.target.closest(".project-row").dataset.id;
+        const currentDelete = e.target.closest('.project-row').dataset.id;
+        // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
         if (projectList.length > 1) {
-          // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
           projectList.splice(currentDelete, 1);
+          // SET A POSITION OF 1 BEHIND CURRENT ARRAY POSITION
           const positionAfterDelete = currentDelete - 1;
+          // RUNS FUNCTIONS WITH THAT ARRAT POSITION AARGUMENT
           getCurrent(positionAfterDelete);
           displayProjects();
           displayTasks(positionAfterDelete);
+        }
+        // IF THERE IS 1 PROJ AND IT HAS TASKS, ADD A addInstrux DIV BACK TO HOLD TEXT
+        // BEACAUSE WHEN A TASK IS PRESENT, addInstrux DIV IS REMOVED UP IN displayTasks
+        else if (
+          projectList.length === 1 && projectList[currentDelete].tasks.length > 0) {
+          // CREAT NEW addINstructions DIV
+          const setAddInstrux = document.createElement("div");
+          // ASSSIGN IT SAME ID AS USED IN displayTasks() FOR SIMILAR STYLING
+          setAddInstrux.setAttribute("id", "add-instructions");
+          // ADD IT TO THE SAME SPOT IN taskTableHolder
+          taskTableHolder.appendChild(setAddInstrux);
+          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
+          projectList.splice(currentDelete, 1);
+          // SET NEW addInstructions DIV TEXT
+          setAddInstrux.textContent = "click the + button to add a project";
+          // NO NEED FOR ARGUMENTS AS USER HAS JUST DELETED THE ONLY REMAINING PROJECT
+          displayProjects();
+          displayTasks();
+          // IF USER IS DELETING THE ONLY REMAINING PROJECT, AND IT HAS NO TASKS
         } else if (projectList.length === 1) {
-          // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
           projectList.splice(currentDelete, 1);
-          // REMOVES taskTable AND addIntructions AND ADDS TEXT TO ADD NEW PROJECT
-          const addProjInstrux = document.getElementById('add-instructions');
-          addProjInstrux.textContent = 'click the + button to add a project';
+          // GRABS THE EXISTING addInstructions AS NO TASKS HAVE REMOVED IT
+          const addProjInstrux = document.getElementById("add-instructions");
+          // APPLIES APPRORIATE TEXT
+          addProjInstrux.textContent = "click the + button to add a project";
+          // NO NEED FOR ARGUMENTS AS USER HAS JUST DELETED THE ONLY REMAINING PROJECT
           displayProjects();
           displayTasks();
         }
