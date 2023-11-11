@@ -786,10 +786,10 @@ const load = () => {
         // IF EDITING AN ESTABLISHED TASK, UPDATE THAT OBJ'S (g's) VALUE
         if (a === true) {
           const currentPosition = g;
-          projectList[g].tasks[currentPosition].task = taskTitle.value;
-          projectList[g].tasks[currentPosition].notes = taskDescription.value;
-          projectList[g].tasks[currentPosition].due = taskDue.value;
-          projectList[g].tasks[currentPosition].priority = taskPriorityBox.value;
+          currentProject.tasks[currentPosition].task = taskTitle.value;
+          currentProject.tasks[currentPosition].notes = taskDescription.value;
+          currentProject.tasks[currentPosition].due = taskDue.value;
+          currentProject.tasks[currentPosition].priority = taskPriorityBox.value;
           // ELSE, CREAT A NEW OBJECT WITH THESE VALUES AND PUSH IT TO projectList[g].tasks[]
         } else {
           const taskObj = newTask(
