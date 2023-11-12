@@ -7,11 +7,16 @@
   --my-white: #fff;
   --my-side: #f2f4f7;
   --my-module: #e9eaec;
-
 }
+@font-face {
+    font-family: 'Robots';
+    src: url('./../../fonts/Roboto/Roboto-Light.ttf');
+}
+
 #content {
   height: 100vh;
   width: 100vw;
+  font-family: Robots
 }
 
 #page-box {
@@ -75,6 +80,9 @@
 }
 
 #add-new {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100px;
   height: 100px;
   margin: 50px 0 0 0;
@@ -97,9 +105,9 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  width: 150px;
-  height: 75px;
-  margin-top: 10px;
+  width: 145px;
+  height: 100px;
+  /* margin-top: 10px; */
   padding: 5px;
   gap: 5px;
   box-shadow: 5px 5px 10px 1px rgb(0, 0, 0);
