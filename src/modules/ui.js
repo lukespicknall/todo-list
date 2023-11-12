@@ -55,7 +55,7 @@ const load = () => {
 
   // CREATE addNew BUTTON
   const addBox = document.createElement('div');
-  addBox.id = 'add-Box';
+  addBox.id = 'add-box';
   const addNew = document.createElement('button');
   addNew.id = 'add-new';
   addNew.textContent = '+';
@@ -804,9 +804,10 @@ const load = () => {
     };
 
     //  CAN I DELETE THIS NULL ASSIGNMENT? WHY IS IT THERE?
-    let selecting = null;
+    let selecting;
     // CREATE NEW TASK FORM HANDLER
     addNew.addEventListener('click', () => {
+      // formOverlay.id = "form-overlay-vis";
       // IF selectBox IS PRESENT, DONT MAKE MORE OF THEM ON CLICK
       if (selecting === true) { return; }
       // SELECTING STATE IS TRUE UPON CLICK
@@ -827,7 +828,7 @@ const load = () => {
       }
       selectBox.appendChild(projectSelect);
       selectBox.appendChild(taskSelect);
-      addBox.appendChild(selectBox);
+      addNew.appendChild(selectBox);
       // LOGIC FOR CLICKING NEW TASK
       taskSelect.addEventListener('click', () => {
         // ONLY DO THIS IF THERE IS A PROJECT **MAYBE BE THIS IF SINCE ALREADY DISABLED ABOVE**
@@ -853,15 +854,37 @@ const load = () => {
     });
 
     const clickout = (() => {
+      // LOGIC FOR REMOVING selectBox WHEN CLICKING OUTSIDE OF IT
+      // PUTS GLOBAL LISTNER THAT RUNS IF selectBox IS PRESENT
+      // IF THE CLICK IS NOT ON THE BOX OR NEW TASK OR NEW PROJECT (ANYWHERE ELSE), REMOVE BOX
+      content.addEventListener("mousedown", (e) => {
+        if (selecting === true) {
+          const clickspot = e.target;
+          if (
+            !(
+              clickspot.id === "select-box" ||
+              clickspot.id === "task-select" ||
+              clickspot.id === "project-select"
+            )
+          ) {
+            const addRemove = document.getElementById("add-new");
+            const selectRemove = document.getElementById("select-box");
+            addRemove.removeChild(selectRemove);
+            selecting = false;
+          }
+        }
+      });
+
+      // LOGIC TO REMOVE FORMS ON CLICKOUT - A SLIGHTLY DIFFERENT METHOD FROM ABOVE
       // PUTS A CLICK LISTENER ON OVERLAY BACKGROUND FOR CLICKOUT
-      formOverlay.addEventListener('mousedown', (e) => {
-        const card = document.getElementById('form-card');
-        // MAKE clickSpot = tTHE TARGET EVENT
+      formOverlay.addEventListener("mousedown", (e) => {
+        const card = document.getElementById("form-card");
+        // MAKE clickSpot = THE TARGET EVENT
         const clickSpot = e.target;
         // IF CLICK HAPPENED ON formOverlay, I.E OUTSIDE THE FORM
-        if (clickSpot.id === 'form-overlay-vis') {
+        if (clickSpot.id === "form-overlay-vis") {
           // SET OVERLAY TO HIDDEN ID
-          formOverlay.id = 'form-overlay';
+          formOverlay.id = "form-overlay";
           // REMOVE BLUR
           removeBlur(pageBox);
           // REMOVE CARD FROM OVERLAY
