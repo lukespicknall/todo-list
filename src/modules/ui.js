@@ -73,6 +73,13 @@ const load = () => {
     const removeBlur = (a) => {
       a.classList.remove('blurred');
     };
+
+    let taskOptionsSelecting = false;
+
+    const updateTaskSelecting = (a) => {
+      taskOptionsSelecting = a;
+    };
+
     const displayProjects = () => {
       projectTable.innerHTML = ''; // clears current projectTable to avoid repeats
       const projectHeader = document.createElement('thead');
@@ -102,6 +109,19 @@ const load = () => {
         dueCell.textContent = projectList[i].due;
         priorityCell.textContent = projectList[i].priority;
 
+        const taskOptions = document.createElement('div');
+        taskOptions.classList.add('task-options');
+        taskOptions.setAttribute('data-id', [i]);
+        const taskOptionsIcon = document.createElement('i');
+        taskOptionsIcon.classList.add('fa', 'fa-solid', 'fa-ellipsis-vertical');
+        taskOptions.appendChild(taskOptionsIcon);
+        const taskOptionsBox = document.createElement('div');
+        taskOptionsBox.classList.add('task-options-box');
+        taskOptions.addEventListener('click', () => {
+          taskOptions.appendChild(taskOptionsBox);
+          updateTaskSelecting(true);
+        });
+
         // CREATE CELLS FOR UI BUTTONS ON ROW FOR project OBJ UPDATING
         const editCell = document.createElement('div'); //
         const deleteCell = document.createElement('div'); //
@@ -126,13 +146,16 @@ const load = () => {
         projCompleteBtn.innerHTML = '<p>complete</p>';
         completeCell.appendChild(projCompleteBtn);
 
+        taskOptionsBox.append(editCell, deleteCell, completeCell);
+
         // APPEND CELLS TO THE project TROW
         projectRow.appendChild(projectCell);
         projectRow.appendChild(dueCell);
         projectRow.appendChild(priorityCell);
-        projectRow.appendChild(editCell);
-        projectRow.appendChild(deleteCell);
-        projectRow.appendChild(completeCell);
+        projectRow.appendChild(taskOptions);
+        // projectRow.appendChild(editCell);
+        // projectRow.appendChild(deleteCell);
+        // projectRow.appendChild(completeCell);
 
         // ON CLICK, projEditBtn SETS EDITING STATE,
         // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS project ROW,
@@ -857,18 +880,30 @@ const load = () => {
       // LOGIC FOR REMOVING selectBox WHEN CLICKING OUTSIDE OF IT
       // PUTS GLOBAL LISTNER THAT RUNS IF selectBox IS PRESENT
       // IF THE CLICK IS NOT ON THE BOX OR NEW TASK OR NEW PROJECT (ANYWHERE ELSE), REMOVE BOX
-      content.addEventListener("mousedown", (e) => {
+      content.addEventListener('mousedown', (e) => {
+              // console.log(currentProject);
+        if (taskOptionsSelecting === true) {
+          const clickspot = e.target;
+          if (
+            !(clickspot.className === "task-options-box")
+          ) {
+            const addRemove = document.querySelector(".task-options");
+            const selectRemove = document.querySelector(".task-options-box");
+            addRemove.removeChild(selectRemove);
+            taskOptionsSelecting = false;
+          }
+        }
         if (selecting === true) {
           const clickspot = e.target;
           if (
             !(
-              clickspot.id === "select-box" ||
-              clickspot.id === "task-select" ||
-              clickspot.id === "project-select"
+              clickspot.id === 'select-box'
+              || clickspot.id === 'task-select'
+              || clickspot.id === 'project-select'
             )
           ) {
-            const addRemove = document.getElementById("add-new");
-            const selectRemove = document.getElementById("select-box");
+            const addRemove = document.getElementById('add-new');
+            const selectRemove = document.getElementById('select-box');
             addRemove.removeChild(selectRemove);
             selecting = false;
           }
@@ -877,14 +912,14 @@ const load = () => {
 
       // LOGIC TO REMOVE FORMS ON CLICKOUT - A SLIGHTLY DIFFERENT METHOD FROM ABOVE
       // PUTS A CLICK LISTENER ON OVERLAY BACKGROUND FOR CLICKOUT
-      formOverlay.addEventListener("mousedown", (e) => {
-        const card = document.getElementById("form-card");
+      formOverlay.addEventListener('mousedown', (e) => {
+        const card = document.getElementById('form-card');
         // MAKE clickSpot = THE TARGET EVENT
         const clickSpot = e.target;
         // IF CLICK HAPPENED ON formOverlay, I.E OUTSIDE THE FORM
-        if (clickSpot.id === "form-overlay-vis") {
+        if (clickSpot.id === 'form-overlay-vis') {
           // SET OVERLAY TO HIDDEN ID
-          formOverlay.id = "form-overlay";
+          formOverlay.id = 'form-overlay';
           // REMOVE BLUR
           removeBlur(pageBox);
           // REMOVE CARD FROM OVERLAY
