@@ -24,6 +24,12 @@ const setCurrent = (a) => {
   currentProject = projectList[a];
 };
 
+let projectOptionsSelecting = false;
+
+const updateProjectSelecting = (a) => {
+  projectOptionsSelecting = a;
+};
+
 const content = document.getElementById('content');
 // LOAD HANDLES UI
 const load = () => {
@@ -74,11 +80,11 @@ const load = () => {
       a.classList.remove('blurred');
     };
 
-    let taskOptionsSelecting = false;
+    // let currentSelecting;
 
-    const updateTaskSelecting = (a) => {
-      taskOptionsSelecting = a;
-    };
+    // const updateCurrentSelecting = (a) => {
+    //   currentSelecting = a;
+    // };
 
     const displayProjects = () => {
       projectTable.innerHTML = ''; // clears current projectTable to avoid repeats
@@ -109,17 +115,17 @@ const load = () => {
         dueCell.textContent = projectList[i].due;
         priorityCell.textContent = projectList[i].priority;
 
-        const taskOptions = document.createElement('div');
-        taskOptions.classList.add('task-options');
-        taskOptions.setAttribute('data-id', [i]);
-        const taskOptionsIcon = document.createElement('i');
-        taskOptionsIcon.classList.add('fa', 'fa-solid', 'fa-ellipsis-vertical');
-        taskOptions.appendChild(taskOptionsIcon);
-        const taskOptionsBox = document.createElement('div');
-        taskOptionsBox.classList.add('task-options-box');
-        taskOptions.addEventListener('click', () => {
-          taskOptions.appendChild(taskOptionsBox);
-          updateTaskSelecting(true);
+        const projectOptions = document.createElement('div');
+        projectOptions.classList.add('project-options');
+        projectOptions.setAttribute('data-id', [i]);
+        const projectOptionsIcon = document.createElement('i');
+        projectOptionsIcon.classList.add('fa', 'fa-solid', 'fa-ellipsis-vertical');
+        projectOptions.appendChild(projectOptionsIcon);
+        const projectOptionsBox = document.createElement('div');
+        projectOptionsBox.classList.add('project-options-box');
+        projectOptionsBox.setAttribute("data-id", [i]);
+        projectOptions.addEventListener('click', () => {
+          optionsClickOut(projectOptions, projectOptionsBox, i);
         });
 
         // CREATE CELLS FOR UI BUTTONS ON ROW FOR project OBJ UPDATING
@@ -146,13 +152,13 @@ const load = () => {
         projCompleteBtn.innerHTML = '<p>complete</p>';
         completeCell.appendChild(projCompleteBtn);
 
-        taskOptionsBox.append(editCell, deleteCell, completeCell);
+        projectOptionsBox.append(editCell, deleteCell, completeCell);
 
         // APPEND CELLS TO THE project TROW
         projectRow.appendChild(projectCell);
         projectRow.appendChild(dueCell);
         projectRow.appendChild(priorityCell);
-        projectRow.appendChild(taskOptions);
+        projectRow.appendChild(projectOptions);
         // projectRow.appendChild(editCell);
         // projectRow.appendChild(deleteCell);
         // projectRow.appendChild(completeCell);
@@ -772,7 +778,7 @@ const load = () => {
       taskSubmit.setAttribute('type', 'submit');
       taskSubmit.setAttribute('name', 'task-submit');
 
-      // ADD TASK INPUTS TO FORM AND FORM TO PAGE
+      // ADD TASK INPUTS TO FORM AND FORM
       taskForm.append(titleLabel, taskTitle);
       taskForm.append(descriptionLabel, taskDescription);
       taskForm.append(dueLabel, taskDue);
@@ -875,24 +881,57 @@ const load = () => {
         displayProjectForm();
       });
     });
+    const optionsClickOut = (projectOptions, projectOptionsBox, position) => {
+      const optionsAdd = document.querySelectorAll(".project-options");
+      const optionsRemove = document.querySelectorAll(".project-options-box");
+      const currentOptions = optionsAdd[position];
+      const currentOptionsBox = optionsRemove[position];
+      if (projectOptionsSelecting === true) {
+        content.addEventListener("mousedown", (e) => {
+          const optionsClickSpot = e.target;
+          if (optionsClickSpot.className !== "project-options-box") {
+            currentOptions.removeChild(currentOptionsBox);
+            updateProjectSelecting(false);
+          }
+        });
+      } else if (projectOptionsSelecting === false) {
+        projectOptions.appendChild(projectOptionsBox);
+        updateProjectSelecting(true);
+      }
+      // console.log(projectOptionsSelecting);
+    };
 
     const clickout = (() => {
       // LOGIC FOR REMOVING selectBox WHEN CLICKING OUTSIDE OF IT
       // PUTS GLOBAL LISTNER THAT RUNS IF selectBox IS PRESENT
       // IF THE CLICK IS NOT ON THE BOX OR NEW TASK OR NEW PROJECT (ANYWHERE ELSE), REMOVE BOX
       content.addEventListener('mousedown', (e) => {
-              // console.log(currentProject);
-        if (taskOptionsSelecting === true) {
-          const clickspot = e.target;
-          if (
-            !(clickspot.className === "task-options-box")
-          ) {
-            const addRemove = document.querySelector(".task-options");
-            const selectRemove = document.querySelector(".task-options-box");
-            addRemove.removeChild(selectRemove);
-            taskOptionsSelecting = false;
-          }
-        }
+        // console.log(currentProject);
+        // if (projectOptionsSelecting === true) {
+        //   const clickSpot = e.target;
+        //   const clickSpotPosition = e.target.dataset.id;
+
+        //   if (
+        //     !(clickSpot.className === 'task-options-box')
+        //   ) {
+        //     const addRemove = document.querySelector('.task-options');
+        //     const selectRemove = document.querySelectorAll('.task-options-box');
+        //     const currentOptionButton = addRemove[currentProject];
+        //     const currentOptionBox = selectRemove[currentProject];
+        //     console.log(currentOptionBox);
+        //     console.log(currentOptionButton);
+        //     // addRemove.removeChild(selectRemove);
+        //     // projectOptionsSelecting = false;
+        //   }
+        //   else if ((clickSpot.className === 'task-options')) {
+        //     console.log(clickSpot.dataset.id);
+        //   // const addRemove = document.querySelector('.task-options');
+        //   // const selectRemove = document.querySelector('.task-options-box');
+        //   // addRemove.removeChild(selectRemove);
+        //   // projectOptionsSelecting = false;
+        //   }
+        // }
+        // CLICKOUT FOR addNew BOX
         if (selecting === true) {
           const clickspot = e.target;
           if (
