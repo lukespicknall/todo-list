@@ -124,9 +124,10 @@ const load = () => {
         const projectOptionsBox = document.createElement('div');
         projectOptionsBox.classList.add('project-options-box');
         projectOptionsBox.setAttribute("data-id", [i]);
-        projectOptions.addEventListener('click', () => {
-          optionsClickOut(projectOptions, projectOptionsBox, i);
-        });
+        projectOptions.appendChild(projectOptionsBox)
+        // projectOptions.addEventListener('click', () => {
+        //   optionsClickOut(projectOptions, projectOptionsBox,);
+        // });
 
         // CREATE CELLS FOR UI BUTTONS ON ROW FOR project OBJ UPDATING
         const editCell = document.createElement('div'); //
@@ -881,25 +882,61 @@ const load = () => {
         displayProjectForm();
       });
     });
-    const optionsClickOut = (projectOptions, projectOptionsBox, position) => {
-      const optionsAdd = document.querySelectorAll(".project-options");
-      const optionsRemove = document.querySelectorAll(".project-options-box");
-      const currentOptions = optionsAdd[position];
-      const currentOptionsBox = optionsRemove[position];
-      if (projectOptionsSelecting === true) {
-        content.addEventListener("mousedown", (e) => {
-          const optionsClickSpot = e.target;
-          if (optionsClickSpot.className !== "project-options-box") {
-            currentOptions.removeChild(currentOptionsBox);
-            updateProjectSelecting(false);
-          }
-        });
-      } else if (projectOptionsSelecting === false) {
-        projectOptions.appendChild(projectOptionsBox);
-        updateProjectSelecting(true);
-      }
-      // console.log(projectOptionsSelecting);
-    };
+
+    // const optionsClickOut = (() => {
+    //   const optionsRemove = document.querySelectorAll(".project-options");
+    //   const optionsBoxRemove = document.querySelectorAll(".project-options-box");
+    //   optionsRemove.forEach((element) => {
+    //     element.addEventListener('click', () => {
+    //       if (projectOptionsSelecting === true) {
+    //         // element.removeChild(optionsBoxRemove);
+    //         optionsBoxRemove.
+    //       } else if (projectOptionsSelecting === false) {
+    //         // element.appendChild(optionsBoxRemove);
+    //       }
+    //     });
+    //   });
+    // })();
+    // const optionsClickOut = (projectOptions, projectOptionsBox, position) => {
+    //   const optionsRemove = document.querySelectorAll(".project-options");
+    //   const optionsBoxRemove = document.querySelectorAll(".project-options-box");
+    //   const currentOptions = optionsRemove[0];
+    //   const currentOptionsBox = optionsBoxRemove[0];
+    //   if (optionsBoxRemove.length === 1) {
+    //     content.addEventListener("mousedown", (e) => {
+    //       const optionsClickSpot = e.target;
+    //       if (optionsClickSpot.className !== "project-options-box") {
+    //         currentOptions.removeChild(currentOptionsBox);
+    //         updateProjectSelecting(false);
+    //       }
+    //     });
+    //   } else if (optionsBoxRemove.length === 0) {
+    //             projectOptions.appendChild(projectOptionsBox);
+    //             updateProjectSelecting(true);
+    //   }
+    //   // const currentOptions = optionsRemove[position];
+    //   // const currentOptionsBox = optionsBoxRemove[position];
+    //   // if (projectOptionsSelecting === true) {
+    //   //   content.addEventListener("mousedown", (e) => {
+    //   //     const optionsClickSpot = e.target;
+    //   //     console.log(position);
+    //   //     console.log(currentOptionsBox);
+    //   //     console.log(optionsClickSpot);
+    //   //     console.log (currentOptions);
+    //   //     console.log(currentOptionsBox);
+    //   //     // console.log(projectOptions);
+    //   //     // console.log(projectOptionsBox);
+    //   //     if (optionsClickSpot.className !== "project-options-box") {
+    //   //       currentOptions.removeChild(currentOptionsBox);
+    //   //       updateProjectSelecting(false);
+    //   //     }
+    //   //   });
+    //   // } else if (projectOptionsSelecting === false) {
+    //   //   projectOptions.appendChild(projectOptionsBox);
+    //   //   updateProjectSelecting(true);
+    //   // }
+    //   // console.log(projectOptionsSelecting);
+    // };
 
     const clickout = (() => {
       // LOGIC FOR REMOVING selectBox WHEN CLICKING OUTSIDE OF IT
