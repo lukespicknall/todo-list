@@ -124,10 +124,15 @@ const load = () => {
         const projectOptionsBox = document.createElement('div');
         projectOptionsBox.classList.add('project-options-box');
         projectOptionsBox.setAttribute("data-id", [i]);
-        projectOptions.appendChild(projectOptionsBox)
-        // projectOptions.addEventListener('click', () => {
-        //   optionsClickOut(projectOptions, projectOptionsBox,);
-        // });
+        projectOptions.addEventListener('mouseup', () => {
+          console.log(projectOptions.children.length);
+          if (projectOptions.children.length < 2) {
+            updateProjectSelecting(true);
+            projectOptions.appendChild(projectOptionsBox);
+            setCurrent(i);
+            displayTasks(i);
+          }
+        });
 
         // CREATE CELLS FOR UI BUTTONS ON ROW FOR project OBJ UPDATING
         const editCell = document.createElement('div'); //
@@ -197,6 +202,16 @@ const load = () => {
         });
       }
     };
+    // const optionsClick = document.querySelectorAll('.project-options');
+    // optionsClick.forEach(element => {
+    //   element.addEventListener('click', () => {
+    //     if (projectOptionsSelecting === false) {
+    //       updateProjectSelecting(true);
+    //       element.appendChild(projectOptionsBox);
+    //     }
+    //   })
+      
+    // });
 
     //  **  LOGIC TO COMPLETE AND DELETE PROJECTS AND ALTER DISPLAYS **  //
     const projectComplete = (projCompleteBtn) => {
@@ -944,30 +959,30 @@ const load = () => {
       // IF THE CLICK IS NOT ON THE BOX OR NEW TASK OR NEW PROJECT (ANYWHERE ELSE), REMOVE BOX
       content.addEventListener('mousedown', (e) => {
         // console.log(currentProject);
-        // if (projectOptionsSelecting === true) {
-        //   const clickSpot = e.target;
-        //   const clickSpotPosition = e.target.dataset.id;
-
-        //   if (
-        //     !(clickSpot.className === 'task-options-box')
-        //   ) {
-        //     const addRemove = document.querySelector('.task-options');
-        //     const selectRemove = document.querySelectorAll('.task-options-box');
-        //     const currentOptionButton = addRemove[currentProject];
-        //     const currentOptionBox = selectRemove[currentProject];
-        //     console.log(currentOptionBox);
-        //     console.log(currentOptionButton);
-        //     // addRemove.removeChild(selectRemove);
-        //     // projectOptionsSelecting = false;
-        //   }
-        //   else if ((clickSpot.className === 'task-options')) {
-        //     console.log(clickSpot.dataset.id);
-        //   // const addRemove = document.querySelector('.task-options');
-        //   // const selectRemove = document.querySelector('.task-options-box');
-        //   // addRemove.removeChild(selectRemove);
-        //   // projectOptionsSelecting = false;
-        //   }
-        // }
+        if (projectOptionsSelecting === true) {
+          const clickSpot = e.target;
+          if (
+            !(clickSpot.className === 'project-options-box')
+          ) {
+            updateProjectSelecting(false);
+            // GRAB ALL projectOptions INTO AN ARRAY
+            const addRemove = document.querySelectorAll('.project-options');
+            // GRAB THE CURRENTLY VISIBLE projectOptionsBox
+            const selectRemove = document.querySelector('.project-options-box');
+            // optionsPosition GETS THE DATA ID ASSIGNED TO THE VISIBLE BOX
+            const optionsPosition = selectRemove.getAttribute('data-id');
+            // PLUGS THAT POSITION INTO addRemove[] TO GET THE PROJECT W/ OPTIONS CURRENTLY VISIBLE
+            const currentOptionButton = addRemove[optionsPosition];
+            currentOptionButton.removeChild(selectRemove);
+          }
+          else if ((clickSpot.className === 'project-options')) {
+            console.log(clickSpot.dataset.id);
+          // const addRemove = document.querySelector('.task-options');
+          // const selectRemove = document.querySelector('.task-options-box');
+          // addRemove.removeChild(selectRemove);
+          // projectOptionsSelecting = false;
+          }
+        }
         // CLICKOUT FOR addNew BOX
         if (selecting === true) {
           const clickspot = e.target;
