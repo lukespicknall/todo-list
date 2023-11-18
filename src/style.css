@@ -5,7 +5,7 @@
 
 :root {
   --my-white: #fff;
-  --my-side: #f2f4f7;
+  --my-side: #f5f7fa;
   --my-module: #e9eaec;
 }
 @font-face {
@@ -122,8 +122,9 @@
 
 /* SIDE-BAR PROJECT TABLE STYLE */
 #project-table {
-  padding: 50px 0px 0 20px;
+  padding: 50px 0 0 20px;
   width: 100%;
+
 }
 
 #project-header {
@@ -133,7 +134,13 @@
 
 .project-row {
   box-sizing: border-box;
-  padding: 15px;
+  display: grid;
+  position: relative;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 10fr 6fr 3fr;
+  grid-template-areas:
+  'project-cell project-cell project-options' 
+  'project-due project-priority project-options ';
   /* background-color: var(--my-module); */
   border-bottom: 2px solid rgb(219, 219, 219);
   /* border-radius: 25px; */
@@ -144,7 +151,61 @@
 }
 
 .project-cell {
-  padding: 0;
+  grid-area: project-cell;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  margin: 15px 0 0 15px
+}
+
+.due-cell {
+  display: flex;
+  align-items: center;
+  grid-area: project-due;
+  padding: 2px 0 2px 15px
+}
+
+.priority-cell{
+  grid-area: project-priority;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 6px 0 6px 0;
+
+  border-radius: 15px;
+}
+
+.project-options {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  grid-area: project-options;
+  justify-content: center;
+  align-items: center;
+  
+  /* padding: 0 0 0 0 */
+}
+
+.fa-ellipsis-vertical {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  /* border: solid 1px black; */
+  padding: 2px;
+  border-radius: 10px;
+}
+.fa-ellipsis-vertical:hover {
+  background-color: rgb(255, 255, 255);
+}
+
+.project-options-box {
+  position: absolute;
+  border: 1px solid black;
+  border-radius: 7px;
+  right: -65px;
+  background-color: var(--my-side);
+  padding: 5px;
 }
 
 /* MAIN TASK TABLE STYLE */

@@ -115,6 +115,17 @@ const load = () => {
         dueCell.textContent = projectList[i].due;
         priorityCell.textContent = projectList[i].priority;
 
+        if (priorityCell.textContent === 'low') {
+          priorityCell.style.backgroundColor = 'green';
+          priorityCell.style.border = '1px solid black';
+        } else if (priorityCell.textContent === 'medium') {
+          priorityCell.style.backgroundColor = 'yellow';
+          priorityCell.style.border = '1px solid black';
+        } else if (priorityCell.textContent === 'high') {
+          priorityCell.style.backgroundColor = 'red';
+          priorityCell.style.border = '1px solid black';
+        }
+
         const projectOptions = document.createElement('div');
         projectOptions.classList.add('project-options');
         projectOptions.setAttribute('data-id', [i]);
@@ -123,7 +134,7 @@ const load = () => {
         projectOptions.appendChild(projectOptionsIcon);
         const projectOptionsBox = document.createElement('div');
         projectOptionsBox.classList.add('project-options-box');
-        projectOptionsBox.setAttribute("data-id", [i]);
+        projectOptionsBox.setAttribute('data-id', [i]);
         projectOptions.addEventListener('mouseup', () => {
           console.log(projectOptions.children.length);
           if (projectOptions.children.length < 2) {
@@ -147,15 +158,15 @@ const load = () => {
         // CREATE UI BUTTONS FOR project UPDATES, ASSIGN CLASS, APPEND TO UI CELL
         const projEditBtn = document.createElement('button');
         projEditBtn.className = 'edit-btn';
-        projEditBtn.innerHTML = '<p>edit</p>';
+        projEditBtn.innerHTML = 'edit';
         editCell.appendChild(projEditBtn);
         const projDeleteBtn = document.createElement('button');
         projDeleteBtn.className = 'delete-btn';
-        projDeleteBtn.innerHTML = '<p>delete</p>';
+        projDeleteBtn.innerHTML = 'delete';
         deleteCell.appendChild(projDeleteBtn);
         const projCompleteBtn = document.createElement('button');
         projCompleteBtn.className = 'complete-btn';
-        projCompleteBtn.innerHTML = '<p>complete</p>';
+        projCompleteBtn.innerHTML = 'complete';
         completeCell.appendChild(projCompleteBtn);
 
         projectOptionsBox.append(editCell, deleteCell, completeCell);
@@ -870,6 +881,7 @@ const load = () => {
       // IF NO PROJECTS EXIST, TASK BUTTON IS DISABLED
       if (projectList.length === 0) {
         taskSelect.setAttribute('disabled', 'disabled');
+        taskSelect.setAttribute('title', 'Add a project first');
       }
       selectBox.appendChild(projectSelect);
       selectBox.appendChild(taskSelect);
@@ -962,7 +974,15 @@ const load = () => {
         if (projectOptionsSelecting === true) {
           const clickSpot = e.target;
           if (
-            !(clickSpot.className === 'project-options-box')
+            !(
+              clickSpot.className === 'project-options-box' ||
+              clickSpot.className === 'edit-cell' ||
+              clickSpot.className === 'delete-cell' ||
+              clickSpot.className === 'complete-cell' ||
+              clickSpot.className === 'edit-btn' ||
+              clickSpot.className === 'delete-btn' ||
+              clickSpot.className === 'complete-btn'
+            )
           ) {
             updateProjectSelecting(false);
             // GRAB ALL projectOptions INTO AN ARRAY
@@ -974,23 +994,22 @@ const load = () => {
             // PLUGS THAT POSITION INTO addRemove[] TO GET THE PROJECT W/ OPTIONS CURRENTLY VISIBLE
             const currentOptionButton = addRemove[optionsPosition];
             currentOptionButton.removeChild(selectRemove);
-          }
-          else if ((clickSpot.className === 'project-options')) {
+          } else if (clickSpot.className === 'project-options') {
             console.log(clickSpot.dataset.id);
-          // const addRemove = document.querySelector('.task-options');
-          // const selectRemove = document.querySelector('.task-options-box');
-          // addRemove.removeChild(selectRemove);
-          // projectOptionsSelecting = false;
+            // const addRemove = document.querySelector('.task-options');
+            // const selectRemove = document.querySelector('.task-options-box');
+            // addRemove.removeChild(selectRemove);
+            // projectOptionsSelecting = false;
           }
         }
         // CLICKOUT FOR addNew BOX
         if (selecting === true) {
-          const clickspot = e.target;
+          const clickSpot = e.target;
           if (
             !(
-              clickspot.id === 'select-box'
-              || clickspot.id === 'task-select'
-              || clickspot.id === 'project-select'
+              clickSpot.id === 'select-box'
+              || clickSpot.id === 'task-select'
+              || clickSpot.id === 'project-select'
             )
           ) {
             const addRemove = document.getElementById('add-new');
