@@ -171,8 +171,21 @@
   align-items: center;
   justify-content: center;
   margin: 6px 0 6px 0;
-
+  font-weight:bold;
   border-radius: 15px;
+}
+
+.project-low {
+  background-color: rgb(171, 235, 171);
+}
+
+.project-medium {
+  background-color: rgb(255, 230, 117)
+}
+
+.project-high {
+  color: white;
+  background-color: rgb(255, 79, 79);
 }
 
 .project-options {

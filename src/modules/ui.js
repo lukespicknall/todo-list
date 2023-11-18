@@ -116,13 +116,13 @@ const load = () => {
         priorityCell.textContent = projectList[i].priority;
 
         if (priorityCell.textContent === 'low') {
-          priorityCell.style.backgroundColor = 'green';
+          priorityCell.classList.add('project-low');
           priorityCell.style.border = '1px solid black';
         } else if (priorityCell.textContent === 'medium') {
-          priorityCell.style.backgroundColor = 'yellow';
+          priorityCell.classList.add("project-medium");
           priorityCell.style.border = '1px solid black';
         } else if (priorityCell.textContent === 'high') {
-          priorityCell.style.backgroundColor = 'red';
+          priorityCell.classList.add("project-high");
           priorityCell.style.border = '1px solid black';
         }
 
