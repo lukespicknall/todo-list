@@ -998,12 +998,12 @@ const load = () => {
           if (
             !(
               clickSpot.className === 'project-options-box' ||
-              clickSpot.className === 'edit-cell' ||
-              clickSpot.className === 'delete-cell' ||
-              clickSpot.className === 'complete-cell' ||
-              clickSpot.className === 'edit-btn' ||
-              clickSpot.className === 'delete-btn' ||
-              clickSpot.className === 'complete-btn'
+              clickSpot.className === 'project-edit-cell' ||
+              clickSpot.className === 'project-delete-cell' ||
+              clickSpot.className === 'project-complete-cell' ||
+              clickSpot.className === 'project-edit-btn' ||
+              clickSpot.className === 'project-delete-btn' ||
+              clickSpot.className === 'project-complete-btn'
             )
           ) {
             updateProjectSelecting(false);
