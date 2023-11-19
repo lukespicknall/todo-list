@@ -7,6 +7,11 @@
   --my-white: #fff;
   --my-side: #f5f7fa;
   --my-module: #e9eaec;
+  --darker-grey: rgb(219, 219, 219);
+  --grey-font:rgb(153, 153, 153);
+  --warning-yellow: rgb(255, 234, 117);
+  --go-green: rgb(171, 235, 171);
+  --danger-red: rgb(255, 112, 112);
 }
 @font-face {
     font-family: 'Robots';
@@ -16,7 +21,8 @@
 #content {
   height: 100vh;
   width: 100vw;
-  font-family: Robots
+  font-family: Robots;
+  min-width: 760px;
 }
 
 #page-box {
@@ -137,20 +143,27 @@
   display: grid;
   position: relative;
   grid-template-rows: 1fr 1fr;
-  grid-template-columns: 10fr 6fr 3fr;
+  grid-template-columns: 10fr 6fr 2fr;
   grid-template-areas:
   'project-cell project-cell project-options' 
   'project-due project-priority project-options ';
   /* background-color: var(--my-module); */
-  border-bottom: 2px solid rgb(219, 219, 219);
+  border-bottom: 2px solid var(--darker-grey);
   /* border-radius: 25px; */
+  column-gap: 15px;
 }
+
 
 .project-row:hover {
-  background-color: rgb(219, 219, 219);
+  background-color: var(--darker-grey);
 }
 
-.project-cell {
+.selected-row {
+  background-color: var(--darker-grey);
+}
+
+
+.project-title-cell {
   grid-area: project-cell;
   display: flex;
   align-items: center;
@@ -158,34 +171,48 @@
   margin: 15px 0 0 15px
 }
 
-.due-cell {
+.project-due-cell {
   display: flex;
   align-items: center;
   grid-area: project-due;
   padding: 2px 0 2px 15px
 }
 
-.priority-cell{
+.project-dueless {
+  color: var(--grey-font);
+  font-weight:bold;
+  font-size: 12px;
+}
+
+.project-priority-cell{
   grid-area: project-priority;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 6px 0 6px 0;
-  font-weight:bold;
+  font-size: 14px;
+  font-weight:bolder;
   border-radius: 15px;
+  border: 1px solid black;
 }
 
 .project-low {
-  background-color: rgb(171, 235, 171);
+  background-color: var(--go-green);
 }
 
 .project-medium {
-  background-color: rgb(255, 230, 117)
+  background-color: var(--warning-yellow)
 }
 
 .project-high {
-  color: white;
-  background-color: rgb(255, 79, 79);
+  color: black;
+  background-color: var(--danger-red)
+}
+
+.project-priorityless {
+  font-size: 12px;
+  color: var(--grey-font);
+  border: solid 1px var(--grey-font)
 }
 
 .project-options {
@@ -213,13 +240,47 @@
 }
 
 .project-options-box {
+  z-index: 1;
   position: absolute;
-  border: 1px solid black;
+  display: flex;
+  flex-direction: column-reverse;
+  border: 1px solid var(--darker-grey);
   border-radius: 7px;
-  right: -65px;
+  right: -80px;
   background-color: var(--my-side);
-  padding: 5px;
+  padding: 7px;
 }
+
+.project-edit-btn,
+.project-delete-btn,
+.project-complete-btn {
+  padding: 5px;
+  font-size: 15px;
+  width: 100%;
+  display:flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 5px;
+  border-style: none;
+  border-bottom: solid 1px var(--darker-grey);
+  background-color: var(--my-side);
+  border-radius: 7px 7px 0 0;
+  align-items: center;
+}
+
+.project-edit-btn:hover {
+  background-color: var(--warning-yellow);
+    border-radius: 7px;
+}
+.project-delete-btn:hover {
+  background-color: var(--danger-red);
+    border-radius: 7px;
+}
+.project-complete-btn:hover {
+  background-color: var(--go-green);
+    border-radius: 7px;
+}
+
 
 /* MAIN TASK TABLE STYLE */
 #task-table-holder{

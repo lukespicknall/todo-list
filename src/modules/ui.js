@@ -101,40 +101,52 @@ const load = () => {
         projectTable.appendChild(projectRow); // add that tr to projectTable in libTable
 
         // CREATE NEW TABLE CELLS FOR project DATA
-        const projectCell = document.createElement('div');
-        const dueCell = document.createElement('div');
-        const priorityCell = document.createElement('div');
+        const projectTitleCell = document.createElement('div');
+        const projectDueCell = document.createElement('div');
+        const projectPriorityCell = document.createElement('div');
 
         // ASSIGN CELL CLASS NAMES
-        projectCell.className = 'project-cell';
-        dueCell.className = 'due-cell';
-        priorityCell.className = 'priority-cell';
+        projectTitleCell.className = 'project-title-cell';
+        projectDueCell.className = 'project-due-cell';
+        projectPriorityCell.className = 'project-priority-cell';
 
         // ASSIGN CELL DATA FROM project DATA
-        projectCell.textContent = projectList[i].title;
-        dueCell.textContent = projectList[i].due;
-        priorityCell.textContent = projectList[i].priority;
-
-        if (priorityCell.textContent === 'low') {
-          priorityCell.classList.add('project-low');
-          priorityCell.style.border = '1px solid black';
-        } else if (priorityCell.textContent === 'medium') {
-          priorityCell.classList.add("project-medium");
-          priorityCell.style.border = '1px solid black';
-        } else if (priorityCell.textContent === 'high') {
-          priorityCell.classList.add("project-high");
-          priorityCell.style.border = '1px solid black';
+        projectTitleCell.textContent = projectList[i].title;
+        projectDueCell.textContent = projectList[i].due;
+        // IF PROJECT HAS NO due DATA, SET PLACEHOLDER TEXT/STYLE
+        if (projectList[i].due === undefined || projectList[i].due === '') {
+          projectDueCell.textContent = 'no due date';
+          projectDueCell.classList.add('project-dueless');
+        }
+        projectPriorityCell.textContent = projectList[i].priority;
+        // IF PROJECT HAS NO priority DATA SET PLACEHOLDER TEXT/STYLE
+        if (projectList[i].priority === undefined) {
+          projectPriorityCell.textContent = 'no priority';
+          projectPriorityCell.classList.add('project-priorityless');
+        }
+        if (projectPriorityCell.textContent === 'low') {
+          projectPriorityCell.classList.add('project-low');
+        } else if (projectPriorityCell.textContent === 'medium') {
+          projectPriorityCell.classList.add('project-medium');
+        } else if (projectPriorityCell.textContent === 'high') {
+          projectPriorityCell.classList.add('project-high');
         }
 
+        // CREATE OPTIONS CONTAINER DIV
         const projectOptions = document.createElement('div');
         projectOptions.classList.add('project-options');
         projectOptions.setAttribute('data-id', [i]);
+        // PULL font-awesome MENU ICON
         const projectOptionsIcon = document.createElement('i');
         projectOptionsIcon.classList.add('fa', 'fa-solid', 'fa-ellipsis-vertical');
         projectOptions.appendChild(projectOptionsIcon);
+        // CREATE POPOUT CONTAINER FOR OPTIONS BUTTONS
         const projectOptionsBox = document.createElement('div');
         projectOptionsBox.classList.add('project-options-box');
         projectOptionsBox.setAttribute('data-id', [i]);
+        // WHEN MENU CLICKED, DETERMINE IF AN OPTIONSBOX IS ALREADY PRESENT
+        // IF TRUE, SET SELECTING STATE TO TRUE, APPEND A BOX TO THIS OPTIONS DIV TO SEE OPTIONS
+        // SET CURRENT PROJECT TO THIS PROJECT AND DISPLAY THE TASKS OF THIS PROJECT
         projectOptions.addEventListener('mouseup', () => {
           console.log(projectOptions.children.length);
           if (projectOptions.children.length < 2) {
@@ -146,35 +158,45 @@ const load = () => {
         });
 
         // CREATE CELLS FOR UI BUTTONS ON ROW FOR project OBJ UPDATING
-        const editCell = document.createElement('div'); //
-        const deleteCell = document.createElement('div'); //
-        const completeCell = document.createElement('div'); //
+        const projectEditCell = document.createElement('div'); //
+        const projectDeleteCell = document.createElement('div'); //
+        const projectCompleteCell = document.createElement('div'); //
 
         // ASSIGN UI CELL CLASSNAMES
-        editCell.className = 'edit-cell';
-        deleteCell.className = 'delete-cell';
-        completeCell.className = 'complete-cell'; //
+        projectEditCell.className = 'project-edit-cell';
+        projectDeleteCell.className = 'project-delete-cell';
+        projectCompleteCell.className = 'project-complete-cell'; //
 
-        // CREATE UI BUTTONS FOR project UPDATES, ASSIGN CLASS, APPEND TO UI CELL
+        // CREATE UI BUTTONS FOR project UPDATES, ASSIGN CLASS,
+        // APPEND fontAwesome ICONS TO BUTTONS, APPEND BUTTON TO UI CELL
         const projEditBtn = document.createElement('button');
-        projEditBtn.className = 'edit-btn';
+        projEditBtn.className = 'project-edit-btn';
         projEditBtn.innerHTML = 'edit';
-        editCell.appendChild(projEditBtn);
+        const projEditIcon = document.createElement('i');
+        projEditIcon.classList.add('fa', 'fa-regular', 'fa-pen-to-square');
+        projEditBtn.appendChild(projEditIcon);
+        projectEditCell.appendChild(projEditBtn);
         const projDeleteBtn = document.createElement('button');
-        projDeleteBtn.className = 'delete-btn';
+        projDeleteBtn.className = 'project-delete-btn';
         projDeleteBtn.innerHTML = 'delete';
-        deleteCell.appendChild(projDeleteBtn);
+        const projDeleteIcon = document.createElement('i');
+        projDeleteIcon.classList.add('fa', 'fa-regular', 'fa-trash-can');
+        projDeleteBtn.appendChild(projDeleteIcon);
+        projectDeleteCell.appendChild(projDeleteBtn);
         const projCompleteBtn = document.createElement('button');
-        projCompleteBtn.className = 'complete-btn';
+        projCompleteBtn.className = 'project-complete-btn';
         projCompleteBtn.innerHTML = 'complete';
-        completeCell.appendChild(projCompleteBtn);
+        const projCompleteIcon = document.createElement('i');
+        projCompleteIcon.classList.add('fa', 'fa-regular', 'fa-square-check');
+        projCompleteBtn.appendChild(projCompleteIcon);
+        projectCompleteCell.appendChild(projCompleteBtn);
 
-        projectOptionsBox.append(editCell, deleteCell, completeCell);
+        projectOptionsBox.append(projectEditCell, projectDeleteCell, projectCompleteCell);
 
         // APPEND CELLS TO THE project TROW
-        projectRow.appendChild(projectCell);
-        projectRow.appendChild(dueCell);
-        projectRow.appendChild(priorityCell);
+        projectRow.appendChild(projectTitleCell);
+        projectRow.appendChild(projectDueCell);
+        projectRow.appendChild(projectPriorityCell);
         projectRow.appendChild(projectOptions);
         // projectRow.appendChild(editCell);
         // projectRow.appendChild(deleteCell);
