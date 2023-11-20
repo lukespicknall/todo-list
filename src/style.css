@@ -292,22 +292,146 @@
   border-radius: 25px;
 }
 #task-table {
+  width: 100%;
   background-color: var(--my-white);
 }
 
 #task-header {
   font-size: 23px;
+  padding: 0 0 15px 0;
 }
 
 .task-row {
+  width: 100%;
+  display: grid;
+  background-color: var(--my-white);
+  grid-template-areas: 
+  'task-cell notes-cell due-cell priority-cell task-options'
+  ;
+  grid-template-columns: 5fr 7fr 3fr 2fr 2fr;
+  gap: 5px;
   border-bottom: solid black 1px;
   border-bottom: black 1px solid;
-  background-color: var(--my-module);
 }
 
-td {
-  background-color: var(--my-module);
+.task-cell {
+    display: flex;
+  align-items: center;
+grid-area: task-cell
 }
+
+.notes-cell {
+    display: flex;
+  align-items: center;
+grid-area: notes-cell;
+}
+
+.due-cell {
+    display: flex;
+  align-items: center;
+grid-area: due-cell;
+}
+
+.priority-cell {
+   display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px 0 6px;
+  font-size: 12px;
+  font-weight:bolder;
+  border-radius: 15px;
+  border: 1px solid black;
+}
+
+.task-dueless {
+  color: var(--grey-font);
+  font-weight:bold;
+  font-size: 12px;
+}
+
+.task-priority-cell{
+  grid-area: task-priority;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* margin: 6px 0 6px 0; */
+  font-size: 14px;
+  font-weight:bolder;
+  border-radius: 15px;
+  border: 1px solid black;
+}
+
+.task-low {
+  background-color: var(--go-green);
+}
+
+.task-medium {
+  background-color: var(--warning-yellow)
+}
+
+.task-high {
+  color: black;
+  background-color: var(--danger-red)
+}
+
+.task-priorityless {
+  font-size: 12px;
+  color: var(--grey-font);
+  border: solid 1px var(--grey-font)
+}
+
+.task-options {
+  display: flex;
+  align-items: center;
+  grid-area: task-options;
+  gap: 5px ;
+}
+
+.edit-cell {
+
+}
+
+.delete-cell {
+
+}
+
+.complete-cell {
+
+}
+
+.edit-btn,
+.delete-btn,
+.complete-btn {
+  padding: 3px;
+  font-size: 12px;
+  width: 100%;
+  display:flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 5px;
+  border-style: none;
+  background-color: var(--my-side);
+  border-radius: 7px;
+  align-items: center;
+}
+
+.edit-btn:hover {
+  background-color: var(--warning-yellow);
+    border-radius: 7px;
+}
+.delete-btn:hover {
+  background-color: var(--danger-red);
+    border-radius: 7px;
+}
+.complete-btn:hover {
+  background-color: var(--go-green);
+    border-radius: 7px;
+}
+
+
+/* td {
+  background-color: var(--my-module);
+} */
 /* FORM STLYE */
 /* This form-overlay transition code documented below it*/
 #form-overlay {

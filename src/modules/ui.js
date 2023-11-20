@@ -414,10 +414,10 @@ const load = () => {
           taskTable.appendChild(taskRow); // add that tr to taskTable in libTable
 
           // CREATE NEW TABLE CELLS FOR TASK DATA
-          const taskCell = document.createElement('td');
-          const notesCell = document.createElement('td');
-          const dueCell = document.createElement('td');
-          const priorityCell = document.createElement('td');
+          const taskCell = document.createElement('div');
+          const notesCell = document.createElement('div');
+          const dueCell = document.createElement('div');
+          const priorityCell = document.createElement('div');
 
           // ASSIGN CELL CLASS NAMES
           taskCell.className = 'task-cell';
@@ -429,7 +429,24 @@ const load = () => {
           taskCell.textContent = projectList[a].tasks[i].task;
           notesCell.textContent = projectList[a].tasks[i].notes;
           dueCell.textContent = projectList[a].tasks[i].due;
+          if (
+            projectList[a].tasks[i].due === undefined || projectList[a].tasks[i].due === '') {
+            dueCell.textContent = 'no due date';
+            dueCell.classList.add('task-dueless');
+          }
           priorityCell.textContent = projectList[a].tasks[i].priority;
+          // IF PROJECT HAS NO priority DATA SET PLACEHOLDER TEXT/STYLE
+          if (projectList[a].tasks[i].priority === undefined) {
+            priorityCell.textContent = 'no priority';
+            priorityCell.classList.add('task-priorityless');
+          }
+          if (priorityCell.textContent === 'low') {
+            priorityCell.classList.add('task-low');
+          } else if (priorityCell.textContent === 'medium') {
+            priorityCell.classList.add('task-medium');
+          } else if (priorityCell.textContent === 'high') {
+            priorityCell.classList.add('task-high');
+          }
 
           // CREATE CELLS FOR UI BUTTONS ON ROW FOR TASK OBJ UPDATING
           const editCell = document.createElement('td'); //
@@ -444,25 +461,37 @@ const load = () => {
           // CREATE UI BUTTONS FOR TASK UPDATES, ASSIGN CLASS, APPEND TO UI CELL
           const editBtn = document.createElement('button');
           editBtn.className = 'edit-btn';
-          editBtn.innerHTML = '<p>edit</p>';
+          editBtn.innerHTML = 'edit';
+          const taskEditIcon = document.createElement('i');
+          taskEditIcon.classList.add('fa', 'fa-regular', 'fa-pen-to-square');
+          editBtn.appendChild(taskEditIcon);
           editCell.appendChild(editBtn);
           const deleteBtn = document.createElement('button');
           deleteBtn.className = 'delete-btn';
-          deleteBtn.innerHTML = '<p>delete</p>';
+          deleteBtn.innerHTML = 'delete';
+          const taskDeleteIcon = document.createElement('i');
+          taskDeleteIcon.classList.add('fa', 'fa-regular', 'fa-trash-can');
+          deleteBtn.appendChild(taskDeleteIcon);
           deleteCell.appendChild(deleteBtn);
           const completeBtn = document.createElement('button');
           completeBtn.className = 'complete-btn';
-          completeBtn.innerHTML = '<p>complete</p>';
+          completeBtn.innerHTML = 'complete';
+          const taskCompleteIcon = document.createElement('i');
+          taskCompleteIcon.classList.add('fa', 'fa-regular', 'fa-square-check');
+          completeBtn.appendChild(taskCompleteIcon);
           completeCell.appendChild(completeBtn);
+          const taskOptions = document.createElement('div');
+          taskOptions.classList.add('task-options');
+          taskOptions.appendChild(editCell);
+          taskOptions.appendChild(deleteCell);
+          taskOptions.appendChild(completeCell);
 
           // APPEND CELLS TO THE TASK TROW
           taskRow.appendChild(taskCell);
           taskRow.appendChild(notesCell);
           taskRow.appendChild(dueCell);
           taskRow.appendChild(priorityCell);
-          taskRow.appendChild(editCell);
-          taskRow.appendChild(deleteCell);
-          taskRow.appendChild(completeCell);
+          taskRow.appendChild(taskOptions);
 
           // ON CLICK, EDITBTN SETS EDITING STATE,
           // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS TASK ROW,
@@ -480,7 +509,7 @@ const load = () => {
               editNotes,
               editDue,
               editPriority,
-              currentTask,
+              currentTask
             );
           });
           taskDelete(deleteBtn, a);
