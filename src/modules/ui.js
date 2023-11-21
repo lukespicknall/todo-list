@@ -253,6 +253,7 @@ const load = () => {
     //  **  LOGIC TO COMPLETE AND DELETE PROJECTS AND ALTER DISPLAYS **  //
     const projectComplete = (projCompleteBtn) => {
       projCompleteBtn.addEventListener('click', (e) => {
+        updateProjectSelecting(false);
         // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
         const currentComplete = e.target.closest('.project-row').dataset.id;
         // IF MORE THAN 1 PROJ AND DELETING 1st PROJ, SHOW NEXT PROJ IN []
@@ -309,6 +310,7 @@ const load = () => {
 
     const projectDelete = (projDeleteBtn) => {
       projDeleteBtn.addEventListener('click', (e) => {
+        updateProjectSelecting(false);
         // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
         const currentDelete = e.target.closest('.project-row').dataset.id;
         // IF MORE THAN 1 PROJ AND DELETING 1st PROJ, SHOW NEXT PROJ IN []
