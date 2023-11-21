@@ -9,7 +9,7 @@
   --my-module: #e9eaec;
   --darker-grey: rgb(219, 219, 219);
   --grey-font:rgb(153, 153, 153);
-  --warning-yellow: rgb(248, 227, 106);
+  --warning-yellow: #fde73c;
   --go-green: rgb(171, 235, 171);
   --danger-red: rgb(255, 112, 112);
 }
