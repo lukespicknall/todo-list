@@ -175,7 +175,7 @@
   display: flex;
   align-items: center;
   grid-area: project-due;
-  padding: 2px 0 2px 15px
+  margin: 2px 0 2px 15px
 }
 
 .project-dueless {

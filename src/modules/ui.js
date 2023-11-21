@@ -227,7 +227,11 @@ const load = () => {
         // ROW LISTENER THAT SETS THE CLICKED PROJECT AS CURRENT AND DISPLAYS ITS TASKS
         projectRow.addEventListener('click', (e) => {
           const getProj = e.target;
-          if (getProj.tagName === 'DIV') {
+          if (getProj.className === 'project-row') {
+            const currentProjectDisplay = getProj.getAttribute('data-id');
+            setCurrent(currentProjectDisplay);
+            displayTasks(currentProjectDisplay);
+          } else if (getProj.tagName === 'DIV') {
             const currentProjectDisplay = getProj.parentNode.getAttribute('data-id');
             setCurrent(currentProjectDisplay);
             displayTasks(currentProjectDisplay);
