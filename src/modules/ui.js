@@ -173,21 +173,21 @@ const load = () => {
         projEditBtn.className = 'project-edit-btn';
         projEditBtn.innerHTML = 'edit';
         const projEditIcon = document.createElement('i');
-        projEditIcon.classList.add('fa', 'fa-regular', 'fa-pen-to-square');
+        projEditIcon.classList.add('fa', 'fa-proj-opt', 'fa-regular', 'fa-pen-to-square');
         projEditBtn.appendChild(projEditIcon);
         projectEditCell.appendChild(projEditBtn);
         const projDeleteBtn = document.createElement('button');
         projDeleteBtn.className = 'project-delete-btn';
         projDeleteBtn.innerHTML = 'delete';
         const projDeleteIcon = document.createElement('i');
-        projDeleteIcon.classList.add('fa', 'fa-regular', 'fa-trash-can');
+        projDeleteIcon.classList.add('fa', 'fa-proj-opt', 'fa-regular', 'fa-trash-can');
         projDeleteBtn.appendChild(projDeleteIcon);
         projectDeleteCell.appendChild(projDeleteBtn);
         const projCompleteBtn = document.createElement('button');
         projCompleteBtn.className = 'project-complete-btn';
         projCompleteBtn.innerHTML = 'complete';
         const projCompleteIcon = document.createElement('i');
-        projCompleteIcon.classList.add('fa', 'fa-regular', 'fa-square-check');
+        projCompleteIcon.classList.add('fa', 'fa-proj-opt', 'fa-regular', 'fa-square-check');
         projCompleteBtn.appendChild(projCompleteIcon);
         projectCompleteCell.appendChild(projCompleteBtn);
 
@@ -205,7 +205,7 @@ const load = () => {
         // ON CLICK, projEditBtn SETS EDITING STATE,
         // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS project ROW,
         // POPULATES A FORM CONTAINING THE OBJ'S DATA BY PASISNG THAT DATA TO displayForm()
-        projEditBtn.addEventListener('click', () => {
+        projEditBtn.addEventListener('click', (e) => {
           const editing = true;
           const currentProjectEdit = projectRow.getAttribute('data-id');
           const editTitle = projectList[currentProjectEdit].title;

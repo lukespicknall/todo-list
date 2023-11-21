@@ -9,7 +9,7 @@
   --my-module: #e9eaec;
   --darker-grey: rgb(219, 219, 219);
   --grey-font:rgb(153, 153, 153);
-  --warning-yellow: rgb(255, 234, 117);
+  --warning-yellow: rgb(248, 227, 106);
   --go-green: rgb(171, 235, 171);
   --danger-red: rgb(255, 112, 112);
 }
@@ -247,6 +247,7 @@
   border: 1px solid var(--darker-grey);
   border-radius: 7px;
   right: -80px;
+  /* opacity: 1; */
   background-color: var(--my-side);
   padding: 7px;
 }
@@ -279,6 +280,10 @@
 .project-complete-btn:hover {
   background-color: var(--go-green);
     border-radius: 7px;
+}
+
+.fa-proj-opt {
+  pointer-events: none;
 }
 
 
