@@ -69,6 +69,8 @@
   color: rgb(121, 121, 121);
 }
 
+
+/* **SIDE-BAR SECTION**  */
 #side-bar {
   grid-area: side-bar;
   display: flex;
@@ -81,6 +83,7 @@
 #side-bar :nth-child(1) { order: 2; }
 #side-bar :nth-child(2) { order: 1; }
 
+/* + ADD BTN STYLE */
 #add-box {
   display: flex;
 }
@@ -116,7 +119,7 @@
   /* margin-top: 10px; */
   padding: 5px;
   gap: 5px;
-  box-shadow: 5px 5px 10px 1px rgb(0, 0, 0);
+  box-shadow: 5px 5px 15px 1px rgb(0, 0, 0);
   border-radius: 3px;
 }
 
@@ -124,8 +127,18 @@
 #task-select {
   height: 100%;
   width: 100%;
+  border-style: none;
+  background-color: var(--my-white);
 }
 
+#project-select:hover,
+#task-select:hover {
+  background-color: var(--my-module);
+}
+
+#task-select {
+  border-bottom: solid 1px var(--my-module)
+}
 /* SIDE-BAR PROJECT TABLE STYLE */
 #project-table {
   padding: 50px 0 0 20px;
@@ -317,8 +330,13 @@
   grid-template-columns: 5fr 7fr 3fr 2fr 2fr;
   gap: 5px;
   border-bottom: solid 1px var(--darker-grey);
-  padding: 20px 0 10px 0;
+  margin: 10px 0 0 0;
+  padding: 10px 0 10px 0;
     /* overflow: hidden; */
+}
+
+.task-row:hover {
+  background-color: var(--my-side);
 }
 
 .task-cell {
@@ -419,7 +437,7 @@
 .delete-btn,
 .complete-btn {
   padding: 5px 10px 5px 10px;
-  font-size: 12px;
+  font-size: 13px;
   width: 100%;
   display:flex;
   flex-direction: row-reverse;

@@ -62,6 +62,7 @@ const load = () => {
   // CREATE addNew BUTTON
   const addBox = document.createElement('div');
   addBox.id = 'add-box';
+  addBox.setAttribute('title', 'Add a new project or task');
   const addNew = document.createElement('button');
   addNew.id = 'add-new';
   addNew.textContent = '+';
@@ -136,6 +137,7 @@ const load = () => {
         const projectOptions = document.createElement('div');
         projectOptions.classList.add('project-options');
         projectOptions.setAttribute('data-id', [i]);
+        projectOptions.setAttribute("title", "Project options");
         // PULL font-awesome MENU ICON
         const projectOptionsIcon = document.createElement('i');
         projectOptionsIcon.classList.add('fa', 'fa-solid', 'fa-ellipsis-vertical');
@@ -205,7 +207,7 @@ const load = () => {
         // ON CLICK, projEditBtn SETS EDITING STATE,
         // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS project ROW,
         // POPULATES A FORM CONTAINING THE OBJ'S DATA BY PASISNG THAT DATA TO displayForm()
-        projEditBtn.addEventListener('click', (e) => {
+        projEditBtn.addEventListener('click', () => {
           const editing = true;
           const currentProjectEdit = projectRow.getAttribute('data-id');
           const editTitle = projectList[currentProjectEdit].title;
@@ -582,6 +584,8 @@ const load = () => {
       projectTitle.setAttribute('id', 'project-title');
       projectTitle.setAttribute('placeholder', 'project title . . .');
       projectTitle.setAttribute('name', 'project-title');
+      projectTitle.setAttribute("maxlength", "15");
+      projectTitle.setAttribute("required", "required");
 
       // CREATE DUE INPUT AND LABEL, SET ATTRIBUTES
       // IF FORM LAUNCHED FORM editBtn, POPULATE W/ ARG VALUE FORM OBJ
@@ -761,6 +765,8 @@ const load = () => {
       taskTitle.setAttribute('id', 'task-title');
       taskTitle.setAttribute('placeholder', 'Task title . . .');
       taskTitle.setAttribute('name', 'task-title');
+      taskTitle.setAttribute("maxlength", "15");
+      taskTitle.setAttribute("required", "required");
 
       // CREATE DESCRIPTION INPUT AND LABEL, SET ATTRIBUTES
       // IF FORM LAUNCHED FORM editBtn, POPULATE W/ ARG VALUE FORM OBJ
@@ -775,6 +781,8 @@ const load = () => {
       taskDescription.setAttribute('type', 'text');
       taskDescription.setAttribute('placeholder', 'Task description . . .');
       taskDescription.setAttribute('name', 'task-description');
+      taskDescription.setAttribute("maxlength", "20");
+
 
       // CREATE DUE INPUT AND LABEL, SET ATTRIBUTES
       // IF FORM LAUNCHED FORM editBtn, POPULATE W/ ARG VALUE FORM OBJ
@@ -916,9 +924,9 @@ const load = () => {
       return taskCard;
     };
 
-    //  CAN I DELETE THIS NULL ASSIGNMENT? WHY IS IT THERE?
+    // ESTABLISH VAR USED IN addNew LISTENER TO TELL IF THE POPOUT IS SHOWING
     let selecting;
-    // CREATE NEW TASK FORM HANDLER
+    // EVENT LISTSNER ON + BUTTON W/ POPOUT TO ADD NEW TASK OR PROJECT
     addNew.addEventListener('click', () => {
       // formOverlay.id = "form-overlay-vis";
       // IF selectBox IS PRESENT, DONT MAKE MORE OF THEM ON CLICK
