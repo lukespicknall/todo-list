@@ -781,8 +781,7 @@ const load = () => {
       taskDescription.setAttribute('type', 'text');
       taskDescription.setAttribute('placeholder', 'Task description . . .');
       taskDescription.setAttribute('name', 'task-description');
-      taskDescription.setAttribute("maxlength", "20");
-
+      // taskDescription.setAttribute("maxlength", "20");
 
       // CREATE DUE INPUT AND LABEL, SET ATTRIBUTES
       // IF FORM LAUNCHED FORM editBtn, POPULATE W/ ARG VALUE FORM OBJ

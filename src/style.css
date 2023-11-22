@@ -105,8 +105,10 @@
 #add-new:hover {
   /* width: 110px;
   height: 110px; */
+  /* background-color: var(--go-green); */
   background-color: rgb(241, 191, 191);
   box-shadow: 7px 7px rgb(223, 101, 101);
+    /* box-shadow: 7px 7px var(--go-green); */
 }
 
 #select-box {
@@ -188,7 +190,8 @@
   display: flex;
   align-items: center;
   grid-area: project-due;
-  margin: 2px 0 2px 15px
+  margin: 2px 0 2px 15px;
+  pointer-events: none;
 }
 
 .project-dueless {
@@ -207,6 +210,7 @@
   font-weight:bolder;
   border-radius: 15px;
   border: 1px solid black;
+  pointer-events: none;
 }
 
 .project-low {
@@ -243,13 +247,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 25px;
+  font-size: 27px;
   /* border: solid 1px black; */
   padding: 2px;
   border-radius: 10px;
+  color: var(--grey-font);
 }
 .fa-ellipsis-vertical:hover {
-  background-color: rgb(255, 255, 255);
+  color: black;
+  /* background-color: rgb(255, 255, 255); */
 }
 
 .project-options-box {
@@ -344,6 +350,7 @@
   align-items: center;
   grid-area: task-cell;
   white-space: nowrap;
+  pointer-events: none;
   /* overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0; */
@@ -354,7 +361,7 @@
   align-items: center;
   grid-area: notes-cell;
   text-overflow: ellipsis;
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .due-cell {
@@ -509,7 +516,7 @@
   border-radius: 15px;
   box-shadow: 25px 20px 70px -30px black;
   transition: 1s;
-  padding: 8px;
+  padding: 10px;
 }
 
 #form-form {
@@ -519,7 +526,19 @@
 }
 
 input {
-  padding: 2px;
+  padding: 8px;
+}
+
+input[type="text"],
+input[type="date"] {
+  border: solid 1.5px var(--grey-font);
+  border-radius: 10px;
+}
+
+#task-description {
+  height: 60px;
+  /* display: flex;
+flex-direction: column; */
 }
 
 #foot {
