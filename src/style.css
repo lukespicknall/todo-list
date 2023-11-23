@@ -12,7 +12,9 @@
   --warning-yellow: #fde73c;
   --go-green: rgb(171, 235, 171);
   --danger-red: rgb(255, 112, 112);
+  /* font-family: Robots; */
 }
+
 @font-face {
     font-family: 'Robots';
     src: url('./fonts/Roboto-Light.ttf');
@@ -21,7 +23,7 @@
 #content {
   height: 100vh;
   width: 100vw;
-  font-family: Robots;
+  font-family: Arial, Helvetica, sans-serif;
   min-width: 760px;
 }
 
@@ -131,6 +133,7 @@
   width: 100%;
   border-style: none;
   background-color: var(--my-white);
+    /* font-family: Robots; */
 }
 
 #project-select:hover,
@@ -182,7 +185,7 @@
   grid-area: project-cell;
   display: flex;
   align-items: center;
-  font-weight: bold;
+  /* font-weight: bold; */
   margin: 15px 0 0 15px;
   cursor: default;
 }
@@ -197,18 +200,20 @@
 
 .project-dueless {
   color: var(--grey-font);
-  font-weight:bold;
+  /* font-weight:bold; */
   font-size: 12px;
 }
 
 .project-priority-cell{
   grid-area: project-priority;
   display: flex;
+  align-self: center;
   align-items: center;
   justify-content: center;
-  margin: 6px 0 6px 0;
+  /* margin: 6px 0 6px 0; */
+  height: 23px;
   font-size: 14px;
-  font-weight:bolder;
+  /* font-weight:bolder; */
   border-radius: 15px;
   border: 1px solid var(--grey-font);
   pointer-events: none;
@@ -384,20 +389,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  justify-self: center;
+  /* justify-self: center; */
   padding: 0 6px 0 6px;
-  font-size: 12px;
-  font-weight:bolder;
+  height: 23px;
+  font-size: 14px;
+  /* font-weight:bolder; */
   border-radius: 15px;
   border: 1px solid var(--grey-font);
-  width: 69px;
+  width: 55px;
   pointer-events: none;
 
 }
 
 .task-dueless {
   color: var(--grey-font);
-  font-weight:bold;
+  /* font-weight:bold; */
   font-size: 12px;
 }
 
@@ -408,7 +414,7 @@
   justify-content: center;
   /* margin: 6px 0 6px 0; */
   font-size: 14px;
-  font-weight:bolder;
+  /* font-weight:bolder; */
   border-radius: 15px;
   border: 1px solid black;
   pointer-events: none;

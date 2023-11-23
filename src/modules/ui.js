@@ -942,9 +942,11 @@ const load = () => {
       const projectSelect = document.createElement('button');
       projectSelect.textContent = 'New Project';
       projectSelect.id = 'project-select';
+      projectSelect.setAttribute("title", "Add a project");
       const taskSelect = document.createElement('button');
       taskSelect.textContent = 'New Task';
       taskSelect.id = 'task-select';
+      taskSelect.setAttribute("title", "Add a task");
       // IF NO PROJECTS EXIST, TASK BUTTON IS DISABLED
       if (projectList.length === 0) {
         taskSelect.setAttribute('disabled', 'disabled');
