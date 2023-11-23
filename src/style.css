@@ -183,7 +183,8 @@
   display: flex;
   align-items: center;
   font-weight: bold;
-  margin: 15px 0 0 15px
+  margin: 15px 0 0 15px;
+  cursor: default;
 }
 
 .project-due-cell {
@@ -209,7 +210,7 @@
   font-size: 14px;
   font-weight:bolder;
   border-radius: 15px;
-  border: 1px solid black;
+  border: 1px solid var(--grey-font);
   pointer-events: none;
 }
 
@@ -327,18 +328,19 @@
 }
 
 .task-row {
+  box-sizing: border-box;
   width: 100%;
   display: grid;
   background-color: var(--my-white);
   grid-template-areas: 
   'task-cell notes-cell due-cell priority-cell task-options'
   ;
-  grid-template-columns: 5fr 7fr 3fr 2fr 2fr;
-  gap: 5px;
+  grid-template-columns: 4fr 7fr 3fr 2fr 2fr;
+  gap: 10px;
   border-bottom: solid 1px var(--darker-grey);
   margin: 10px 0 0 0;
-  padding: 10px 0 10px 0;
-    /* overflow: hidden; */
+  padding: 10px 10px 10px 10px;
+    overflow: hidden;
 }
 
 .task-row:hover {
@@ -346,42 +348,51 @@
 }
 
 .task-cell {
-  display: flex;
-  align-items: center;
+  display: block;
+  align-self: center;
   grid-area: task-cell;
   white-space: nowrap;
   pointer-events: none;
-  /* overflow: hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
-  min-width: 0; */
+  min-width: 75px;
 }
 
 .notes-cell {
-  display: flex;
-  align-items: center;
+  display: block;
+  align-self: center;
   grid-area: notes-cell;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  min-width: 106px;
+  cursor: default;
 }
 
 .due-cell {
   display: flex;
   align-items: center;
+  justify-content: center;
   grid-area: due-cell;
   text-overflow: ellipsis;
     white-space: nowrap;
+      pointer-events: none;
+
 }
 
 .priority-cell {
   display: flex;
   align-items: center;
   justify-content: center;
+  justify-self: center;
   padding: 0 6px 0 6px;
   font-size: 12px;
   font-weight:bolder;
   border-radius: 15px;
-  border: 1px solid black;
-  width: 69px
+  border: 1px solid var(--grey-font);
+  width: 69px;
+  pointer-events: none;
+
 }
 
 .task-dueless {
@@ -400,6 +411,7 @@
   font-weight:bolder;
   border-radius: 15px;
   border: 1px solid black;
+  pointer-events: none;
 }
 
 .task-low {
@@ -522,17 +534,46 @@
 #form-form {
   display: flex;
   flex-direction: column;
+  min-width: 250px;
   gap: 8px;
 }
 
-input {
+#project-submit,
+#task-submit {
+  width: 68%;
+  height: 38px;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--darker-grey);
+  align-self: center;
+  margin: 2px 0 10px 0;
+}
+
+#project-submit:hover,
+#task-submit:hover {
+  background-color: var(--go-green);
+}
+
+input,
+textarea {
   padding: 8px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
 }
 
 input[type="text"],
-input[type="date"] {
+input[type="date"],
+textarea {
   border: solid 1.5px var(--grey-font);
   border-radius: 10px;
+}
+
+textarea {
+  min-width: 250px;
+  min-height: 78px;
+  max-width: 580px;
+  max-height: 240px;
 }
 
 #task-description {

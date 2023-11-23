@@ -433,6 +433,9 @@ const load = () => {
           dueCell.className = 'due-cell';
           priorityCell.className = 'priority-cell';
 
+          // GIVE notesCell A TITLE LABEL SO YOU CAN SEE IT EXPANDED IF LONG
+          notesCell.setAttribute("title", `${projectList[a].tasks[i].notes}`);
+
           // ASSIGN CELL DATA FROM TASK DATA
           taskCell.textContent = projectList[a].tasks[i].task;
           notesCell.textContent = projectList[a].tasks[i].notes;
@@ -667,9 +670,9 @@ const load = () => {
       submitLabel.setAttribute('for', 'project-submit');
       const projectSubmit = document.createElement('button');
       if (a === true) {
-        projectSubmit.textContent = 'Update project';
+        projectSubmit.textContent = 'Update Project';
       } else {
-        projectSubmit.textContent = 'Add project';
+        projectSubmit.textContent = 'Add Project';
       }
       projectSubmit.setAttribute('id', 'project-submit');
       projectSubmit.setAttribute('type', 'submit');
@@ -773,12 +776,12 @@ const load = () => {
       const descriptionLabel = document.createElement('label');
       descriptionLabel.setAttribute('for', 'task-description');
       descriptionLabel.textContent = 'Description';
-      const taskDescription = document.createElement('input');
+      const taskDescription = document.createElement('textarea');
       if (a === true) {
         taskDescription.value = c;
       }
       taskDescription.setAttribute('id', 'task-description');
-      taskDescription.setAttribute('type', 'text');
+      // taskDescription.setAttribute('type', 'text');
       taskDescription.setAttribute('placeholder', 'Task description . . .');
       taskDescription.setAttribute('name', 'task-description');
       // taskDescription.setAttribute("maxlength", "20");
