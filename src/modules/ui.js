@@ -137,7 +137,7 @@ const load = () => {
         const projectOptions = document.createElement('div');
         projectOptions.classList.add('project-options');
         projectOptions.setAttribute('data-id', [i]);
-        projectOptions.setAttribute("title", "Project options");
+        projectOptions.setAttribute('title', 'Project options');
         // PULL font-awesome MENU ICON
         const projectOptionsIcon = document.createElement('i');
         projectOptionsIcon.classList.add('fa', 'fa-solid', 'fa-ellipsis-vertical');
@@ -434,7 +434,7 @@ const load = () => {
           priorityCell.className = 'priority-cell';
 
           // GIVE notesCell A TITLE LABEL SO YOU CAN SEE IT EXPANDED IF LONG
-          notesCell.setAttribute("title", `${projectList[a].tasks[i].notes}`);
+          notesCell.setAttribute('title', `${projectList[a].tasks[i].notes}`);
 
           // ASSIGN CELL DATA FROM TASK DATA
           taskCell.textContent = projectList[a].tasks[i].task;
@@ -587,8 +587,8 @@ const load = () => {
       projectTitle.setAttribute('id', 'project-title');
       projectTitle.setAttribute('placeholder', 'project title . . .');
       projectTitle.setAttribute('name', 'project-title');
-      projectTitle.setAttribute("maxlength", "15");
-      projectTitle.setAttribute("required", "required");
+      projectTitle.setAttribute('maxlength', '20');
+      projectTitle.setAttribute('required', 'required');
 
       // CREATE DUE INPUT AND LABEL, SET ATTRIBUTES
       // IF FORM LAUNCHED FORM editBtn, POPULATE W/ ARG VALUE FORM OBJ
@@ -606,13 +606,13 @@ const load = () => {
 
       // CREATE PRIORITY INPUT AND LABEL, SET ATTRIBUTES
       // IF FORM LAUNCHED FORM editBtn, POPULATE W/ ARG VALUE FORM OBJ
-      const priorityLabel = document.createElement('p');
+      const priorityLabel = document.createElement('div');
       // priorityLabel.setAttribute('for', 'project-prioritybox');
       // priorityLabel.setAttribute('for', 'project-priority');
       priorityLabel.textContent = 'Priority';
       // CREATE BOX TO HOLD RADIO BUTTONS AND LABELS
       const projectPriorityBox = document.createElement('div');
-      // projectPriorityBox.setAttribute('id', 'project-prioritybox');
+      projectPriorityBox.setAttribute('id', 'project-priority-box');
       if (a === true) {
         projectPriorityBox.value = d;
       }
@@ -620,7 +620,10 @@ const load = () => {
       // CREATE LOW PRIORITY RADIO BUTTON
       const lowLabel = document.createElement('label');
       lowLabel.setAttribute('for', 'low-priority');
-      lowLabel.textContent = 'low';
+      // lowLabel.textContent = 'low';
+      const lowLabelSpan = document.createElement('span');
+      lowLabelSpan.setAttribute('id', 'low-span');
+      lowLabelSpan.textContent = 'low';
       const lowPriority = document.createElement('input');
       lowPriority.id = 'low-priority';
       lowPriority.setAttribute('type', 'radio');
@@ -630,13 +633,17 @@ const load = () => {
       if (projectPriorityBox.value === 'low') {
         lowPriority.checked = true;
       }
+      lowLabel.appendChild(lowPriority);
+      lowLabel.appendChild(lowLabelSpan);
       projectPriorityBox.appendChild(lowLabel);
-      projectPriorityBox.appendChild(lowPriority);
 
       // CREATE MEDIUM PRIORITY RADIO BUTTON
       const mediumLabel = document.createElement('label');
       mediumLabel.setAttribute('for', 'medium-priority');
-      mediumLabel.textContent = 'medium';
+      // mediumLabel.textContent = 'medium';
+      const mediumLabelSpan = document.createElement('span');
+      mediumLabelSpan.setAttribute('id', 'medium-span');
+      mediumLabelSpan.textContent = 'medium';
       const mediumPriority = document.createElement('input');
       mediumPriority.id = 'medium-priority';
       mediumPriority.setAttribute('type', 'radio');
@@ -646,13 +653,17 @@ const load = () => {
       if (projectPriorityBox.value === 'medium') {
         mediumPriority.checked = true;
       }
-      projectPriorityBox.appendChild(mediumLabel, mediumPriority);
-      projectPriorityBox.appendChild(mediumPriority);
+      mediumLabel.appendChild(mediumPriority);
+      mediumLabel.appendChild(mediumLabelSpan);
+      projectPriorityBox.appendChild(mediumLabel);
 
       // CREATE HIGH PRIORITY RADIO BUTTON
       const highLabel = document.createElement('label');
       highLabel.setAttribute('for', 'high-priority');
-      highLabel.textContent = 'high';
+      // highLabel.textContent = 'high';
+      const highLabelSpan = document.createElement("span");
+      highLabelSpan.setAttribute("id", "high-span");
+      highLabelSpan.textContent = "high";
       const highPriority = document.createElement('input');
       highPriority.id = 'high-priority';
       highPriority.setAttribute('type', 'radio');
@@ -662,8 +673,9 @@ const load = () => {
       if (projectPriorityBox.value === 'high') {
         highPriority.checked = true;
       }
-      projectPriorityBox.appendChild(highLabel, highPriority);
-      projectPriorityBox.appendChild(highPriority);
+      highLabel.appendChild(highPriority);
+      highLabel.appendChild(highLabelSpan);
+      projectPriorityBox.appendChild(highLabel);
 
       // CREATE SUBMIT BUTTON, SELECT LABEL BASED ON EDITING STATE
       const submitLabel = document.createElement('label');
@@ -768,23 +780,22 @@ const load = () => {
       taskTitle.setAttribute('id', 'task-title');
       taskTitle.setAttribute('placeholder', 'Task title . . .');
       taskTitle.setAttribute('name', 'task-title');
-      taskTitle.setAttribute("maxlength", "15");
-      taskTitle.setAttribute("required", "required");
+      taskTitle.setAttribute('maxlength', '20');
+      taskTitle.setAttribute('required', 'required');
 
       // CREATE DESCRIPTION INPUT AND LABEL, SET ATTRIBUTES
       // IF FORM LAUNCHED FORM editBtn, POPULATE W/ ARG VALUE FORM OBJ
       const descriptionLabel = document.createElement('label');
       descriptionLabel.setAttribute('for', 'task-description');
       descriptionLabel.textContent = 'Description';
+      // USE textarea HERE TO CREATE BIGGER/RESIZABLE TEXT BOX
       const taskDescription = document.createElement('textarea');
       if (a === true) {
         taskDescription.value = c;
       }
       taskDescription.setAttribute('id', 'task-description');
-      // taskDescription.setAttribute('type', 'text');
       taskDescription.setAttribute('placeholder', 'Task description . . .');
       taskDescription.setAttribute('name', 'task-description');
-      // taskDescription.setAttribute("maxlength", "20");
 
       // CREATE DUE INPUT AND LABEL, SET ATTRIBUTES
       // IF FORM LAUNCHED FORM editBtn, POPULATE W/ ARG VALUE FORM OBJ
@@ -942,11 +953,11 @@ const load = () => {
       const projectSelect = document.createElement('button');
       projectSelect.textContent = 'New Project';
       projectSelect.id = 'project-select';
-      projectSelect.setAttribute("title", "Add a project");
+      projectSelect.setAttribute('title', 'Add a project');
       const taskSelect = document.createElement('button');
       taskSelect.textContent = 'New Task';
       taskSelect.id = 'task-select';
-      taskSelect.setAttribute("title", "Add a task");
+      taskSelect.setAttribute('title', 'Add a task');
       // IF NO PROJECTS EXIST, TASK BUTTON IS DISABLED
       if (projectList.length === 0) {
         taskSelect.setAttribute('disabled', 'disabled');

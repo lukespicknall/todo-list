@@ -544,6 +544,54 @@
   gap: 8px;
 }
 
+/* FORM PRIORITY RADIO BUTTON STYLING.
+A LOT DONE TO GET TEXT IN THE RADIO BUTTONS 
+WHICH TAKES SETTING THE INPUT TO display:none AND
+INSERTING A SPAN WITH TEXT AND MNAIPULATING ITS STYLE*/
+#project-priority-box {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  box-sizing: border-box;
+}
+
+#low-priority,
+#medium-priority,
+#high-priority {
+  display: none;
+}
+
+#low-span,
+#medium-span,
+#high-span {
+display: flex;
+border: 1px solid #ccc; 
+width: 69px; 
+height: 27px; 
+overflow: hidden; 
+justify-content: center;
+align-items: center;
+border-radius: 15px; 
+font-size: 14px; 
+}
+
+#low-priority:checked + #low-span {
+  background: var(--go-green); 
+  border-color: #ccf;
+}
+
+#medium-priority:checked + #medium-span {
+  background: var(--warning-yellow); 
+  border-color: #ccf;
+}
+
+#high-priority:checked + #high-span {
+  background: var(--danger-red); 
+  border-color: #ccf;
+}
+
 #project-submit,
 #task-submit {
   width: 68%;
