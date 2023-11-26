@@ -49,9 +49,12 @@ const load = () => {
   const sideBar = document.createElement('div');
   sideBar.id = 'side-bar';
 
+  const projectTableHolder = document.createElement('div');
+  projectTableHolder.id = "project-table-holder";
   const projectTable = document.createElement('table');
   projectTable.id = 'project-table';
-  sideBar.appendChild(projectTable);
+  projectTableHolder.appendChild(projectTable);
+  sideBar.appendChild(projectTableHolder);
 
   const head = document.createElement('div');
   head.id = 'head';
