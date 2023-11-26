@@ -619,13 +619,13 @@ const load = () => {
 
       // CREATE LOW PRIORITY RADIO BUTTON
       const lowLabel = document.createElement('label');
-      lowLabel.setAttribute('for', 'low-priority');
+      lowLabel.setAttribute('for', 'project-low-priority');
       // lowLabel.textContent = 'low';
       const lowLabelSpan = document.createElement('span');
-      lowLabelSpan.setAttribute('id', 'low-span');
+      lowLabelSpan.setAttribute('id', 'project-low-span');
       lowLabelSpan.textContent = 'low';
       const lowPriority = document.createElement('input');
-      lowPriority.id = 'low-priority';
+      lowPriority.id = 'project-low-priority';
       lowPriority.setAttribute('type', 'radio');
       lowPriority.setAttribute('name', 'project-priority');
       lowPriority.setAttribute('value', 'low');
@@ -639,13 +639,13 @@ const load = () => {
 
       // CREATE MEDIUM PRIORITY RADIO BUTTON
       const mediumLabel = document.createElement('label');
-      mediumLabel.setAttribute('for', 'medium-priority');
+      mediumLabel.setAttribute('for', 'project-medium-priority');
       // mediumLabel.textContent = 'medium';
       const mediumLabelSpan = document.createElement('span');
-      mediumLabelSpan.setAttribute('id', 'medium-span');
+      mediumLabelSpan.setAttribute('id', 'project-medium-span');
       mediumLabelSpan.textContent = 'medium';
       const mediumPriority = document.createElement('input');
-      mediumPriority.id = 'medium-priority';
+      mediumPriority.id = 'project-medium-priority';
       mediumPriority.setAttribute('type', 'radio');
       mediumPriority.setAttribute('name', 'project-priority');
       mediumPriority.setAttribute('value', 'medium');
@@ -659,13 +659,13 @@ const load = () => {
 
       // CREATE HIGH PRIORITY RADIO BUTTON
       const highLabel = document.createElement('label');
-      highLabel.setAttribute('for', 'high-priority');
+      highLabel.setAttribute("for", "project-high-priority");
       // highLabel.textContent = 'high';
-      const highLabelSpan = document.createElement("span");
-      highLabelSpan.setAttribute("id", "high-span");
-      highLabelSpan.textContent = "high";
+      const highLabelSpan = document.createElement('span');
+      highLabelSpan.setAttribute("id", "project-high-span");
+      highLabelSpan.textContent = 'high';
       const highPriority = document.createElement('input');
-      highPriority.id = 'high-priority';
+      highPriority.id = "project-high-priority";
       highPriority.setAttribute('type', 'radio');
       highPriority.setAttribute('name', 'project-priority');
       highPriority.setAttribute('value', 'high');
@@ -818,16 +818,20 @@ const load = () => {
       priorityLabel.textContent = 'Priority';
       // CREATE BOX TO HOLD RADIO BUTTONS AND LABELS
       const taskPriorityBox = document.createElement('div');
+      taskPriorityBox.setAttribute('id', 'task-priority-box');
       if (a === true) {
         taskPriorityBox.value = f;
       }
 
       // CREATE LOW PRIORITY RADIO BUTTON
       const lowLabel = document.createElement('label');
-      lowLabel.setAttribute('for', 'low-priority');
-      lowLabel.textContent = 'low';
+      lowLabel.setAttribute('for', 'task-low-priority');
+      // lowLabel.textContent = 'low';
+      const lowLabelSpan = document.createElement('span');
+      lowLabelSpan.setAttribute("id", "task-low-span");
+      lowLabelSpan.textContent = 'low';
       const lowPriority = document.createElement('input');
-      lowPriority.id = 'low-priority';
+      lowPriority.id = 'task-low-priority';
       lowPriority.setAttribute('type', 'radio');
       lowPriority.setAttribute('name', 'task-priority');
       lowPriority.setAttribute('value', 'low');
@@ -835,15 +839,19 @@ const load = () => {
       if (taskPriorityBox.value === 'low') {
         lowPriority.checked = true;
       }
+      lowLabel.appendChild(lowPriority);
+      lowLabel.appendChild(lowLabelSpan);
       taskPriorityBox.appendChild(lowLabel);
-      taskPriorityBox.appendChild(lowPriority);
 
       // CREATE MEDIUM PRIORITY RADIO BUTTON
       const mediumLabel = document.createElement('label');
-      mediumLabel.setAttribute('for', 'medium-priority');
-      mediumLabel.textContent = 'medium';
+      mediumLabel.setAttribute('for', 'task-medium-priority');
+      // mediumLabel.textContent = 'medium';
+      const mediumLabelSpan = document.createElement('span');
+      mediumLabelSpan.setAttribute("id", "task-medium-span");
+      mediumLabelSpan.textContent = 'medium';
       const mediumPriority = document.createElement('input');
-      mediumPriority.id = 'medium-priority';
+      mediumPriority.id = 'task-medium-priority';
       mediumPriority.setAttribute('type', 'radio');
       mediumPriority.setAttribute('name', 'task-priority');
       mediumPriority.setAttribute('value', 'medium');
@@ -851,15 +859,19 @@ const load = () => {
       if (taskPriorityBox.value === 'medium') {
         mediumPriority.checked = true;
       }
-      taskPriorityBox.appendChild(mediumLabel, mediumPriority);
-      taskPriorityBox.appendChild(mediumPriority);
+      mediumLabel.appendChild(mediumPriority);
+      mediumLabel.appendChild(mediumLabelSpan);
+      taskPriorityBox.appendChild(mediumLabel);
 
       // CREATE HIGH PRIORITY RADIO BUTTON
       const highLabel = document.createElement('label');
-      highLabel.setAttribute('for', 'high-priority');
-      highLabel.textContent = 'high';
+      highLabel.setAttribute('for', 'task-high-priority');
+      // highLabel.textContent = 'high';
+      const highLabelSpan = document.createElement('span');
+      highLabelSpan.setAttribute('id', 'task-high-span');
+      highLabelSpan.textContent = 'high';
       const highPriority = document.createElement('input');
-      highPriority.id = 'high-priority';
+      highPriority.id = 'task-high-priority';
       highPriority.setAttribute('type', 'radio');
       highPriority.setAttribute('name', 'task-priority');
       highPriority.setAttribute('value', 'high');
@@ -867,8 +879,9 @@ const load = () => {
       if (taskPriorityBox.value === 'high') {
         highPriority.checked = true;
       }
-      taskPriorityBox.appendChild(highLabel, highPriority);
-      taskPriorityBox.appendChild(highPriority);
+      highLabel.appendChild(highPriority);
+      highLabel.appendChild(highLabelSpan);
+      taskPriorityBox.appendChild(highLabel);
 
       // CREATE SUBMIT BUTTON, SELECT LABEL BASED ON EDITING STATE
       const submitLabel = document.createElement('label');

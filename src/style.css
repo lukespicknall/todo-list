@@ -548,7 +548,8 @@
 A LOT DONE TO GET TEXT IN THE RADIO BUTTONS 
 WHICH TAKES SETTING THE INPUT TO display:none AND
 INSERTING A SPAN WITH TEXT AND MNAIPULATING ITS STYLE*/
-#project-priority-box {
+#project-priority-box,
+#task-priority-box {
   width: 100%;
   height: 30px;
   display: flex;
@@ -557,15 +558,21 @@ INSERTING A SPAN WITH TEXT AND MNAIPULATING ITS STYLE*/
   box-sizing: border-box;
 }
 
-#low-priority,
-#medium-priority,
-#high-priority {
+#project-low-priority,
+#project-medium-priority,
+#project-high-priority,
+#task-low-priority,
+#task-medium-priority,
+#task-high-priority {
   display: none;
 }
 
-#low-span,
-#medium-span,
-#high-span {
+#project-low-span,
+#project-medium-span,
+#project-high-span,
+#task-low-span,
+#task-medium-span,
+#task-high-span {
 display: flex;
 border: 1px solid #ccc; 
 width: 69px; 
@@ -577,17 +584,20 @@ border-radius: 15px;
 font-size: 14px; 
 }
 
-#low-priority:checked + #low-span {
+#project-low-priority:checked + #project-low-span,
+#task-low-priority:checked + #task-low-span {
   background: var(--go-green); 
   border-color: #ccf;
 }
 
-#medium-priority:checked + #medium-span {
+#project-medium-priority:checked + #project-medium-span,
+#task-medium-priority:checked + #task-medium-span {
   background: var(--warning-yellow); 
   border-color: #ccf;
 }
 
-#high-priority:checked + #high-span {
+#project-high-priority:checked + #project-high-span,
+#task-high-priority:checked + #task-high-span {
   background: var(--danger-red); 
   border-color: #ccf;
 }
