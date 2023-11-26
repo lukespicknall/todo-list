@@ -12,6 +12,7 @@
   --warning-yellow: #fde73c;
   --go-green: rgb(171, 235, 171);
   --danger-red: rgb(255, 112, 112);
+  --add-button-red: rgb(241, 176, 176);
   /* font-family: Robots; */
 }
 
@@ -63,9 +64,8 @@
   padding: 0 0 0 20px;
   width: 100%;
   height: 100%;
-  /* align-self: center; */
   align-items: center;
-  gap: 20px;
+  gap: 15px;
   font-size: 35px;
 }
 
@@ -78,7 +78,7 @@
 
 .head-icon:hover {
   font-size: 40px;
-  color: var(--danger-red);
+  color: var(--add-button-red);
 }
 
 #head-text {
@@ -134,7 +134,7 @@
   justify-content: center;
   width: 100px;
   height: 100px;
-  margin: 50px 0 0 0;
+  margin: 40px 0 0 0;
   border-style: none;
   border-radius: 35%;
   background-color: rgb(241, 176, 176);
@@ -146,7 +146,7 @@
   /* width: 110px;
   height: 110px; */
   /* background-color: var(--go-green); */
-  background-color: rgb(241, 191, 191);
+  background-color: var(--add-button-red);
   box-shadow: 7px 7px rgb(223, 101, 101);
     /* box-shadow: 7px 7px var(--go-green); */
 }
@@ -192,7 +192,7 @@ height: 100%;
 }
 
 #project-table {
-  padding: 50px 0 0 20px;
+  padding: 40px 0 0 20px;
   width: 100%;
 
 }
@@ -724,7 +724,7 @@ flex-direction: column; */
 
 .foot-icon:hover {
   font-size: 30px;
-  color: var(--danger-red);
+  color: var(--add-button-red);
 }
 
 #foot-text {

@@ -73,12 +73,16 @@ const load = () => {
   foot.id = 'foot';
   const footHolder = document.createElement('div');
   footHolder.setAttribute("id", "foot-holder");
+  const footIconHolder = document.createElement('a');
+  footIconHolder.href = "https://github.com/lukespicknall/todo-list";
+  footIconHolder.setAttribute('target', '_blank');
   const footGitIcon = document.createElement('i');
   footGitIcon.classList.add('fa-brands', 'fa-github', 'foot-icon');
   const footText = document.createElement('div');
   footText.setAttribute('id', 'foot-text');
   footText.textContent = '2023 Luke Spicknall';
-  footHolder.appendChild(footGitIcon);
+  footIconHolder.appendChild(footGitIcon);
+  footHolder.appendChild(footIconHolder);
   footHolder.appendChild(footText);
   foot.appendChild(footHolder);
 
