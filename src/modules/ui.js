@@ -56,31 +56,42 @@ const load = () => {
   projectTableHolder.appendChild(projectTable);
   sideBar.appendChild(projectTableHolder);
 
+  // HEAD AND ITS CONTENT - AN ICON AND SOME TEXT
   const head = document.createElement('div');
   head.id = 'head';
+  // A CONTAINER
   const headHolder = document.createElement('div');
-  headHolder.setAttribute("id", "head-holder");
+  headHolder.setAttribute('id', 'head-holder');
+  // THE ICON FROM FontAwesome
   const headIcon = document.createElement('i');
   headIcon.classList.add('fa-solid', 'fa-list-check', 'head-icon');
+  // SOME TEXT
   const headText = document.createElement('div');
   headText.setAttribute('id', 'head-text');
-  headText.textContent = "to do it";
+  headText.textContent = 'to do it';
+  // APPEND IT ALL
   headHolder.appendChild(headIcon);
   headHolder.appendChild(headText);
   head.appendChild(headHolder);
 
+  // FOOT AND ITS CONTENT - AN ICON W/ LINK AND SOME TEXT
   const foot = document.createElement('div');
   foot.id = 'foot';
+  // A CONTAINER
   const footHolder = document.createElement('div');
-  footHolder.setAttribute("id", "foot-holder");
+  footHolder.setAttribute('id', 'foot-holder');
+  // A CONTAINER FOR THE ICON THAT IS THE <a> LINK TO REPO
   const footIconHolder = document.createElement('a');
-  footIconHolder.href = "https://github.com/lukespicknall/todo-list";
+  footIconHolder.href = 'https://github.com/lukespicknall/todo-list';
   footIconHolder.setAttribute('target', '_blank');
+  // THE ICON FROM FontAwesome
   const footGitIcon = document.createElement('i');
   footGitIcon.classList.add('fa-brands', 'fa-github', 'foot-icon');
+  // SOME TEXT
   const footText = document.createElement('div');
   footText.setAttribute('id', 'foot-text');
   footText.textContent = '2023 Luke Spicknall';
+  // APPEND IT ALL TO FOOT
   footIconHolder.appendChild(footGitIcon);
   footHolder.appendChild(footIconHolder);
   footHolder.appendChild(footText);

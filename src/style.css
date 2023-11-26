@@ -496,7 +496,7 @@ right: -80px;
   gap: 5px ;
 }
 
-.edit-cell {
+/* .edit-cell {
 
 }
 
@@ -506,7 +506,7 @@ right: -80px;
 
 .complete-cell {
 
-}
+} */
 
 .edit-btn,
 .delete-btn,
@@ -539,9 +539,6 @@ right: -80px;
 }
 
 
-/* td {
-  background-color: var(--my-module);
-} */
 /* FORM STLYE */
 /* This form-overlay transition code documented below it*/
 #form-overlay {
@@ -694,10 +691,9 @@ textarea {
 
 #task-description {
   height: 60px;
-  /* display: flex;
-flex-direction: column; */
 }
 
+/*    **FOOT STYLE**     */
 #foot {
    grid-area: foot;
    height: 100%;
@@ -709,12 +705,9 @@ flex-direction: column; */
   justify-content: center;
   width: 100%;
   height: 100%;
-  /* align-self: center; */
   align-items: center;
   gap: 10px;
-
 }
-
 
 .foot-icon {
   font-size: 30px;
@@ -728,7 +721,7 @@ flex-direction: column; */
 }
 
 #foot-text {
-  font-size: 14px;
+  font-size: 12px;
   font-family: Robots;
   font-weight: bold;
   color: var(--grey-font);
