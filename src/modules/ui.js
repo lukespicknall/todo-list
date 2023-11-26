@@ -50,7 +50,7 @@ const load = () => {
   sideBar.id = 'side-bar';
 
   const projectTableHolder = document.createElement('div');
-  projectTableHolder.id = "project-table-holder";
+  projectTableHolder.id = 'project-table-holder';
   const projectTable = document.createElement('table');
   projectTable.id = 'project-table';
   projectTableHolder.appendChild(projectTable);
@@ -58,8 +58,30 @@ const load = () => {
 
   const head = document.createElement('div');
   head.id = 'head';
+  const headHolder = document.createElement('div');
+  headHolder.setAttribute("id", "head-holder");
+  const headIcon = document.createElement('i');
+  headIcon.classList.add('fa-solid', 'fa-list-check', 'head-icon');
+  const headText = document.createElement('div');
+  headText.setAttribute('id', 'head-text');
+  headText.textContent = "to do it";
+  headHolder.appendChild(headIcon);
+  headHolder.appendChild(headText);
+  head.appendChild(headHolder);
+
   const foot = document.createElement('div');
   foot.id = 'foot';
+  const footHolder = document.createElement('div');
+  footHolder.setAttribute("id", "foot-holder");
+  const footGitIcon = document.createElement('i');
+  footGitIcon.classList.add('fa-brands', 'fa-github', 'foot-icon');
+  const footText = document.createElement('div');
+  footText.setAttribute('id', 'foot-text');
+  footText.textContent = '2023 Luke Spicknall';
+  footHolder.appendChild(footGitIcon);
+  footHolder.appendChild(footText);
+  foot.appendChild(footHolder);
+
   pageBox.append(main, sideBar, head, foot);
 
   // CREATE addNew BUTTON
@@ -662,13 +684,13 @@ const load = () => {
 
       // CREATE HIGH PRIORITY RADIO BUTTON
       const highLabel = document.createElement('label');
-      highLabel.setAttribute("for", "project-high-priority");
+      highLabel.setAttribute('for', 'project-high-priority');
       // highLabel.textContent = 'high';
       const highLabelSpan = document.createElement('span');
-      highLabelSpan.setAttribute("id", "project-high-span");
+      highLabelSpan.setAttribute('id', 'project-high-span');
       highLabelSpan.textContent = 'high';
       const highPriority = document.createElement('input');
-      highPriority.id = "project-high-priority";
+      highPriority.id = 'project-high-priority';
       highPriority.setAttribute('type', 'radio');
       highPriority.setAttribute('name', 'project-priority');
       highPriority.setAttribute('value', 'high');
@@ -831,7 +853,7 @@ const load = () => {
       lowLabel.setAttribute('for', 'task-low-priority');
       // lowLabel.textContent = 'low';
       const lowLabelSpan = document.createElement('span');
-      lowLabelSpan.setAttribute("id", "task-low-span");
+      lowLabelSpan.setAttribute('id', 'task-low-span');
       lowLabelSpan.textContent = 'low';
       const lowPriority = document.createElement('input');
       lowPriority.id = 'task-low-priority';
@@ -851,7 +873,7 @@ const load = () => {
       mediumLabel.setAttribute('for', 'task-medium-priority');
       // mediumLabel.textContent = 'medium';
       const mediumLabelSpan = document.createElement('span');
-      mediumLabelSpan.setAttribute("id", "task-medium-span");
+      mediumLabelSpan.setAttribute('id', 'task-medium-span');
       mediumLabelSpan.textContent = 'medium';
       const mediumPriority = document.createElement('input');
       mediumPriority.id = 'task-medium-priority';

@@ -45,11 +45,47 @@
   transition: 275ms;
 }
 
+/*    **HEAD STLYE**    */
 #head {
   grid-area: head;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--my-side);
   height: 100%;
   width: 100%;
+}
+
+#head-holder{
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 0 0 20px;
+  width: 100%;
+  height: 100%;
+  /* align-self: center; */
+  align-items: center;
+  gap: 20px;
+  font-size: 35px;
+}
+
+
+.head-icon {
+  font-size: 40px;
+  color: var(--grey-font);
+  transition: all ease-in-out 0.16s;
+}
+
+.head-icon:hover {
+  font-size: 40px;
+  color: var(--danger-red);
+}
+
+#head-text {
+  font-size: 35px;
+  font-family: Robots;
+  font-weight: bold;
+  color: var(--grey-font);
 }
 
 #main {
@@ -135,7 +171,7 @@
   width: 100%;
   border-style: none;
   background-color: var(--my-white);
-    font-family: Robots;
+  transition: all ease-out 0.16s
 }
 
 #project-select:hover,
@@ -179,6 +215,7 @@ height: 100%;
   border-bottom: 2px solid var(--darker-grey);
   /* border-radius: 25px; */
   column-gap: 15px;
+  transition: all ease-in-out 0.16s;
 }
 
 
@@ -269,6 +306,7 @@ height: 100%;
   border-radius: 10px;
   color: var(--grey-font);
 }
+
 .fa-ellipsis-vertical:hover {
   color: black;
   /* background-color: rgb(255, 255, 255); */
@@ -302,6 +340,7 @@ right: -80px;
   background-color: var(--my-side);
   border-radius: 7px 7px 0 0;
   align-items: center;
+  transition: all ease-in-out 0.16s;
 }
 
 .project-edit-btn:hover {
@@ -355,7 +394,8 @@ right: -80px;
   border-bottom: solid 1px var(--darker-grey);
   margin: 10px 0 0 0;
   padding: 10px 10px 10px 10px;
-    overflow: hidden;
+  overflow: hidden;
+  transition: all ease-in-out 0.16s;
 }
 
 .task-row:hover {
@@ -482,6 +522,7 @@ right: -80px;
   background-color: var(--my-side);
   border-radius: 7px;
   align-items: center;
+  transition: all ease-in-out 0.16s;
 }
 
 .edit-btn:hover {
@@ -584,7 +625,7 @@ INSERTING A SPAN WITH TEXT AND MNAIPULATING ITS STYLE*/
 #task-medium-span,
 #task-high-span {
 display: flex;
-border: 1px solid #ccc; 
+border: 1px solid var(--grey-font); 
 width: 69px; 
 height: 27px; 
 overflow: hidden; 
@@ -597,19 +638,19 @@ font-size: 14px;
 #project-low-priority:checked + #project-low-span,
 #task-low-priority:checked + #task-low-span {
   background: var(--go-green); 
-  border-color: #ccf;
+  border-color: var(--grey-font);
 }
 
 #project-medium-priority:checked + #project-medium-span,
 #task-medium-priority:checked + #task-medium-span {
   background: var(--warning-yellow); 
-  border-color: #ccf;
+  border-color: var(--grey-font);
 }
 
 #project-high-priority:checked + #project-high-span,
 #task-high-priority:checked + #task-high-span {
   background: var(--danger-red); 
-  border-color: #ccf;
+  border-color: var(--grey-font);
 }
 
 #project-submit,
@@ -622,6 +663,7 @@ font-size: 14px;
   background-color: var(--darker-grey);
   align-self: center;
   margin: 2px 0 10px 0;
+  transition: all ease-in-out 0.16s;
 }
 
 #project-submit:hover,
@@ -660,4 +702,34 @@ flex-direction: column; */
    grid-area: foot;
    height: 100%;
    width: 100%;
+}
+
+#foot-holder{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  /* align-self: center; */
+  align-items: center;
+  gap: 10px;
+
+}
+
+
+.foot-icon {
+  font-size: 30px;
+  color: var(--grey-font);
+  transition: all ease-in-out 0.16s;
+}
+
+.foot-icon:hover {
+  font-size: 30px;
+  color: var(--danger-red);
+}
+
+#foot-text {
+  font-size: 14px;
+  font-family: Robots;
+  font-weight: bold;
+  color: var(--grey-font);
 }
