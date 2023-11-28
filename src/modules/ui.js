@@ -7,14 +7,13 @@ import newTask from './to-do';
 // CREATE MAIN HTML DIVS
 
 // SET AN INTIAL DEFAULT PROJECT TO DISPLAY
-const projectList = [
-  {
-    title: 'My Project',
-    due: undefined,
-    priotiy: 'low',
-    tasks: [],
-  },
-];
+const projectList = [];
+const myProject = {
+  title: 'My Project',
+  due: undefined,
+  priotiy: 'low',
+  tasks: [],
+};
 
 // SET DEAULT PROJECT AS CURRENT
 let currentProject = projectList[0];
@@ -23,6 +22,27 @@ let currentProject = projectList[0];
 const setCurrent = (a) => {
   currentProject = projectList[a];
 };
+
+// if locastorage exists, projectList = a
+const loadFromStorage = (a) => {
+  console.log(JSON.stringify(a));
+  if (!(a === null)) {
+    for (let i = 0; i < a.length; i += 1) {
+      projectList.push(a[i]);
+    }
+    setCurrent(0);
+  } else if (a === null) {
+    projectList.push(myProject);
+    setCurrent(0);
+  }
+};
+// projectStorage RETRIEVES projectList[] DATA STORED IN localStorage
+// JSON.parse takes the array saved as text and
+// converts it back to an array retaining is values and objects
+const projectStorage = JSON.parse(localStorage.getItem('projectList'));
+// loadFromStorage updates projectList[] with stored data, if any exists
+console.log(projectStorage);
+loadFromStorage(projectStorage);
 
 let projectOptionsSelecting = false;
 
@@ -128,6 +148,20 @@ const load = () => {
     // };
 
     const displayProjects = () => {
+      if (projectList.length === 0) {
+        // CREAT NEW addINstructions DIV
+        const setAddInstrux = document.createElement('div');
+        // ASSSIGN IT SAME ID AS USED IN displayTasks() FOR SIMILAR STYLING
+        setAddInstrux.setAttribute('id', 'add-instructions');
+        // ADD IT TO THE SAME SPOT IN taskTableHolder
+        taskTableHolder.appendChild(setAddInstrux);
+        // SET NEW addInstructions DIV TEXT
+        setAddInstrux.textContent = 'click the + button to add a project';
+        // NO NEED FOR ARGUMENTS AS USER HAS JUST DELETED THE ONLY REMAINING PROJECT
+        // displayProjects();
+        // displayTasks();
+      }
+      // THE ACTUAL FUNCTION BELOW
       projectTable.innerHTML = ''; // clears current projectTable to avoid repeats
       const projectHeader = document.createElement('thead');
       projectHeader.id = 'project-header';
@@ -138,7 +172,7 @@ const load = () => {
         // CREATE NEW project ROW FOR OBJ IN projectList[i]
         const projectRow = document.createElement('div');
         projectRow.className = 'project-row';
-        projectRow.setAttribute('data-id', [i]); // row assigned data-id that is its posiition in projectLisy[]
+        projectRow.setAttribute('data-id', [i]); // row assigned data-id that is its posiition in projectList[]
         projectTable.appendChild(projectRow); // add that tr to projectTable in libTable
 
         // CREATE NEW TABLE CELLS FOR project DATA
@@ -180,7 +214,11 @@ const load = () => {
         projectOptions.setAttribute('title', 'Project options');
         // PULL font-awesome MENU ICON
         const projectOptionsIcon = document.createElement('i');
-        projectOptionsIcon.classList.add('fa', 'fa-solid', 'fa-ellipsis-vertical');
+        projectOptionsIcon.classList.add(
+          'fa',
+          'fa-solid',
+          'fa-ellipsis-vertical',
+        );
         projectOptions.appendChild(projectOptionsIcon);
         // CREATE POPOUT CONTAINER FOR OPTIONS BUTTONS
         const projectOptionsBox = document.createElement('div');
@@ -215,25 +253,44 @@ const load = () => {
         projEditBtn.className = 'project-edit-btn';
         projEditBtn.innerHTML = 'edit';
         const projEditIcon = document.createElement('i');
-        projEditIcon.classList.add('fa', 'fa-proj-opt', 'fa-regular', 'fa-pen-to-square');
+        projEditIcon.classList.add(
+          'fa',
+          'fa-proj-opt',
+          'fa-regular',
+          'fa-pen-to-square',
+        );
         projEditBtn.appendChild(projEditIcon);
         projectEditCell.appendChild(projEditBtn);
         const projDeleteBtn = document.createElement('button');
         projDeleteBtn.className = 'project-delete-btn';
         projDeleteBtn.innerHTML = 'delete';
         const projDeleteIcon = document.createElement('i');
-        projDeleteIcon.classList.add('fa', 'fa-proj-opt', 'fa-regular', 'fa-trash-can');
+        projDeleteIcon.classList.add(
+          'fa',
+          'fa-proj-opt',
+          'fa-regular',
+          'fa-trash-can',
+        );
         projDeleteBtn.appendChild(projDeleteIcon);
         projectDeleteCell.appendChild(projDeleteBtn);
         const projCompleteBtn = document.createElement('button');
         projCompleteBtn.className = 'project-complete-btn';
         projCompleteBtn.innerHTML = 'complete';
         const projCompleteIcon = document.createElement('i');
-        projCompleteIcon.classList.add('fa', 'fa-proj-opt', 'fa-regular', 'fa-square-check');
+        projCompleteIcon.classList.add(
+          'fa',
+          'fa-proj-opt',
+          'fa-regular',
+          'fa-square-check',
+        );
         projCompleteBtn.appendChild(projCompleteIcon);
         projectCompleteCell.appendChild(projCompleteBtn);
 
-        projectOptionsBox.append(projectEditCell, projectDeleteCell, projectCompleteCell);
+        projectOptionsBox.append(
+          projectEditCell,
+          projectDeleteCell,
+          projectCompleteCell,
+        );
 
         // APPEND CELLS TO THE project TROW
         projectRow.appendChild(projectTitleCell);
@@ -274,13 +331,15 @@ const load = () => {
             setCurrent(currentProjectDisplay);
             displayTasks(currentProjectDisplay);
           } else if (getProj.tagName === 'DIV') {
-            const currentProjectDisplay = getProj.parentNode.getAttribute('data-id');
+            const currentProjectDisplay =
+              getProj.parentNode.getAttribute('data-id');
             setCurrent(currentProjectDisplay);
             displayTasks(currentProjectDisplay);
           }
         });
       }
     };
+
     // const optionsClick = document.querySelectorAll('.project-options');
     // optionsClick.forEach(element => {
     //   element.addEventListener('click', () => {
@@ -289,7 +348,7 @@ const load = () => {
     //       element.appendChild(projectOptionsBox);
     //     }
     //   })
-      
+
     // });
 
     //  **  LOGIC TO COMPLETE AND DELETE PROJECTS AND ALTER DISPLAYS **  //
@@ -347,6 +406,7 @@ const load = () => {
           displayProjects();
           displayTasks();
         }
+        localStorage.setItem('projectList', JSON.stringify(projectList));
       });
     };
 
@@ -404,10 +464,15 @@ const load = () => {
           displayProjects();
           displayTasks();
         }
+        localStorage.setItem('projectList', JSON.stringify(projectList));
       });
     };
     // RUN displayProjects()
-    displayProjects();
+    if (projectStorage === null) {
+      displayProjects(0);
+    } else {
+      displayProjects();
+    }
 
     // CREATE TABLE ELEMENTS AND LOOP projectList[] AND SEND EACH OBJS DATA TO TABLE FIELDS.
     // LOGIC TO DETERMINE WHEN addInstrux GET ADDED OR REMOVED BASED ON TASK PRESENCE
@@ -560,7 +625,7 @@ const load = () => {
               editNotes,
               editDue,
               editPriority,
-              currentTask
+              currentTask,
             );
           });
           taskDelete(deleteBtn, a);
@@ -569,7 +634,6 @@ const load = () => {
       }
     };
 
-    displayTasks(0);
     // LOGIC FOR TASK COMPLETE BUTTON
     const taskComplete = (completeBtn, a) => {
       // IF ANY TASKS EXIST, ADD LISTENER
@@ -582,6 +646,7 @@ const load = () => {
           displayTasks(a);
           // do something nice like swipe a green check to say good job!
         });
+        localStorage.setItem('projectList', JSON.stringify(projectList));
       }
     };
 
@@ -595,10 +660,18 @@ const load = () => {
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
           projectList[a].tasks.splice(currentTask, 1);
           displayTasks(a);
+          localStorage.setItem('projectList', JSON.stringify(projectList));
         });
       }
     };
+    displayTasks(0);
 
+    // if (projectStorage === null) {
+    //   displayTasks(0);
+    // } else {
+    //   setCurrent(0);
+    //   displayTasks(0);
+    // }
     // DISPLAY FORM, USING ARGS PASSED FROM OBJ IF FORM LAUNCHED FORM EDIT BUTTON
     const displayProjectForm = (a, b, c, d, f) => {
       // BLUR BACKGORUND
@@ -783,6 +856,7 @@ const load = () => {
         displayProjects();
         // const tableTitle = document.getElementById('task-header');
         // tableTitle.textContent = projectTitle.value;
+        localStorage.setItem('projectList', JSON.stringify(projectList));
       });
       return projectCard;
     };
@@ -983,9 +1057,11 @@ const load = () => {
         formOverlay.removeChild(taskCard);
         // REMOVES BLUE FROM BACKGROUND
         removeBlur(pageBox);
-
         // PUTS TASK OBJECT DATA INTO DOM TABLE
         displayTasks(projectList.indexOf(currentProject));
+        // displayProjects IS CALLED HERE SIMPLY TO UPDATE projectList in a
+        // way that local storage feels and also updates so wee keep our new tasks in storage
+        displayProjects();
       });
       return taskCard;
     };
