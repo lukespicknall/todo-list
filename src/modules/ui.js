@@ -86,7 +86,7 @@ const load = () => {
   // SOME TEXT
   const headText = document.createElement('div');
   headText.setAttribute('id', 'head-text');
-  headText.textContent = 'to do it';
+  headText.textContent = 'to do';
   // APPEND IT ALL
   headHolder.appendChild(headIcon);
   headHolder.appendChild(headText);
