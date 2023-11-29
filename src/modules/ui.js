@@ -25,7 +25,6 @@ const setCurrent = (a) => {
 
 // if locastorage exists, projectList = a
 const loadFromStorage = (a) => {
-  console.log(JSON.stringify(a));
   if (!(a === null)) {
     for (let i = 0; i < a.length; i += 1) {
       projectList.push(a[i]);
@@ -41,7 +40,6 @@ const loadFromStorage = (a) => {
 // converts it back to an array retaining is values and objects
 const projectStorage = JSON.parse(localStorage.getItem('projectList'));
 // loadFromStorage updates projectList[] with stored data, if any exists
-console.log(projectStorage);
 loadFromStorage(projectStorage);
 
 let projectOptionsSelecting = false;
@@ -228,7 +226,6 @@ const load = () => {
         // IF TRUE, SET SELECTING STATE TO TRUE, APPEND A BOX TO THIS OPTIONS DIV TO SEE OPTIONS
         // SET CURRENT PROJECT TO THIS PROJECT AND DISPLAY THE TASKS OF THIS PROJECT
         projectOptions.addEventListener('mouseup', () => {
-          console.log(projectOptions.children.length);
           if (projectOptions.children.length < 2) {
             updateProjectSelecting(true);
             projectOptions.appendChild(projectOptionsBox);
@@ -1204,7 +1201,6 @@ const load = () => {
             const currentOptionButton = addRemove[optionsPosition];
             currentOptionButton.removeChild(selectRemove);
           } else if (clickSpot.className === 'project-options') {
-            console.log(clickSpot.dataset.id);
             // const addRemove = document.querySelector('.task-options');
             // const selectRemove = document.querySelector('.task-options-box');
             // addRemove.removeChild(selectRemove);
