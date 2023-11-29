@@ -11,7 +11,7 @@ const projectList = [];
 const myProject = {
   title: 'My Project',
   due: undefined,
-  priotiy: 'low',
+  priority: 'low',
   tasks: [],
 };
 
