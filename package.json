@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "watch": "webpack  --watch",
-    "deploy": "git subtree push --prefix dist origin gh-pages"
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/lukespicknall/todo-list/issues"
   },
-  "homepage": "https://github.com/lukespicknall/todo-list#readme",
+  "homepage": "https://github.com/lukespicknall/todo-list",
   "devDependencies": {
     "css-loader": "^6.8.1",
     "eslint": "^8.45.0",
