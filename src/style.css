@@ -373,7 +373,6 @@ right: -80px;
 #task-table {
   width: 100%;
   background-color: var(--my-white);
-  /* row-gap: 15px; */
 }
 
 #task-header {
@@ -430,8 +429,8 @@ right: -80px;
   justify-content: center;
   grid-area: due-cell;
   text-overflow: ellipsis;
-    white-space: nowrap;
-      pointer-events: none;
+  white-space: nowrap;
+  pointer-events: none;
 
 }
 

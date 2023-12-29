@@ -62,7 +62,14 @@ const load = () => {
   const taskTable = document.createElement('table');
   taskTable.id = 'task-table';
   taskTableHolder.appendChild(taskTable);
+  // NEW CODE TO CREATE A COMPLETE TABLE UNDER THE TASK TABLE TO HOLD COMPLETED TASKS
+  const completeTableHolder = document.createElement('div');
+  completeTableHolder.id = 'complete-table-holder';
+  const completeTable = document.createElement('table');
+  completeTable.id = 'complete-table';
+  completeTableHolder.appendChild(completeTable);
   main.appendChild(taskTableHolder);
+  main.appendChild(completeTableHolder);
 
   const sideBar = document.createElement('div');
   sideBar.id = 'side-bar';
@@ -478,6 +485,7 @@ const load = () => {
       // IF - SO IT DOESNT TRY TO PULL PROJ DATA IS NONE EXISTS BECUZ LAST ONE WAS DELETE/COMPLETED
       if (projectList.length <= 0) {
         taskTable.innerHTML = '';
+        completeTable.innerHTML = '';
       } else {
         // THE ACTUAL DISPLAY TASKS CODE
         // clears current taskTable to avoid repeats
@@ -488,6 +496,12 @@ const load = () => {
         taskTable.appendChild(taskHeader);
         const addIntructions = document.createElement('div');
         addIntructions.setAttribute('id', 'add-instructions');
+
+        completeTable.innerHTML = '';
+        const completeHeader = document.createElement('thead');
+        completeHeader.id = 'complete-header';
+        completeHeader.textContent = 'completed';
+        completeTable.appendChild(completeHeader);
 
         //  **  ADD/REMOVE INSTRUCTIONS LOGIC  **  //
         if (taskTableHolder.children.length > 2) {
@@ -639,8 +653,9 @@ const load = () => {
           // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
           const currentTask = e.target.closest('.task-row').dataset.id;
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
-          projectList[a].tasks.splice(currentTask, 1);
-          displayTasks(a);
+          projectList[a].tasks[currentTask].complete = true;
+          console.log(projectList[a].tasks[currentTask]);
+          // displayTasks(a);
           // do something nice like swipe a green check to say good job!
         });
         localStorage.setItem('projectList', JSON.stringify(projectList));
@@ -1045,6 +1060,7 @@ const load = () => {
             taskDescription.value,
             taskDue.value,
             taskPriorityBox.value,
+            false,
           );
           currentProject.tasks.push(taskObj);
         }
