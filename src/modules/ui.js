@@ -689,7 +689,7 @@ const load = () => {
           completeNotesCell.setAttribute("title", `${projectList[a].complete[i].notes}`);
 
           // ASSIGN CELL DATA FROM TASK DATA
-          console.log(projectList[a].tasks[0].task);
+          // console.log(projectList[a].tasks[0].task);
           completeTaskCell.textContent = projectList[a].complete[i].task;
           completeNotesCell.textContent = projectList[a].complete[i].notes;
           completeDueCell.textContent = projectList[a].complete[i].due;
@@ -764,8 +764,11 @@ const load = () => {
           const currentTask = e.target.closest(".task-row").dataset.id;
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
           const completeContainer = projectList[a].tasks.splice(currentTask, 1);
-          projectList[a].complete.concat(completeContainer);
+
+          console.log(completeContainer);
+          projectList[a].complete.push(...completeContainer);
           console.log(projectList[a].complete);
+          console.log(completeContainer);
           // projectList[a].tasks[currentTask].complete = true;
           // console.log(projectList[a].tasks[currentTask]);
           displayTasks(a);
@@ -799,7 +802,7 @@ const load = () => {
           const currentTask = e.target.closest(".complete-task-row").dataset.id;
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
           const restoreContainer = projectList[a].complete.splice(currentTask, 1);
-          projectList[a].tasks.push(restoreContainer);
+          projectList[a].tasks.push(...restoreContainer);
           console.log('yo');
           // projectList[a].tasks[currentTask].complete = true;
           // console.log(projectList[a].tasks[currentTask]);
