@@ -522,8 +522,7 @@ const load = () => {
           currentProject.complete.length === 0 &&
           taskTableHolder.children[1].id === "add-instructions"
         ) {
-          const instructionsRemove =
-            document.getElementById("add-instructions");
+          const instructionsRemove = document.getElementById("add-instructions");
           const tabletest = document.getElementById("task-table-holder");
           tabletest.removeChild(instructionsRemove);
           addIntructions.textContent = `click the + button to add a task to ${currentProject.title}.`;
@@ -541,7 +540,8 @@ const load = () => {
           // IF PROJ HAS TASKS, AND INTRUX ARE SHOWING, REMOVE INSTRUX
           // THIS BASICALLY GETS RID OF INSTRUX DIV WHEN FIRST TASK IS ADDED, AND ONLY THEN
         } else if (
-          currentProject.tasks.length >= 1 &&
+          (currentProject.tasks.length >= 1 ||
+            currentProject.complete.length >= 1) &&
           taskTableHolder.children[1].id === "add-instructions"
         ) {
           const instructionsRemove =
@@ -787,6 +787,15 @@ const load = () => {
           const currentTask = e.target.closest(".task-row").dataset.id;
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
           projectList[a].tasks.splice(currentTask, 1);
+          displayTasks(a);
+          localStorage.setItem("projectList", JSON.stringify(projectList));
+        });
+      } if (projectList[a].complete.length >= 1) {
+        deleteBtn.addEventListener("click", (e) => {
+          // GRABS THE DATA-ID FROM CLOSEST task-row DOM ELEMENT (IT'S PARENT)
+          const currentTask = e.target.closest(".complete-task-row").dataset.id;
+          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  TASKlIST[]
+          projectList[a].complete.splice(currentTask, 1);
           displayTasks(a);
           localStorage.setItem("projectList", JSON.stringify(projectList));
         });

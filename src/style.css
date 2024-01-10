@@ -370,6 +370,8 @@ right: -80px;
   padding: 25px;
   border-radius: 25px;
 }
+
+#complete-table,
 #task-table {
   width: 100%;
   background-color: var(--my-white);
@@ -380,21 +382,85 @@ right: -80px;
   padding: 0 0 15px 0;
 }
 
+.complete-task-row,
 .task-row {
   box-sizing: border-box;
   width: 100%;
   display: grid;
   background-color: var(--my-white);
-  grid-template-areas: 
-  'task-cell notes-cell due-cell priority-cell task-options'
-  ;
-  grid-template-columns: 4fr 7fr 3fr 2fr 2fr;
   gap: 10px;
   border-bottom: solid 1px var(--darker-grey);
   margin: 10px 0 0 0;
   padding: 10px 10px 10px 10px;
   overflow: hidden;
   transition: all ease-in-out 0.16s;
+}
+
+.task-row {
+  grid-template-areas: 
+  'task-cell notes-cell due-cell priority-cell task-options';
+  grid-template-columns: 4fr 7fr 3fr 2fr 2fr;
+}
+
+.complete-task-row {
+  grid-template-areas: 'complete-task-cell complete-notes-cell complete-due-cell complete-priority-cell complete-task-options';
+  grid-template-columns: 4fr 7fr 3fr 2fr 2fr;
+  color: var(--grey-font);
+}
+
+.complete-task-cell{
+  display: block;
+  align-self: center;
+  grid-area: complete-task-cell;
+  white-space: nowrap;
+  pointer-events: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 75px;
+}
+
+.complete-notes-cell {
+  display: block;
+  align-self: center;
+  grid-area: complete-notes-cell;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 106px;
+  cursor: default;
+}
+
+.complete-due-cell{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-area: complete-due-cell;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.complete-priority-cell{
+  display: flex;
+  align-items: center;
+  grid-area: complete-priority-cell;
+  justify-content: center;
+  /* justify-self: center; */
+  padding: 0 6px 0 6px;
+  height: 23px;
+  font-size: 14px;
+  /* font-weight:bolder; */
+  border-radius: 15px;
+  border: 1px solid var(--grey-font);
+  width: 55px;
+  pointer-events: none;
+}
+
+.complete-task-option {
+  display: flex;
+  align-items: center;
+  grid-area: complete-task-options;
+  gap: 5px ;
 }
 
 .task-row:hover {
@@ -431,12 +497,12 @@ right: -80px;
   text-overflow: ellipsis;
   white-space: nowrap;
   pointer-events: none;
-
 }
 
 .priority-cell {
   display: flex;
   align-items: center;
+  grid-area: priority-cell;
   justify-content: center;
   /* justify-self: center; */
   padding: 0 6px 0 6px;
@@ -509,7 +575,8 @@ right: -80px;
 
 .edit-btn,
 .delete-btn,
-.complete-btn {
+.complete-btn,
+.restore-btn {
   padding: 5px 10px 5px 10px;
   font-size: 13px;
   width: 100%;
