@@ -1,8 +1,6 @@
-// import newTask from './to-do';
 import newProject from './project';
 
 import newTask from './to-do';
-// import displayTasks from './display';
 
 // CREATE MAIN HTML DIVS
 
@@ -146,12 +144,7 @@ const load = () => {
       a.classList.remove('blurred');
     };
 
-    // let currentSelecting;
-
-    // const updateCurrentSelecting = (a) => {
-    //   currentSelecting = a;
-    // };
-
+    // PROJECT DISPLAY LOGIC
     const displayProjects = () => {
       if (projectList.length === 0) {
         // CREAT NEW addINstructions DIV
@@ -162,9 +155,6 @@ const load = () => {
         taskTableHolder.appendChild(setAddInstrux);
         // SET NEW addInstructions DIV TEXT
         setAddInstrux.textContent = 'click the + button to add a project';
-        // NO NEED FOR ARGUMENTS AS USER HAS JUST DELETED THE ONLY REMAINING PROJECT
-        // displayProjects();
-        // displayTasks();
       }
       // THE ACTUAL FUNCTION BELOW
       projectTable.innerHTML = ''; // clears current projectTable to avoid repeats
@@ -204,6 +194,7 @@ const load = () => {
           projectPriorityCell.textContent = 'no priority';
           projectPriorityCell.classList.add('project-priorityless');
         }
+        // APPLY PRIORITY CLASS
         if (projectPriorityCell.textContent === 'low') {
           projectPriorityCell.classList.add('project-low');
         } else if (projectPriorityCell.textContent === 'medium') {
@@ -301,9 +292,6 @@ const load = () => {
         projectRow.appendChild(projectDueCell);
         projectRow.appendChild(projectPriorityCell);
         projectRow.appendChild(projectOptions);
-        // projectRow.appendChild(editCell);
-        // projectRow.appendChild(deleteCell);
-        // projectRow.appendChild(completeCell);
 
         // ON CLICK, projEditBtn SETS EDITING STATE,
         // GRABS OBJECT DATA THROUGH DATA-ID REFERENCE ON ITS project ROW,
@@ -342,17 +330,6 @@ const load = () => {
         });
       }
     };
-
-    // const optionsClick = document.querySelectorAll('.project-options');
-    // optionsClick.forEach(element => {
-    //   element.addEventListener('click', () => {
-    //     if (projectOptionsSelecting === false) {
-    //       updateProjectSelecting(true);
-    //       element.appendChild(projectOptionsBox);
-    //     }
-    //   })
-
-    // });
 
     //  **  LOGIC TO COMPLETE AND DELETE PROJECTS AND ALTER DISPLAYS **  //
     const projectComplete = (projCompleteBtn) => {
@@ -472,7 +449,7 @@ const load = () => {
         localStorage.setItem('projectList', JSON.stringify(projectList));
       });
     };
-    // RUN displayProjects()
+    // RUN displayProjects(), EMPTY IF NO STORAGE EXISTS
     if (projectStorage === null) {
       displayProjects(0);
     } else {
@@ -696,7 +673,6 @@ const load = () => {
           completeNotesCell.setAttribute('title', `${projectList[a].complete[i].notes}`);
 
           // ASSIGN CELL DATA FROM TASK DATA
-          // console.log(projectList[a].tasks[0].task);
           completeTaskCell.textContent = projectList[a].complete[i].task;
           completeNotesCell.textContent = projectList[a].complete[i].notes;
           completeDueCell.textContent = projectList[a].complete[i].due;
@@ -723,31 +699,33 @@ const load = () => {
 
           // CREATE CELLS FOR UI BUTTONS ON ROW FOR TASK OBJ UPDATING
           const restoreCell = document.createElement('td'); //
-          const deleteCell = document.createElement('td'); //
+          const completeDeleteCell = document.createElement('td'); //
 
           // ASSIGN UI CELL CLASSNAMES
           restoreCell.className = 'restore-cell';
-          deleteCell.className = 'delete-cell';
+          completeDeleteCell.className = 'delete-cell';
 
           // CREATE UI BUTTONS FOR TASK UPDATES, ASSIGN CLASS, APPEND TO UI CELL
           const restoreBtn = document.createElement('button');
           restoreBtn.className = 'restore-btn';
           restoreBtn.innerHTML = 'restore';
+          restoreBtn.title = 'make task active';
           const taskRestoreIcon = document.createElement('i');
           taskRestoreIcon.classList.add('fa', 'fa-regular', 'fa-pen-to-square');
           restoreBtn.appendChild(taskRestoreIcon);
           restoreCell.appendChild(restoreBtn);
-          const deleteBtn = document.createElement('button');
-          deleteBtn.className = 'complete-delete-btn';
-          deleteBtn.innerHTML = 'delete';
+          const completeDeleteBtn = document.createElement('button');
+          completeDeleteBtn.className = 'complete-delete-btn';
+          completeDeleteBtn.innerHTML = 'delete';
+          completeDeleteBtn.title = 'permanently delete task';
           const taskDeleteIcon = document.createElement('i');
           taskDeleteIcon.classList.add('fa', 'fa-regular', 'fa-trash-can');
-          deleteBtn.appendChild(taskDeleteIcon);
-          deleteCell.appendChild(deleteBtn);
+          completeDeleteBtn.appendChild(taskDeleteIcon);
+          completeDeleteCell.appendChild(completeDeleteBtn);
           const completeTaskOptions = document.createElement('div');
           completeTaskOptions.classList.add('complete-task-options');
           completeTaskOptions.appendChild(restoreCell);
-          completeTaskOptions.appendChild(deleteCell);
+          completeTaskOptions.appendChild(completeDeleteCell);
 
           // APPEND CELLS TO THE TASK TROW
           completeTaskRow.appendChild(completeTaskCell);
@@ -756,7 +734,7 @@ const load = () => {
           completeTaskRow.appendChild(completePriorityCell);
           completeTaskRow.appendChild(completeTaskOptions);
 
-          taskDelete(deleteBtn, a);
+          taskDelete(completeDeleteBtn, a);
           taskRestore(restoreBtn, a);
         }
       }
@@ -771,21 +749,16 @@ const load = () => {
           const currentTask = e.target.closest('.task-row').dataset.id;
           // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
           const completeContainer = projectList[a].tasks.splice(currentTask, 1);
-
-          console.log(completeContainer);
-          projectList[a].complete.push(...completeContainer);
-          console.log(projectList[a].complete);
-          console.log(completeContainer);
+          // ADDS TASK TO BEGINNING OF complete[]
+          projectList[a].complete.unshift(...completeContainer);
           // projectList[a].tasks[currentTask].complete = true;
-          // console.log(projectList[a].tasks[currentTask]);
           displayTasks(a);
-          // do something nice like swipe a green check to say good job!
         });
         localStorage.setItem('projectList', JSON.stringify(projectList));
       }
     };
 
-    // LOGIC FOR DELETE BUTTON
+    // LOGIC FOR TASK DELETE BUTTON
     const taskDelete = (deleteBtn, a) => {
       // IF ANY TASKS EXIST, ADD LISTENER
       if (projectList[a].tasks.length >= 1) {
@@ -815,31 +788,23 @@ const load = () => {
 
     // LOGIC FOR TASK RestoreBUTTON
     const taskRestore = (restoreBtn, a) => {
-      // IF ANY TASKS EXIST, ADD LISTENER
+      // IF ANY TASKS EXIST IN complete, ADD LISTENER
       if (projectList[a].complete.length >= 1) {
         restoreBtn.addEventListener('click', (e) => {
           // GRABS THE DATA-ID FROM CLOSEST restored-task-row DOM ELEMENT (IT'S PARENT)
           const currentTask = e.target.closest('.complete-task-row').dataset.id;
-          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.tasks[]
+          // REMOVES THAT DATA-ID'S EQUIVILENT[i] POSITION IN  currentProject.complete[]
           const restoreContainer = projectList[a].complete.splice(currentTask, 1);
-          projectList[a].tasks.push(...restoreContainer);
-          console.log('yo');
+          // ADDS TASK TO BEGINNING OF tasks[]
+          projectList[a].tasks.unshift(...restoreContainer);
           // projectList[a].tasks[currentTask].complete = true;
-          // console.log(projectList[a].tasks[currentTask]);
           displayTasks(a);
-          // do something nice like swipe a green check to say good job!
         });
         localStorage.setItem('projectList', JSON.stringify(projectList));
       }
     };
     displayTasks(0);
 
-    // if (projectStorage === null) {
-    //   displayTasks(0);
-    // } else {
-    //   setCurrent(0);
-    //   displayTasks(0);
-    // }
     // DISPLAY FORM, USING ARGS PASSED FROM OBJ IF FORM LAUNCHED FORM EDIT BUTTON
     const displayProjectForm = (a, b, c, d, f) => {
       // BLUR BACKGORUND
@@ -901,7 +866,6 @@ const load = () => {
       // CREATE LOW PRIORITY RADIO BUTTON
       const lowLabel = document.createElement('label');
       lowLabel.setAttribute('for', 'project-low-priority');
-      // lowLabel.textContent = 'low';
       const lowLabelSpan = document.createElement('span');
       lowLabelSpan.setAttribute('id', 'project-low-span');
       lowLabelSpan.textContent = 'low';
@@ -921,7 +885,6 @@ const load = () => {
       // CREATE MEDIUM PRIORITY RADIO BUTTON
       const mediumLabel = document.createElement('label');
       mediumLabel.setAttribute('for', 'project-medium-priority');
-      // mediumLabel.textContent = 'medium';
       const mediumLabelSpan = document.createElement('span');
       mediumLabelSpan.setAttribute('id', 'project-medium-span');
       mediumLabelSpan.textContent = 'medium';
@@ -941,7 +904,6 @@ const load = () => {
       // CREATE HIGH PRIORITY RADIO BUTTON
       const highLabel = document.createElement('label');
       highLabel.setAttribute('for', 'project-high-priority');
-      // highLabel.textContent = 'high';
       const highLabelSpan = document.createElement('span');
       highLabelSpan.setAttribute('id', 'project-high-span');
       highLabelSpan.textContent = 'high';
@@ -1022,8 +984,6 @@ const load = () => {
         removeBlur(pageBox);
         // PUTS project OBJECT DATA INTO DOM TABLE
         displayProjects();
-        // const tableTitle = document.getElementById('task-header');
-        // tableTitle.textContent = projectTitle.value;
         localStorage.setItem('projectList', JSON.stringify(projectList));
       });
       return projectCard;
@@ -1108,7 +1068,6 @@ const load = () => {
       // CREATE LOW PRIORITY RADIO BUTTON
       const lowLabel = document.createElement('label');
       lowLabel.setAttribute('for', 'task-low-priority');
-      // lowLabel.textContent = 'low';
       const lowLabelSpan = document.createElement('span');
       lowLabelSpan.setAttribute('id', 'task-low-span');
       lowLabelSpan.textContent = 'low';
@@ -1128,7 +1087,6 @@ const load = () => {
       // CREATE MEDIUM PRIORITY RADIO BUTTON
       const mediumLabel = document.createElement('label');
       mediumLabel.setAttribute('for', 'task-medium-priority');
-      // mediumLabel.textContent = 'medium';
       const mediumLabelSpan = document.createElement('span');
       mediumLabelSpan.setAttribute('id', 'task-medium-span');
       mediumLabelSpan.textContent = 'medium';
@@ -1148,7 +1106,6 @@ const load = () => {
       // CREATE HIGH PRIORITY RADIO BUTTON
       const highLabel = document.createElement('label');
       highLabel.setAttribute('for', 'task-high-priority');
-      // highLabel.textContent = 'high';
       const highLabelSpan = document.createElement('span');
       highLabelSpan.setAttribute('id', 'task-high-span');
       highLabelSpan.textContent = 'high';
@@ -1290,67 +1247,11 @@ const load = () => {
       });
     });
 
-    // const optionsClickOut = (() => {
-    //   const optionsRemove = document.querySelectorAll(".project-options");
-    //   const optionsBoxRemove = document.querySelectorAll(".project-options-box");
-    //   optionsRemove.forEach((element) => {
-    //     element.addEventListener('click', () => {
-    //       if (projectOptionsSelecting === true) {
-    //         // element.removeChild(optionsBoxRemove);
-    //         optionsBoxRemove.
-    //       } else if (projectOptionsSelecting === false) {
-    //         // element.appendChild(optionsBoxRemove);
-    //       }
-    //     });
-    //   });
-    // })();
-    // const optionsClickOut = (projectOptions, projectOptionsBox, position) => {
-    //   const optionsRemove = document.querySelectorAll(".project-options");
-    //   const optionsBoxRemove = document.querySelectorAll(".project-options-box");
-    //   const currentOptions = optionsRemove[0];
-    //   const currentOptionsBox = optionsBoxRemove[0];
-    //   if (optionsBoxRemove.length === 1) {
-    //     content.addEventListener("mousedown", (e) => {
-    //       const optionsClickSpot = e.target;
-    //       if (optionsClickSpot.className !== "project-options-box") {
-    //         currentOptions.removeChild(currentOptionsBox);
-    //         updateProjectSelecting(false);
-    //       }
-    //     });
-    //   } else if (optionsBoxRemove.length === 0) {
-    //             projectOptions.appendChild(projectOptionsBox);
-    //             updateProjectSelecting(true);
-    //   }
-    //   // const currentOptions = optionsRemove[position];
-    //   // const currentOptionsBox = optionsBoxRemove[position];
-    //   // if (projectOptionsSelecting === true) {
-    //   //   content.addEventListener("mousedown", (e) => {
-    //   //     const optionsClickSpot = e.target;
-    //   //     console.log(position);
-    //   //     console.log(currentOptionsBox);
-    //   //     console.log(optionsClickSpot);
-    //   //     console.log (currentOptions);
-    //   //     console.log(currentOptionsBox);
-    //   //     // console.log(projectOptions);
-    //   //     // console.log(projectOptionsBox);
-    //   //     if (optionsClickSpot.className !== "project-options-box") {
-    //   //       currentOptions.removeChild(currentOptionsBox);
-    //   //       updateProjectSelecting(false);
-    //   //     }
-    //   //   });
-    //   // } else if (projectOptionsSelecting === false) {
-    //   //   projectOptions.appendChild(projectOptionsBox);
-    //   //   updateProjectSelecting(true);
-    //   // }
-    //   // console.log(projectOptionsSelecting);
-    // };
-
     const clickout = (() => {
       // LOGIC FOR REMOVING selectBox WHEN CLICKING OUTSIDE OF IT
       // PUTS GLOBAL LISTNER THAT RUNS IF selectBox IS PRESENT
       // IF THE CLICK IS NOT ON THE BOX OR NEW TASK OR NEW PROJECT (ANYWHERE ELSE), REMOVE BOX
       content.addEventListener('mousedown', (e) => {
-        // console.log(currentProject);
         if (projectOptionsSelecting === true) {
           const clickSpot = e.target;
           if (

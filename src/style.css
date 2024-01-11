@@ -27,6 +27,7 @@
   width: 100vw;
   font-family: Arial, Helvetica, sans-serif;
   min-width: 760px;
+  color: black;
 }
 
 #page-box {
@@ -154,12 +155,8 @@
 }
 
 #add-new:hover {
-  /* width: 110px;
-  height: 110px; */
-  /* background-color: var(--go-green); */
   background-color: var(--restore-purple);
   box-shadow: 7px 7px rgb(198, 143, 248);;
-    /* box-shadow: 7px 7px var(--go-green); */
 }
 
 #select-box {
@@ -169,7 +166,6 @@
   flex-direction: column;
   width: 145px;
   height: 100px;
-  /* margin-top: 10px; */
   padding: 5px;
   gap: 5px;
   box-shadow: 5px 5px 15px 1px rgb(0, 0, 0);
@@ -198,8 +194,6 @@
 #project-table-holder {
 width: 100%;
 height: 100%;
-/* overflow-y: auto; */
-/* z-index: 0; */
 }
 
 #project-table {
@@ -222,9 +216,7 @@ height: 100%;
   grid-template-areas:
   'project-cell project-cell project-options' 
   'project-due project-priority project-options ';
-  /* background-color: var(--my-module); */
   border-bottom: 2px solid var(--darker-grey);
-  /* border-radius: 25px; */
   column-gap: 15px;
   transition: all ease-in-out 0.16s;
 }
@@ -243,7 +235,6 @@ height: 100%;
   grid-area: project-cell;
   display: flex;
   align-items: center;
-  /* font-weight: bold; */
   margin: 15px 0 0 15px;
   cursor: default;
 }
@@ -258,7 +249,6 @@ height: 100%;
 
 .project-dueless {
   color: var(--grey-font);
-  /* font-weight:bold; */
   font-size: 12px;
 }
 
@@ -268,10 +258,8 @@ height: 100%;
   align-self: center;
   align-items: center;
   justify-content: center;
-  /* margin: 6px 0 6px 0; */
   height: 23px;
   font-size: 14px;
-  /* font-weight:bolder; */
   border-radius: 15px;
   border: 1px solid var(--grey-font);
   pointer-events: none;
@@ -532,11 +520,9 @@ right: -80px;
   align-items: center;
   grid-area: priority-cell;
   justify-content: center;
-  /* justify-self: center; */
   padding: 0 6px 0 6px;
   height: 23px;
   font-size: 14px;
-  /* font-weight:bolder; */
   border-radius: 15px;
   border: 1px solid var(--grey-font);
   width: 55px;
@@ -546,7 +532,6 @@ right: -80px;
 
 .task-dueless {
   color: var(--grey-font);
-  /* font-weight:bold; */
   font-size: 12px;
 }
 
@@ -555,9 +540,7 @@ right: -80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* margin: 6px 0 6px 0; */
   font-size: 14px;
-  /* font-weight:bolder; */
   border-radius: 15px;
   border: 1px solid black;
   pointer-events: none;
