@@ -709,7 +709,7 @@ const load = () => {
           const restoreBtn = document.createElement('button');
           restoreBtn.className = 'restore-btn';
           restoreBtn.innerHTML = 'restore';
-          restoreBtn.title = 'make task active';
+          restoreBtn.title = 'Make task active';
           const taskRestoreIcon = document.createElement('i');
           taskRestoreIcon.classList.add('fa', 'fa-regular', 'fa-pen-to-square');
           restoreBtn.appendChild(taskRestoreIcon);
@@ -717,7 +717,6 @@ const load = () => {
           const completeDeleteBtn = document.createElement('button');
           completeDeleteBtn.className = 'complete-delete-btn';
           completeDeleteBtn.innerHTML = 'delete';
-          completeDeleteBtn.title = 'permanently delete task';
           const taskDeleteIcon = document.createElement('i');
           taskDeleteIcon.classList.add('fa', 'fa-regular', 'fa-trash-can');
           completeDeleteBtn.appendChild(taskDeleteIcon);
